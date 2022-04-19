@@ -2,14 +2,20 @@ const express = require('express')
 const Router = express.Router();
 const mysqlConexion = require('../conexion');
 
-Router.get("/", (req, res) => {
-    mysqlConexion.query("SELECT * FROM  credenciales", (err,rows,fields) => {
+Router.post("/", (req, res) => {
+    console.log(req.body);
+    mysqlConexion.query(`SELECT * FROM  credenciales where email="${req.body.email}" and Password="${req.body.Password}"`, (err,rows,fields) => {
 
         if(!err){
-            res.send(rows)
+            if(rows.length > 0){
+
+                res.send(true)
+            }else{
+                res.send(false)
+            }
         }
         else{
-            console.log(err);
+            res.send("Erro interno del servidor ")
         }
     }) 
 }

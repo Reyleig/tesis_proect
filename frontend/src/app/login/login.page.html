@@ -9,20 +9,22 @@
     <ion-card-header>
       <ion-card-title class="ion-text-center">WELCOME</ion-card-title>
     </ion-card-header>
-  
+
     <ion-card-content>
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating" >Password</ion-label>
-        <ion-input type="password"></ion-input>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-  <ion-button href="inicio">
-    <ion-icon slot="end" name="lock-open-outline"></ion-icon>
-    LOGIN
-  </ion-button>
-</ion-content>
+      <form [formGroup]="userForm">
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input  formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" >Password</ion-label>
+          <ion-input type="password" formControlName="Password"></ion-input>
+        </ion-item>
+        <ion-button (click)="login()">
+          <ion-icon slot="end" name="lock-open-outline"></ion-icon>
+          LOGIN
+        </ion-button>
+      </form>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>

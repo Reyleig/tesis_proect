@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,18 +10,38 @@ import { HttpClient} from '@angular/common/http';
 })
 export class LoginPage implements OnInit {
 
+  public userForm: FormGroup = new FormGroup({
+
+    email : new  FormControl(),
+    Password : new  FormControl(),
+
+  });
+
   constructor(
-    private http: HttpClient
-
-
-
+    private http: HttpClient,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.http.get('http://localhost:3000/credenciales')
-    .subscribe(res=>{
-console.log(res);
-    });
+
   }
+
+login(){
+  console.log(this.userForm.value);
+  this.http.post('http://localhost:3000/credenciales',
+  this.userForm.value).subscribe(response => {
+    console.log(response);
+    if(response){
+      console.log('entro');
+      this.router.navigateByUrl('/inicio');
+
+    }
+  })
+
+
+
+}
+
+
 
 }
