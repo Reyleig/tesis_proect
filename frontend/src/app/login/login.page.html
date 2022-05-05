@@ -1,30 +1,20 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title class="ion-text-center">WELCOME</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
+<div class="content">
+  <div class="login-container">
+    <h1>LOGIN</h1>
+    <div class="login-container-content">
       <form [formGroup]="userForm">
         <ion-item>
           <ion-label position="floating">Email</ion-label>
-          <ion-input  formControlName="email"></ion-input>
+          <ion-input formControlName="email"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating" >Password</ion-label>
+          <ion-label position="floating">Password</ion-label>
           <ion-input type="password" formControlName="Password"></ion-input>
         </ion-item>
-        <ion-button (click)="login()">
-          <ion-icon slot="end" name="lock-open-outline"></ion-icon>
-          LOGIN
-        </ion-button>
+        <button mat-icon-button aria-label="login" (click)="login()">
+          <mat-icon>double_arrow</mat-icon>
+        </button>
       </form>
-      </ion-card-content>
-    </ion-card>
-  </ion-content>
+    </div>
+  </div>
+</div>
