@@ -24,19 +24,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `credenciales`
+-- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `credenciales` (
+CREATE TABLE `usuario` (
   `email` varchar(20) DEFAULT NULL,
   `Password` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `credenciales`
+-- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `credenciales` (`email`, `Password`) VALUES
+INSERT INTO `usuario` (`email`, `Password`) VALUES
 ('prueba@prueba.com', 'prueba'),
 ('prueba@prueba.com', 'prueba');
 COMMIT;

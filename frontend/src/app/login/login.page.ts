@@ -28,7 +28,7 @@ export class LoginPage implements OnInit {
 
 login(){
   console.log(this.userForm.value);
-  this.http.post('http://localhost:3000/credenciales',
+  this.http.post('http://localhost:3000/usuario',
   this.userForm.value).subscribe(response => {
     console.log(response);
     if(response){

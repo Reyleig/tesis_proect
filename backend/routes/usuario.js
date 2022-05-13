@@ -4,7 +4,7 @@ const mysqlConexion = require('../conexion');
 
 Router.post("/", (req, res) => {
     console.log(req.body);
-    mysqlConexion.query(`SELECT * FROM  credenciales where email="${req.body.email}" and Password="${req.body.Password}"`, (err,rows,fields) => {
+    mysqlConexion.query(`SELECT * FROM  usuario where email="${req.body.email}" and Password="${req.body.Password}"`, (err,rows,fields) => {
 
         if(!err){
             if(rows.length > 0){
