@@ -1,34 +1,26 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="login"></ion-back-button>
-    </ion-buttons>
-    <ion-title>inicio</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <ion-card>
+  <router-outlet name="inicio"></router-outlet>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="timer">
+        <ion-icon name="calendar"></ion-icon>
+        <ion-label>Timer</ion-label>
+      </ion-tab-button>
 
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-        </ion-col>
-        <ion-col>
-          <ion-card-content>
-            <ion-avatar >
-              <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" />
-            </ion-avatar>
-            <br>
-            <ion-label position="floating">USERNAME</ion-label>
-          </ion-card-content>
-        </ion-col>
-        <ion-col>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+      <ion-tab-button tab="training">
+        <ion-icon name="person-circle"></ion-icon>
+        <ion-label>Training</ion-label>
+      </ion-tab-button>
 
-  </ion-card>
+      <ion-tab-button tab="stats">
+        <ion-icon name="map"></ion-icon>
+        <ion-label>Stats</ion-label>
+      </ion-tab-button>
 
-
+      <ion-tab-button tab="swimmer">
+        <ion-icon name="information-circle"></ion-icon>
+        <ion-label>Swimmer</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>
