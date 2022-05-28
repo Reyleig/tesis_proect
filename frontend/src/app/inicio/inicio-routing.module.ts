@@ -26,7 +26,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'timer',
+        redirectTo: 'swimmer',
         pathMatch: 'full'
       },
     ]

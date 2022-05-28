@@ -1,4 +1,25 @@
-<h1>
-  Swimmer
-</h1>
+<div class="container">
+  <h1>
+    Swimmer
+  </h1>
+    <mat-accordion>
+      <mat-expansion-panel  *ngFor="let item of swimmers">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{item.nombre}}
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p> {{item.apellido}}</p>S
+        <p> {{item.edad}}</p>
+        <p> {{item.celular}}</p>
+        <p> {{item.categoria}}</p>
+        <ion-button (click)="tomarTiempo(item)">Tomar tiempo</ion-button>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+
+
+</div>
 

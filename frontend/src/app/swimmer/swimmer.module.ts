@@ -8,7 +8,8 @@ import { SwimmerRoutingModule } from './swimmer-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    SwimmerRoutingModule
+    SwimmerRoutingModule,
+
   ]
 })
 export class SwimmerModule { }
