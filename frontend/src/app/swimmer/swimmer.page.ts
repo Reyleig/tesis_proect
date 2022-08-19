@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 // import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DeportistaService } from '../deportista.service';
+import { SwimmerService } from '../services/swimmer/swimmer.service';
 
 @Component({
   selector: 'app-swimmer',
@@ -12,7 +13,7 @@ import { DeportistaService } from '../deportista.service';
 export class SwimmerPage implements OnInit {
   swimmers = [];
   constructor(
-    private http: HttpClient,
+    private swimmerService: SwimmerService,
     private router: Router,
     public deportistas: DeportistaService
   ) { }
@@ -24,14 +25,15 @@ export class SwimmerPage implements OnInit {
 
   swimmer() {
 
-    this.http.post('http://localhost:3000/deportista',
-      {}).subscribe((response: any) => {
-        console.log(response);
+
+    this.swimmerService.getSwimmers().subscribe(response => {
+      console.log(response);
+      if(response){
+        console.log('entro');
         this.swimmers = response;
-      });
 
-
-
+      }
+    })
   }
 
   tomarTiempo(obj) {
