@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login/login.service';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
@@ -14,10 +14,10 @@ import { DataSqliteService } from '../services/sqlite/data-sqlite.service';
 })
 export class LoginPage implements OnInit {
 
-  public userForm: FormGroup = new FormGroup({
+  public userForm: UntypedFormGroup = new UntypedFormGroup({
 
-    email : new  FormControl(),
-    password : new  FormControl(),
+    email : new  UntypedFormControl(),
+    password : new  UntypedFormControl(),
 
   });
   user:any=[];

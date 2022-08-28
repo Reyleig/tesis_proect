@@ -16,17 +16,16 @@ import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
-  declarations: [AppComponent, TimerPage, SwimmerPage],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatExpansionModule
-  ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent, TimerPage, SwimmerPage],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatExpansionModule
+    ],
+    providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
