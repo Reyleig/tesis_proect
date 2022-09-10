@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { TimerPage } from './timer/timer.page';
 import { SwimmerPage } from './swimmer/swimmer.page';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { NgxsModule } from '@ngxs/store';
 
 
 

@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login/login.service';
-import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
-import { DataSqliteService } from '../services/sqlite/data-sqlite.service';
-
 
 
 @Component({
@@ -26,8 +23,6 @@ export class LoginPage implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private sqlite: SQLite,
-    private dataSqliteService:DataSqliteService
 
   ) { }
 
@@ -35,17 +30,7 @@ export class LoginPage implements OnInit {
 
   }
 
-  getToken(){
-    this.dataSqliteService.getUser().then(resp =>{
-      this.user=resp
-    }).catch(err =>{
-      console.log(err);
-      
-    })
 
-    console.log(this.user);
-    
-  }
 
 
 
