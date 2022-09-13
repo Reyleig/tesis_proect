@@ -2,10 +2,21 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+//keys store
+const keyToken = 'TM_1001_DO';
+//keyEncrypRedux
+const keyCryptoJS = 'yDdp0Gf&!iJ3IWr8atgTPCb7wH0w';
+  
+
 export const environment = {
   production: false,
-  url: 'http://localhost:3000'
+  url: 'http://localhost:3000',
+  keyToken,
+  keyCryptoJS,
+
 };
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file

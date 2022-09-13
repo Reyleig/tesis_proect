@@ -11,6 +11,9 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
+import { NgxsModule } from '@ngxs/store';
+import { environment } from 'src/environments/environment';
+import { UserState } from './store/user.state';
 
 @NgModule({
   imports: [

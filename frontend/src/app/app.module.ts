@@ -13,6 +13,10 @@ import { TimerPage } from './timer/timer.page';
 import { SwimmerPage } from './swimmer/swimmer.page';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { NgxsModule } from '@ngxs/store';
+import { StoreModule } from '@ngrx/store';
+import { UserState } from './login/store/user.state';
+import { environment } from 'src/environments/environment';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 
 
 
@@ -24,7 +28,11 @@ import { NgxsModule } from '@ngxs/store';
         AppRoutingModule,
         HttpClientModule,
         BrowserAnimationsModule,
-        MatExpansionModule
+        MatExpansionModule,
+        NgxsModule.forRoot([UserState], {
+            developmentMode: !environment.production
+          }),
+          NgxsReduxDevtoolsPluginModule.forRoot()
     ],
     providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
     bootstrap: [AppComponent]
