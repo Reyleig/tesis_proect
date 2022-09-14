@@ -6,6 +6,7 @@ import { LoginService } from '../services/login/login.service';
 import { AddToken } from './store/user.actions';
 import { Observable, Subscription } from 'rxjs';
 import { UserState } from './store/user.state';
+import { withLatestFrom } from 'rxjs/operators';
 
 
 
@@ -16,7 +17,7 @@ import { UserState } from './store/user.state';
 })
 export class LoginPage implements OnInit, OnDestroy {
 
-  @Select(UserState.token) token$!: Observable<string>;
+  // @Select(UserState.token) token$!: Observable<string>;
   token!: string;
   private valueSuscription: Subscription;
 
@@ -35,13 +36,12 @@ export class LoginPage implements OnInit, OnDestroy {
     private store: Store
 
   ) {
-    this.valueSuscription = this.token$.subscribe((token: string) => {
-      this.token = token
-    })
+    // this.valueSuscription = this.token$.subscribe((token: string) => {
+    //   this.token = token
+    // })
   }
 
   ngOnInit() {
-    this.addToken("asdfsda");
   }
   ngOnDestroy() {
     this.valueSuscription.unsubscribe();
@@ -55,11 +55,10 @@ export class LoginPage implements OnInit, OnDestroy {
 
   login() {
     this.loginService.login(this.userForm.value).subscribe(response => {
-      console.log(response);
-      if (response) {
-        this.addToken(response.access_token)        
+      if (response) {      
+        this.addToken(response.access_token)
+        this.router.navigateByUrl('/inicio');
       }
-      this.router.navigateByUrl('/inicio');
     })
 
 

@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
+import { CreateUsuarioDto } from 'src/usuarios/dto/create-usuario.dto';
 
 
 
@@ -14,29 +16,28 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOne(email);
-    console.log("user",user);
-    console.log("user2",pass);
-    
+    const user = await this.usersService.findOne(email);    
     
     if (user && user.password === pass) {
-      console.log("aaaaaaaaa")
       const { password, ...result } = user;
-      return result;
+
+      return user;
     }
     return undefined;
   }
 
-  async login(user: any) {
+  async login(user: CreateUsuarioDto) {
     
-    let validate= await this.validateUser(user.email,user.password);
-    console.log(validate)
+    let validate : Usuario = await this.validateUser(user.email,user.password);
     if(!validate) {
       return undefined;
     }
     const payload = { email: user.email, password: user.password };
+    validate.token = this.jwtService.sign(payload);
+
+    await this.usersService.updateUserToken(validate);  
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: validate.token,
     };
   }
 }

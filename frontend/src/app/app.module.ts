@@ -17,6 +17,7 @@ import { StoreModule } from '@ngrx/store';
 import { UserState } from './login/store/user.state';
 import { environment } from 'src/environments/environment';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 
 
 
@@ -32,7 +33,9 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
         NgxsModule.forRoot([UserState], {
             developmentMode: !environment.production
           }),
-          NgxsReduxDevtoolsPluginModule.forRoot()
+          NgxsStoragePluginModule.forRoot({key: 'token'}),
+
+          NgxsReduxDevtoolsPluginModule.forRoot(),
     ],
     providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
     bootstrap: [AppComponent]

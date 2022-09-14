@@ -22,12 +22,9 @@ export class UsuariosService {
     return this.usersRepository.find();
   }
 
-  async findOne(email: string):  Promise<Usuario | undefined> {
-
-    console.log("adfasdf",email);
-    
+  async findOne(email: string):  Promise<Usuario | undefined> {    
     const resp = await this.usersRepository.find({
-      select: ['email','password'],
+      select: ['id','email','password','token'],
       where: {
        email: email,
       },
@@ -42,5 +39,12 @@ export class UsuariosService {
 
   remove(id: number) {
     return `This action removes a #${id} usuario`;
+  }
+
+  async updateUserToken(user: Usuario):  Promise<Usuario | undefined> {    
+    const resp = await this.usersRepository.update(user.id,user);
+console.log(resp);
+
+    return resp[0];
   }
 }

@@ -10,9 +10,8 @@ export class AppController {
   constructor(private authService: AuthService) {}
 
   @Post('auth/login')
-  async login(@Body() _:CreateUsuarioDto,@Request() req) {
-    console.log("entro",_)
-    return this.authService.login(_);
+  async login(@Body() request:CreateUsuarioDto,@Request() req) {
+    return this.authService.login(request);
   }
 
   @UseGuards(JwtAuthGuard)
