@@ -38,6 +38,7 @@ export class AuthService {
     await this.usersService.updateUserToken(validate);  
     return {
       access_token: validate.token,
+      username:validate.email
     };
   }
 }

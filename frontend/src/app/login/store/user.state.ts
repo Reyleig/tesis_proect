@@ -8,7 +8,8 @@ const VALUE_TOKEN = new StateToken<UserStateModel>('token')
 @State<UserStateModel>({
     name: VALUE_TOKEN,
     defaults: {
-        token: ''
+        token: '',
+        username:''
     }
 })
 @Injectable()
@@ -20,7 +21,8 @@ export class UserState {
         // let stateValue= state.token;
         ctx.setState({
             ...state,
-            token: action.token
+            token: action.token,
+            username:action.username
         });
     }
 

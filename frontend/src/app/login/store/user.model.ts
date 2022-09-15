@@ -1,3 +1,4 @@
 export interface UserStateModel {
-  token: string;
+  token: string,
+  username: string
 }
