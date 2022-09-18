@@ -18,7 +18,6 @@ import { UserState } from './login/store/user.state';
 import { environment } from 'src/environments/environment';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin'; 
-import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
 
 
 
@@ -38,7 +37,6 @@ import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
         NgxsStoragePluginModule.forRoot({ key: 'token' }),
 
         NgxsReduxDevtoolsPluginModule.forRoot(),
-        SplashScreen
     ],
     providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
     bootstrap: [AppComponent]

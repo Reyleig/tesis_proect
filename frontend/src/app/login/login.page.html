@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" *ngIf="ishidden">
   <div class="login-container">
     <h1>LOGIN</h1>
     <div class="login-container-content">
@@ -19,5 +19,13 @@
     </div>
   </div>
 </div>
+
+
+<ion-content *ngIf="!ishidden">
+  <div class="container ion-text-center">
+    <img src="assets/log.png" alt="logo">
+  </div>
+</ion-content>
+  
 
 

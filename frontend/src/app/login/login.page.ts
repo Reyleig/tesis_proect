@@ -9,7 +9,6 @@ import { UserState } from './store/user.state';
 import { withLatestFrom } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { UtilitiesService } from '../services/general/utilities.service';
-import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
 
 
 
@@ -35,7 +34,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   });
 
-
+  ishidden = false;
   user: any;
 
   constructor(
@@ -44,7 +43,6 @@ export class LoginPage implements OnInit, OnDestroy {
     private store: Store,
     private utilitiesService: UtilitiesService,
     private formBuilder: FormBuilder,
-    private splashScreen: SplashScreen,
 
   ) {
     this.userForm = this.formBuilder.group({
@@ -57,7 +55,8 @@ export class LoginPage implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.splashScreen.show();
+    console.log("asdfasdfasdf");
+    
     this.validarToken();
   }
   ngOnDestroy() {
@@ -65,14 +64,19 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   validarToken() {
-    this.token$.subscribe((data: any) => {
-      if (data.token) {
-        this.router.navigateByUrl('/inicio');
-      }
-
-      this.splashScreen.hide();
-    }).unsubscribe;
-
+    console.log("asdfasdf");
+    
+    setTimeout(() => {
+      this.token$.subscribe((data: any) => {
+        if (data.token) {
+          this.router.navigateByUrl('/inicio');
+        } else {
+          this.ishidden=true;
+        }
+      }).unsubscribe;
+      console.log(this.ishidden);
+      
+    }, 2000);
   }
 
   addToken(token: string | null, username: string | null, idrol: number | null): void {
