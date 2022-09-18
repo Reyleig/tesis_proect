@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { UserState } from '../login/store/user.state';
 
 @Component({
   selector: 'app-inicio',
@@ -7,11 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InicioPage implements OnInit {
 
+    
+@Select(UserState) user$!: Observable<any>;
+username:string;
+
   constructor() { }
 
   ngOnInit() {
-    console.log('inicio');
-
+    this.user$.subscribe((data: any) => {
+      if (data.token) {
+        this.username=data.username;
+      } 
+    }).unsubscribe;    
   }
 
 }

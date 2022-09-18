@@ -1,6 +1,46 @@
 <ion-content>
-  <router-outlet name="inicio"></router-outlet>
-  <ion-tabs>
+  <div class="container-logo">
+    <ion-icon name="person" style="zoom:5.0;"></ion-icon>
+    <p style="margin: 20px 0;">{{username}}</p>
+  </div>
+
+  <div class="conten-menu">
+    <div class="btn-content">
+      <ion-button fill="clear" type="submit" mat-icon-button aria-label="login" class="btn-menu-left"
+        style="border-radius: 0 35px 0 0;">
+        <ion-icon name="people" style="zoom:5.0;"></ion-icon>
+        <ion-label style="position: absolute;
+        bottom: 40px;">Swimmer</ion-label>
+
+      </ion-button>
+      <ion-button fill="clear" type="submit" mat-icon-button aria-label="login" class="btn-menu-righ"
+        style="border-radius: 35px 0 0 0;">
+        <ion-icon name="timer-outline" style="zoom:5.0;"></ion-icon>
+        <ion-label style="position: absolute;
+        bottom: 40px;">Timer</ion-label>
+      </ion-button>
+    </div>
+    <div class="btn-content">
+      <ion-button fill="clear" type="submit" mat-icon-button aria-label="login" class="btn-menu-left">
+        <ion-icon name="file-tray-full" style="zoom:5.0;"></ion-icon>
+        <ion-label style="position: absolute;
+        bottom: 40px;">Training</ion-label>
+      </ion-button>
+      <ion-button fill="clear" type="submit" mat-icon-button aria-label="login" class="btn-menu-righ">
+        <ion-icon name="stats-chart" style="zoom:5.0;"></ion-icon>
+        <ion-label style="position: absolute;
+        bottom: 40px;">Stats</ion-label>
+      </ion-button>
+    </div>
+
+  </div>
+
+
+
+
+
+  <!-- <router-outlet name="inicio"></router-outlet> -->
+  <!-- <ion-tabs>
     <ion-tab-bar slot="bottom">
       <ion-tab-button tab="swimmer">
         <ion-icon name="information-circle"></ion-icon>
@@ -22,5 +62,5 @@
         <ion-label>Stats</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
-  </ion-tabs>
+  </ion-tabs> -->
 </ion-content>

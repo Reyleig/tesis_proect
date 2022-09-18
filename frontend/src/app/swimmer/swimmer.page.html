@@ -1,9 +1,6 @@
 <div class="container">
-  <h1>
-    Swimmer
-  </h1>
-    <mat-accordion>
-      <mat-expansion-panel  *ngFor="let item of swimmers">
+  <mat-accordion>
+      <mat-expansion-panel  *ngFor="let item of swimmers" style="    margin-bottom: 10px;">
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{item.nombre}}
@@ -11,7 +8,7 @@
           <mat-panel-description>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <p> {{item.apellido}}</p>S
+        <p> {{item.apellido}}</p>
         <p> {{item.edad}}</p>
         <p> {{item.celular}}</p>
         <p> {{item.categoria}}</p>
@@ -19,7 +16,5 @@
       </mat-expansion-panel>
 
     </mat-accordion>
-
-
 </div>
 
