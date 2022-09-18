@@ -24,7 +24,7 @@ export class UsuariosService {
 
   async findOne(email: string):  Promise<Usuario | undefined> {    
     const resp = await this.usersRepository.find({
-      select: ['id','email','password','token'],
+      select: ['id','name','email','password','idrol','token'],
       where: {
        email: email,
       },

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { UntypedFormControl, UntypedFormGroup,FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login/login.service';
 import { AddToken } from './store/user.actions';
@@ -9,6 +9,7 @@ import { UserState } from './store/user.state';
 import { withLatestFrom } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { UtilitiesService } from '../services/general/utilities.service';
+import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
 
 
 
@@ -19,7 +20,7 @@ import { UtilitiesService } from '../services/general/utilities.service';
 })
 export class LoginPage implements OnInit, OnDestroy {
 
-  // @Select(UserState.token) token$!: Observable<string>;
+  @Select(UserState.token) token$!: Observable<string>;
   token!: string;
   private valueSuscription: Subscription;
 
@@ -27,15 +28,15 @@ export class LoginPage implements OnInit, OnDestroy {
   //   Validators.required,
   //   PhoneValidator.invalidCountryPhone(country)
   // ]));
-    
+
   public userForm: UntypedFormGroup = new UntypedFormGroup({
-    email: new UntypedFormControl('', {nonNullable: true}),
-    password: new UntypedFormControl('', {nonNullable: true}),
+    email: new UntypedFormControl('', { nonNullable: true }),
+    password: new UntypedFormControl('', { nonNullable: true }),
 
   });
 
 
-  user: any = [];
+  user: any;
 
   constructor(
     private loginService: LoginService,
@@ -43,36 +44,52 @@ export class LoginPage implements OnInit, OnDestroy {
     private store: Store,
     private utilitiesService: UtilitiesService,
     private formBuilder: FormBuilder,
+    private splashScreen: SplashScreen,
 
   ) {
     this.userForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(3)]],
-   })
+    })
   }
 
 
-  
+
 
   ngOnInit() {
+    this.splashScreen.show();
+    this.validarToken();
   }
   ngOnDestroy() {
     this.valueSuscription.unsubscribe();
   }
 
-  addToken(token: string | null , username:string | null ): void {
-    if (token) {      
-      this.store.dispatch(new AddToken(token,username));
+  validarToken() {
+    this.token$.subscribe((data: any) => {
+      if (data.token) {
+        this.router.navigateByUrl('/inicio');
+      }
+
+      this.splashScreen.hide();
+    }).unsubscribe;
+
+  }
+
+  addToken(token: string | null, username: string | null, idrol: number | null): void {
+    if (token) {
+      console.log(token, username, idrol);
+
+      this.store.dispatch(new AddToken(token, username, idrol));
     }
   }
 
   login() {
     this.loginService.login(this.userForm.value).subscribe(response => {
-      if (response) {      
-        this.addToken(response.access_token, response.username)
+      if (response) {
+        this.addToken(response.access_token, response.username, response.idrol);
         this.router.navigateByUrl('/inicio');
-      }else{
-        this.utilitiesService.errorAlert('Credenciales invalidas','Intente de nuevo');
+      } else {
+        this.utilitiesService.errorAlert('Credenciales invalidas', 'Intente de nuevo');
       }
     })
   }

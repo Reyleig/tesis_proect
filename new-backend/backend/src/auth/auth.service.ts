@@ -19,8 +19,6 @@ export class AuthService {
     const user = await this.usersService.findOne(email);    
     
     if (user && user.password === pass) {
-      const { password, ...result } = user;
-
       return user;
     }
     return undefined;
@@ -36,9 +34,12 @@ export class AuthService {
     validate.token = this.jwtService.sign(payload);
 
     await this.usersService.updateUserToken(validate);  
+    console.log(validate);
+    
     return {
       access_token: validate.token,
-      username:validate.email
+      username:validate.name,
+      idrol:validate.idrol
     };
   }
 }

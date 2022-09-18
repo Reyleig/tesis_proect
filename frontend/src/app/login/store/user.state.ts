@@ -9,7 +9,8 @@ const VALUE_TOKEN = new StateToken<UserStateModel>('token')
     name: VALUE_TOKEN,
     defaults: {
         token: '',
-        username:''
+        username:'',
+        idrol:0
     }
 })
 @Injectable()
@@ -22,13 +23,14 @@ export class UserState {
         ctx.setState({
             ...state,
             token: action.token,
-            username:action.username
+            username:action.username,
+            idrol:action.idrol
         });
     }
 
     @Selector()
     static token(state: UserStateModel) {
-        return state.token
+        return state
     }
 
 }
