@@ -22,7 +22,7 @@ const routes: Routes = [
       },
       {
         path: 'swimmer',
-        loadChildren: () => import('../swimmer/swimmer-routing.module').then(m => m.SwimmerRoutingModule)
+        loadChildren: () => import('../swimmer/swimmer.module').then(m => m.SwimmerModule)
       },
       {
         path: '',

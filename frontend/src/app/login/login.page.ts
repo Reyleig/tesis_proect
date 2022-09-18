@@ -54,18 +54,14 @@ export class LoginPage implements OnInit, OnDestroy {
 
 
 
-  ngOnInit() {
-    console.log("asdfasdfasdf");
-    
+  ngOnInit() {    
     this.validarToken();
   }
   ngOnDestroy() {
     this.valueSuscription.unsubscribe();
   }
 
-  validarToken() {
-    console.log("asdfasdf");
-    
+  validarToken() {    
     setTimeout(() => {
       this.token$.subscribe((data: any) => {
         if (data.token) {

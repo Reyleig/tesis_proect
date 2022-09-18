@@ -19,6 +19,22 @@ const routes: Routes = [
     path: 'inicio',
     loadChildren: () => import('./inicio/inicio.module').then( m => m.InicioPageModule)
   },
+  {
+    path: 'timer',
+    loadChildren: () => import('./timer/timer.module').then( m => m.TimerModule)
+  },
+  {
+    path: 'stats',
+    loadChildren: () => import('./stats/stats.module').then( m => m.StatsModule)
+  },
+  {
+    path: 'training',
+    loadChildren: () => import('./training/training.module').then( m => m.TrainingModule)
+  },
+  {
+    path: 'swimmer',
+    loadChildren: () => import('./swimmer/swimmer.module').then(m => m.SwimmerModule)
+  },
 ];
 
 @NgModule({
