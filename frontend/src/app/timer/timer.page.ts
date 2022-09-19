@@ -16,21 +16,20 @@ export class TimerPage implements OnInit {
   milliseconds: any = 0;
   selectorDeportista={};
   private interval;
+  
   constructor(
     public deportistas: DeportistaService
-
-
   ) { }
 
   ngOnInit() {
-    // this.startTimer();
-
   }
 
   startTimer() {
-    this.interval = setInterval(()=> {
-      this.updateTimeValue();
-    }, 10);
+    if (!this.interval) {
+      this.interval = setInterval(() => {
+        this.updateTimeValue();
+      }, 10);
+    }
     this.selectorDeportista=this.deportistas.getDeportista();
 
   }

@@ -3,7 +3,7 @@ import { State, Action, StateContext, StateToken, Selector } from '@ngxs/store';
 import { AddToken } from './user.actions';
 import { UserStateModel } from './user.model'
 
-const VALUE_TOKEN = new StateToken<UserStateModel>('token')
+const VALUE_TOKEN = new StateToken<UserStateModel>('user')
 
 @State<UserStateModel>({
     name: VALUE_TOKEN,
