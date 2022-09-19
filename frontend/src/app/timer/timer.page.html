@@ -1,12 +1,37 @@
-<div class="container">
-  <h1>
-    {{selectorDeportista.nombre}}
-  </h1>
-  <h1>
-    {{ time | async }}
-  </h1>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-  <button (click)="startTimer()">Start</button>
-  <button (click)="pauseTimer()">Pause</button>
-  <button (click)="stopTimer()">Stop</button>
-</div>
+<ion-content>
+  <div class="container">
+    <h1>
+      {{selectorDeportista.nombre}}
+    </h1>
+    <h1 class="container-tittle">
+      {{ time | async }}
+    </h1>
+  
+   <div>
+    <ion-button fill="clear" (click)="startTimer()" style="height: 100%;">
+      <ion-icon name="caret-forward-circle"  style="zoom:2.5;"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" (click)="pauseTimer()" style="height: 100%;">
+      <ion-icon name="refresh-circle"  style="zoom:2.5;"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" (click)="stopTimer()" style="height: 100%;">
+      <ion-icon name="stop-circle-sharp"  style="zoom:2.5;"></ion-icon>
+    </ion-button>
+    <!-- <ion-icon name="stop-circle-sharp"></ion-icon>
+
+    <ion-icon name="refresh-circle"></ion-icon>
+    <button (click)="startTimer()">Start</button>
+    <button (click)="pauseTimer()">Pause</button>
+    <button (click)="stopTimer()">Stop</button> -->
+   </div>
+  </div>
+</ion-content>  
+

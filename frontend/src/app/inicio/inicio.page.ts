@@ -41,7 +41,6 @@ export class InicioPage implements OnInit {
       case 4:
         this.router.navigateByUrl('/stats');
         break;
-
       default:
         break;
     }

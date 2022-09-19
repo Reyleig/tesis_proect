@@ -1,0 +1,10 @@
+.container{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-top: 70px;
+    .container-tittle{
+        margin-bottom: 50px;
+        font-size: 4rem!important;
+    }
+}

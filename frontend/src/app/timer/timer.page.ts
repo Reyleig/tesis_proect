@@ -10,7 +10,7 @@ import { DeportistaService } from '../deportista.service';
 })
 export class TimerPage implements OnInit {
 
-  time: BehaviorSubject<string> = new BehaviorSubject('00:00');
+  time: BehaviorSubject<string> = new BehaviorSubject('00:00:00');
   minutes: any = 0;
   seconds: any = 0;
   milliseconds: any = 0;
