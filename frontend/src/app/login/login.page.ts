@@ -65,6 +65,8 @@ export class LoginPage implements OnInit, OnDestroy {
     setTimeout(() => {
       this.token$.subscribe((data: any) => {
         if (data.token) {
+          console.log(data.token);
+          
           this.router.navigateByUrl('/inicio');
         } else {
           this.ishidden=true;

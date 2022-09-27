@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { DeportistaService } from '../deportista.service';
 import { SwimmerService } from '../services/swimmer/swimmer.service';
+import { AddSwimmer } from './store/swimmer.actions';
+import { SwimmerState } from './store/swimmer.state';
 
 @Component({
   selector: 'app-swimmer',
@@ -12,23 +16,25 @@ import { SwimmerService } from '../services/swimmer/swimmer.service';
 
 
 export class SwimmerPage implements OnInit {
-
+  @Select(SwimmerState) swimmer$!: Observable<string>;
+  swimmer!: string;
   swimmers = [];
   constructor(
     private swimmerService: SwimmerService,
     private router: Router,
-    public deportistas: DeportistaService
+    public deportistas: DeportistaService,
+    private store: Store,
   ) { }
 
   
   ngOnInit() {
-    this.swimmer();
+    this.getSwimmear();
+    this.store.dispatch(new AddSwimmer("hola"));
+
   }
 
 
-  swimmer() {
-
-
+  getSwimmear() {
     this.swimmerService.getSwimmers().subscribe(response => {
       console.log(response);
       if(response){

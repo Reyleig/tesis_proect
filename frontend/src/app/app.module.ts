@@ -19,6 +19,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin'; 
 import { TrainingPage } from './training/training.page';
 import { StatsPage } from './stats/stats.page';
+import { SwimmerState } from './swimmer/store/swimmer.state';
 
 
 
@@ -32,10 +33,10 @@ import { StatsPage } from './stats/stats.page';
         HttpClientModule,
         BrowserAnimationsModule,
         MatExpansionModule,
-        NgxsModule.forRoot([UserState], {
+        NgxsModule.forRoot([UserState,SwimmerState], {
             developmentMode: !environment.production
         }),
-        NgxsStoragePluginModule.forRoot({ key: 'token' }),
+        NgxsStoragePluginModule.forRoot({ key: ['user','swimmer'] }),
 
         NgxsReduxDevtoolsPluginModule.forRoot(),
     ],
