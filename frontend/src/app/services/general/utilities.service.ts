@@ -20,7 +20,31 @@ export class UtilitiesService {
           message: recommendation,
           buttons: ['OK'],
         });
-    
+
         await alert.present();
       }
-}
+
+      async infoAlert(header) {
+        const alert = await this.alertController.create({
+          header: 'Info!',
+          subHeader: header,
+          buttons: [
+            {
+              text: 'OK',
+              role: 'confirm',
+            },
+            {
+              text: 'Cancel',
+              role: 'cancel',
+            },
+
+          ],
+        });
+
+        await alert.present();
+
+        return  await alert.onDidDismiss();
+
+      }
+    }
+

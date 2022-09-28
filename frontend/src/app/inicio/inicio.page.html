@@ -1,4 +1,11 @@
 <ion-content>
+
+  <div style="text-align: end;margin-top:20px">
+    <ion-button (click)="logout()" fill="clear" >
+      <ion-icon name="exit-outline" slot="end" style="zoom:1.5;"></ion-icon>
+    </ion-button>
+  </div>
+
   <div class="container-logo">
     <ion-icon name="person" style="zoom:5.0;"></ion-icon>
     <p style="margin: 20px 0;">{{username}}</p>
@@ -26,7 +33,7 @@
         bottom: 40px;">Training</ion-label>
       </ion-button>
       <ion-button (click)="opctionsMenu(4)" fill="clear" type="submit" mat-icon-button aria-label="login" class="btn-menu-righ">
-        <ion-icon name="stats-chart" style="zoom:4.9;"></ion-icon>
+        <ion-icon name="stats-chart" style="zoom:4.0;"></ion-icon>
         <ion-label style="position: absolute;
         bottom: 40px;">Stats</ion-label>
       </ion-button>
