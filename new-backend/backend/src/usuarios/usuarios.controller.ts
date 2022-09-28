@@ -6,6 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Usuario } from './entities/usuario.entity';
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -34,6 +35,12 @@ export class UsuariosController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usuariosService.remove(+id);
+  }
+
+  @Get('/getswimmers/:token')
+  findSwimmersByIdTraining(@Param('token') token: string) {   
+    console.log(token);
+    return this.usuariosService.findSwimmersByIdTraining(token);
   }
  
 }

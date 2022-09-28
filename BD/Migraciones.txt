@@ -14,3 +14,8 @@ alter table entrenador_deportista
         foreign key (identrenador) references usuario (id);
 
 rename table usuario to usuarios;
+
+
+
+
+--2022-09-22 smorales

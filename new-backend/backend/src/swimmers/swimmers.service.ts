@@ -20,6 +20,7 @@ export class SwimmersService {
   findAll(): Promise<Swimmer[]> {
     console.log("entro");
     
+    // eslint-disable-next-line prettier/prettier
     return this.swimmersRepository.find();
   }
 

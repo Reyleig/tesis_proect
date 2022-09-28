@@ -6,7 +6,6 @@ import {
   BeforeInsert,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-
 @Entity('usuarios')
 export class Usuario {
   @PrimaryGeneratedColumn()
