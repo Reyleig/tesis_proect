@@ -13,3 +13,4 @@ alter table entrenador_deportista
     add constraint entrenador_usuario_id_fk
         foreign key (identrenador) references usuario (id);
 
+rename table usuario to usuarios;

@@ -1,8 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, Table, BeforeInsert } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  Table,
+  BeforeInsert,
+} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-
-@Entity()
+@Entity('usuarios')
 export class Usuario {
   @PrimaryGeneratedColumn()
   id: number;
@@ -19,7 +24,6 @@ export class Usuario {
   @Column()
   idrol: number;
 
-
   @Column()
   token: string;
 
@@ -29,12 +33,19 @@ export class Usuario {
     this.password = await bcrypt.hash(this.password, salt);
   }
 
-  constructor(id: number,name: string, email: string, pass: string,idrol: number,token:string) {
+  constructor(
+    id: number,
+    name: string,
+    email: string,
+    pass: string,
+    idrol: number,
+    token: string,
+  ) {
     this.id = id;
-    this.name=name;
+    this.name = name;
     this.email = email;
     this.password = pass;
     this.idrol = idrol;
-    this.token= token;
+    this.token = token;
   }
 }
