@@ -33,6 +33,7 @@
     "@ngxs/logger-plugin": "^3.7.5-dev.master-17a1bb8",
     "@ngxs/storage-plugin": "^3.7.5",
     "@ngxs/store": "^3.7.5-dev.master-17a1bb8",
+    "crypto-js": "^4.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

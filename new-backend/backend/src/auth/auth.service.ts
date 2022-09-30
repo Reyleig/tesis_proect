@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -34,8 +34,11 @@ export class AuthService {
     validate.token = this.jwtService.sign(payload);
 
     await this.usersService.updateUserToken(validate);  
-    console.log(validate);
-    
+
+    if (validate.idrol === 3){
+      throw new HttpException(`Usuario no autorizado`, HttpStatus.UNAUTHORIZED);
+    }
+
     return {
       access_token: validate.token,
       username:validate.name,
