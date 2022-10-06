@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-09-2022 a las 17:19:54
+-- Tiempo de generación: 06-10-2022 a las 14:55:04
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 5.6.40
 
@@ -138,26 +138,20 @@ CREATE TABLE `usuarios` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `idrol` int(11) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `apellido` varchar(255) DEFAULT NULL,
-  `edad` int(11) DEFAULT NULL,
-  `celular` varchar(10) DEFAULT NULL,
-  `categoria` varchar(255) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `time` time DEFAULT NULL
+  `token` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `name`, `email`, `password`, `idrol`, `token`, `apellido`, `edad`, `celular`, `categoria`, `date`, `time`) VALUES
-(1, 'jorgito', 'a@a.com', 'a@a.com', 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJwYXNzd29yZCI6ImFAYS5jb20iLCJpYXQiOjE2NjQzNzcwODcsImV4cCI6MTY2NDM3NzE0N30.rJyamguNdZHGesXMF8_LnpClDPWLX_0ku-Q0rLjxThk', 'vasquito', 20, '123456', NULL, '2022-08-01', NULL),
-(2, 'iakita', 'a@b.com', 'a@a.com', 1, '', 'davisito', 21, '122365', NULL, '2022-08-01', NULL),
-(3, 'janiercito', 'a@d.com', 'a@a.com', 3, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJwYXNzd29yZCI6ImFAYS5jb20iLCJpYXQiOjE2NjQzNzA1ODEsImV4cCI6MTY2NDM3MDY0MX0.APi6gvOYrr3Br5qkuQwTWTs7hmXWzAis8eQ8noJE6zc', 'zapatita', 22, '245632', 'novato', '2022-08-01', NULL),
-(4, 'mateito', 'a@f.com', 'a@a.com', 3, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJwYXNzd29yZCI6ImFAYS5jb20iLCJpYXQiOjE2NjQzNzA1ODEsImV4cCI6MTY2NDM3MDY0MX0.APi6gvOYrr3Br5qkuQwTWTs7hmXWzAis8eQ8noJE6zc', 'celisito', 23, '542631', 'experto', '2022-08-01', NULL),
-(5, 'estebanquito', 'a@g.com', 'a@a.com', 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAZy5jb20iLCJwYXNzd29yZCI6ImFAYS5jb20iLCJpYXQiOjE2NjQzNzUwNjIsImV4cCI6MTY2NDM3NTEyMn0.I-SzVv1WhIs7dzyu0lu4zuWoo2aWSLZVxTQacunAggY', 'lopecito', 24, '236542', NULL, '2022-08-01', NULL),
-(6, 'miguelito', 'a@h.com', 'a@a.com', 3, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJwYXNzd29yZCI6ImFAYS5jb20iLCJpYXQiOjE2NjQzNzA1ODEsImV4cCI6MTY2NDM3MDY0MX0.APi6gvOYrr3Br5qkuQwTWTs7hmXWzAis8eQ8noJE6zc', 'zabalito', 25, '125423', 'medio', '2022-08-01', NULL);
+INSERT INTO `usuarios` (`id`, `name`, `email`, `password`, `idrol`, `token`) VALUES
+(1, 'jorgito', 'a@a.com', 'fcsM0keqlIluZlwzdpanvhjTh6eNbVW0hUt/99WSUEI=', 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJwYXNzd29yZCI6ImZjc00wa2VxbElsdVpsd3pkcGFudmhqVGg2ZU5iVlcwaFV0Lzk5V1NVRUk9IiwiaWF0IjoxNjY0NTM5NTk1LCJleHAiOjE2NjQ1Mzk2NTV9.Kt0NL9BaPpV-90GUpi3yTmI5M88DJ_H6GKZFmpgQovA'),
+(2, 'iakita', 'a@b.com', 'fcsM0keqlIluZlwzdpanvhjTh6eNbVW0hUt/99WSUEI=', 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYi5jb20iLCJwYXNzd29yZCI6ImZjc00wa2VxbElsdVpsd3pkcGFudmhqVGg2ZU5iVlcwaFV0Lzk5V1NVRUk9IiwiaWF0IjoxNjY0NTM5NjI2LCJleHAiOjE2NjQ1Mzk2ODZ9.Crx7mn4WQf6gNidiL4H-HEio0_NVD1xS28UtJzLGyI0'),
+(3, 'janiercito', 'a@d.com', 'fcsM0keqlIluZlwzdpanvhjTh6eNbVW0hUt/99WSUEI=', 3, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAZC5jb20iLCJwYXNzd29yZCI6ImZjc00wa2VxbElsdVpsd3pkcGFudmhqVGg2ZU5iVlcwaFV0Lzk5V1NVRUk9IiwiaWF0IjoxNjY0NTQxODYxLCJleHAiOjE2NjQ1NDE5MjF9.WKkLqkvCk492HZPeMpNWBEheqk8dR3ySBtMdEOK_gW8'),
+(4, 'mateito', 'a@f.com', 'fcsM0keqlIluZlwzdpanvhjTh6eNbVW0hUt/99WSUEI=', 3, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJwYXNzd29yZCI6ImFAYS5jb20iLCJpYXQiOjE2NjQzNzA1ODEsImV4cCI6MTY2NDM3MDY0MX0.APi6gvOYrr3Br5qkuQwTWTs7hmXWzAis8eQ8noJE6zc'),
+(5, 'estebanquito', 'a@g.com', 'fcsM0keqlIluZlwzdpanvhjTh6eNbVW0hUt/99WSUEI=', 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAZy5jb20iLCJwYXNzd29yZCI6ImFAYS5jb20iLCJpYXQiOjE2NjQzNzUwNjIsImV4cCI6MTY2NDM3NTEyMn0.I-SzVv1WhIs7dzyu0lu4zuWoo2aWSLZVxTQacunAggY'),
+(6, 'miguelito', 'a@h.com', 'fcsM0keqlIluZlwzdpanvhjTh6eNbVW0hUt/99WSUEI=', 3, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJwYXNzd29yZCI6ImFAYS5jb20iLCJpYXQiOjE2NjQzNzA1ODEsImV4cCI6MTY2NDM3MDY0MX0.APi6gvOYrr3Br5qkuQwTWTs7hmXWzAis8eQ8noJE6zc');
 
 --
 -- Índices para tablas volcadas
