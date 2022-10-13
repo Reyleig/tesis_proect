@@ -3,58 +3,124 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-buttons id="open-modal" expand="block" slot="end" style="zoom:
-      2.0;margin-right: 10px;">
+    <ion-buttons
+
+      expand="block"
+      slot="end"
+      style="zoom: 2; margin-right: 10px"
+      (click)="creatFormSwimmer(true)"
+    >
       <ion-icon name="person-add-outline"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   <div class="container">
     <mat-accordion>
-      <mat-expansion-panel *ngFor="let item of swimmers" style=" margin-bottom:
-        10px;">
+      <mat-expansion-panel
+        *ngFor="let item of swimmers"
+        style="margin-bottom: 10px"
+      >
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{item.name}}
-          </mat-panel-title>
-          <mat-panel-description>
-          </mat-panel-description>
+          <mat-panel-title> {{item.name}} </mat-panel-title>
+          <mat-panel-description> </mat-panel-description>
         </mat-expansion-panel-header>
-        <p> {{item.apellido}}</p>
-        <p> {{item.edad}}</p>
-        <p> {{item.celular}}</p>
-        <p> {{item.categoria}}</p>
+        <p>{{item.apellido}}</p>
+        <p>{{item.edad}}</p>
+        <p>{{item.celular}}</p>
+        <p>{{item.categoria}}</p>
         <ion-button (click)="tomarTiempo(item)">Tomar tiempo</ion-button>
       </mat-expansion-panel>
-
     </mat-accordion>
   </div>
 
-
-
-  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+  <ion-modal  [isOpen]="isModalOpen">
     <ng-template>
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
-            <ion-button (click)="cancel()">Cancel</ion-button>
+            <ion-button (click)="cancel(false)">Cancel</ion-button>
           </ion-buttons>
-          <ion-title style="font-size: 15px">Añadir <br> deportista</ion-title>
+          <ion-title style="font-size: 15px;text-align: center;"
+            >Añadir<br />
+            deportista</ion-title
+          >
           <ion-buttons slot="end">
-            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+            <ion-button (click)="confirm(false)" [strong]="true">Confirm</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <ion-item>
-          <ion-label position="stacked">Enter your name</ion-label>
-          <ion-input type="text" placeholder="Your name" [(ngModel)]="name"></ion-input>
-        </ion-item>
+        <form [formGroup]="swimmerForm" (ngSubmit)="login()">
+          <ion-item>
+            <ion-label position="stacked">Enter your name*</ion-label>
+            <ion-input
+              type="text"
+              placeholder="name"
+              formControlName="name"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Enter your last name*</ion-label>
+            <ion-input
+              type="text"
+              placeholder="last name"
+              formControlName="lastname"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Enter your age*</ion-label>
+            <ion-input
+              type="number"
+              placeholder="age"
+              formControlName="age"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Date of birth*</ion-label>
+            <ion-input formControlName="date" value="2022-05-07" id="date"></ion-input>
+            <ion-popover side="top" trigger="date">
+              <ng-template>
+                <ion-datetime
+                  [showDefaultButtons]="true"
+                  presentation="date"
+                  locale="en-US"
+                ></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Enter your celphone*</ion-label>
+            <ion-input
+              type="tel"
+              placeholder="celphone"
+              formControlName="celphone"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Enter your email*</ion-label>
+            <ion-input
+              type="email"
+              placeholder="email"
+              formControlName="email"
+            ></ion-input>
+          </ion-item>
+          <ion-list>
+            <ion-item>
+              <ion-select formControlName="category" interface="popover" placeholder="Select category*">
+                <ion-select-option value="Novato">Novato</ion-select-option>
+                <ion-select-option value="Intermedio"
+                  >Intermedio</ion-select-option
+                >
+                <ion-select-option value="Experto">Experto</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </form>
+
+        <!-- <ion-datetime presentation="date"></ion-datetime> -->
       </ion-content>
     </ng-template>
   </ion-modal>
-
 </ion-content>

@@ -16,7 +16,7 @@ import { NgxsModule } from '@ngxs/store';
 import { UserState } from './login/store/user.state';
 import { environment } from 'src/environments/environment';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { NgxsStoragePluginModule } from '@ngxs/storage-plugin'; 
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { TrainingPage } from './training/training.page';
 import { StatsPage } from './stats/stats.page';
 import { SwimmerState } from './swimmer/store/swimmer.state';
@@ -25,7 +25,7 @@ import { SwimmerState } from './swimmer/store/swimmer.state';
 
 
 @NgModule({
-    declarations: [AppComponent, TimerPage, SwimmerPage,TrainingPage,StatsPage],
+    declarations: [AppComponent, TimerPage, TrainingPage,StatsPage],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),

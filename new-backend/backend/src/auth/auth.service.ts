@@ -30,15 +30,15 @@ export class AuthService {
     if(!validate) {
       return undefined;
     }
-    const payload = { email: user.email, password: user.password };
-    validate.token = this.jwtService.sign(payload);
-
-    await this.usersService.updateUserToken(validate);  
 
     if (validate.idrol === 3){
       throw new HttpException(`Usuario no autorizado`, HttpStatus.UNAUTHORIZED);
     }
+    const payload = { email: user.email, password: user.password };
+    validate.token = this.jwtService.sign(payload);
 
+    await this.usersService.updateUserToken(validate);  
+    
     return {
       access_token: validate.token,
       username:validate.name,

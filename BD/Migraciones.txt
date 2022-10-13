@@ -1,0 +1,23 @@
+    alter table usuarios
+    add apellido varchar(255) null;
+
+    alter table usuarios
+    add edad int null;
+
+    alter table usuarios
+    add celular varchar(255) null;
+
+    alter table usuarios
+    add categoria varchar(255) null;
+
+    alter table usuarios
+    add date date null;
+
+    alter table usuarios
+    add time time null;
+
+
+UPDATE usuarios t SET t.apellido = 'lopecito', t.edad = 25, t.celular = '3162546932', t.categoria = ' ', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 5
+UPDATE usuarios t SET t.apellido = 'celicito', t.edad = 24, t.celular = '3156963548', t.categoria = 'experto', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 4
+UPDATE usuarios t SET t.apellido = 'zapatita', t.edad = 23, t.celular = '3125986352', t.categoria = 'novato', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 3
+UPDATE usuarios t SET t.apellido = 'otalorita', t.edad = 22, t.celular = '3234941412', t.categoria = '', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 2
