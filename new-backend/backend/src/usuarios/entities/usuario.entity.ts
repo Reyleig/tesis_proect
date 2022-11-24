@@ -26,6 +26,27 @@ export class Usuario {
   @Column()
   token: string;
 
+  @Column()
+  apellido: string;
+
+  @Column()
+  edad: string;
+
+  @Column()
+  celular: string;
+
+  @Column()
+  categoria: string;
+
+  @Column()
+  date: string;
+
+  @Column()
+  time: string;
+
+  @Column()
+  estado: string;
+
   @BeforeInsert()
   async hashPassword() {
     const salt = await bcrypt.genSalt();
@@ -39,6 +60,13 @@ export class Usuario {
     pass: string,
     idrol: number,
     token: string,
+    apellido: string,
+    edad: string,
+    celular: string,
+    categoria: string,
+    date: string,
+    time: string,
+    estado: string,
   ) {
     this.id = id;
     this.name = name;
@@ -46,5 +74,12 @@ export class Usuario {
     this.password = pass;
     this.idrol = idrol;
     this.token = token;
+    this.apellido = apellido;
+    this.edad = edad;
+    this.celular = celular;
+    this.categoria = categoria;
+    this.date = date;
+    this.time = time;
+    this.estado = estado;
   }
 }

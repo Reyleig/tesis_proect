@@ -13,8 +13,12 @@ export class SwimmersService {
     private swimmersRepository: Repository<Swimmer>,
   ) {}
 
-  create(createSwimmerDto: CreateSwimmerDto) {
-    return 'This action adds a new swimmer';
+  async create(createSwimmerDto: CreateSwimmerDto) {
+    console.log("entro", createSwimmerDto);
+    
+    console.log(await this.swimmersRepository.save(createSwimmerDto));
+    
+    return null;
   }
 
   findAll(): Promise<Swimmer[]> {

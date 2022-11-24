@@ -17,7 +17,19 @@
     add time time null;
 
 
-UPDATE usuarios t SET t.apellido = 'lopecito', t.edad = 25, t.celular = '3162546932', t.categoria = ' ', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 5
-UPDATE usuarios t SET t.apellido = 'celicito', t.edad = 24, t.celular = '3156963548', t.categoria = 'experto', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 4
-UPDATE usuarios t SET t.apellido = 'zapatita', t.edad = 23, t.celular = '3125986352', t.categoria = 'novato', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 3
-UPDATE usuarios t SET t.apellido = 'otalorita', t.edad = 22, t.celular = '3234941412', t.categoria = '', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 2
+UPDATE usuarios t SET t.apellido = 'lopecito', t.edad = 25, t.celular = '3162546932', t.categoria = ' ', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 5;
+UPDATE usuarios t SET t.apellido = 'celicito', t.edad = 24, t.celular = '3156963548', t.categoria = 'experto', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 4;
+UPDATE usuarios t SET t.apellido = 'zapatita', t.edad = 23, t.celular = '3125986352', t.categoria = 'novato', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 3;
+UPDATE usuarios t SET t.apellido = 'otalorita', t.edad = 22, t.celular = '3234941412', t.categoria = '', t.date = '2022-10-05', t.time = '00:00:00' WHERE t.id = 2;
+
+alter table usuarios
+    modify email varchar(50) not null;
+
+create unique index usuarios_email_uindex
+    on usuarios (email);
+
+INSERT INTO usuarios (id, name, email, password, idrol, token, apellido, celular, categoria, edad, date, time) VALUES (11, 'Carlitos', 'a@j.com', '', 3, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAZy5jb20iLCJwYXNzd29yZCI6ImZjc00wa2VxbElsdVpsd3pkcGFudmhqVGg2ZU5iVlcwaFV0Lzk5V1NVRUk9IiwiaWF0IjoxNjY2ODkzMTkxLCJleHAiOjE2NjY4OTMyNTF9.rIcyvHu5ZZZ5tQKay63F4KtgHCrPuBCNS7KsvO4KBUc', 'Coloradito', '3006629947', 'Intermedio', '30', '2022-91-27', '');
+INSERT INTO entrenador_deportista (identrenador, iddeportista) VALUES (5, 11);
+
+alter table usuarios
+    add estado char default 'A' null;

@@ -10,8 +10,8 @@ export class SwimmersController {
 
   @Post()
   create(@Body() createSwimmerDto: CreateSwimmerDto) {
-    return this.swimmersService.create(createSwimmerDto);
-  }
+    return  this.swimmersService.create(createSwimmerDto);
+  } 
   
  
   @Get()

@@ -8,13 +8,9 @@ import { UserState } from '../login/store/user.state';
 import { SwimmerService } from '../services/swimmer/swimmer.service';
 import { AddSwimmer } from './store/swimmer.actions';
 import { SwimmerState } from './store/swimmer.state';
-import { OverlayEventDetail } from '@ionic/core/components';
-import {
-  FormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { SwimmerDto } from '../models/SwimmerDto';
+import { FormBuilder, Validators } from '@angular/forms';
+import { UtilitiesService } from '../services/general/utilities.service';
 
 @Component({
   selector: 'app-swimmer',
@@ -34,15 +30,23 @@ export class SwimmerPage implements OnInit {
     'This modal example uses triggers to automatically open a modal when the button is clicked.';
   date: Date = new Date();
   isModalOpen = false;
+  swimmerDto = new SwimmerDto();
 
-  public swimmerForm: UntypedFormGroup = new UntypedFormGroup({
-    name: new UntypedFormControl('', { nonNullable: true }),
-    email: new UntypedFormControl('', { nonNullable: true }),
-    lastname: new UntypedFormControl('', { nonNullable: true }),
-    celphone: new UntypedFormControl('', { nonNullable: true }),
-    age: new UntypedFormControl('', { nonNullable: true }),
-    date: new UntypedFormControl('', { nonNullable: true }),
-    category: new UntypedFormControl('', { nonNullable: true }),
+  public swimmerForm = this.formBuilder.group({
+    email: ['a@h.com', [Validators.required, Validators.minLength(3)]],
+    name: ['Carlitos', [Validators.required, Validators.minLength(3)]],
+    apellido: ['Coloradito', [Validators.required, Validators.minLength(3)]],
+    celular: ['3006629947', [Validators.required, Validators.minLength(3)]],
+    edad: ['30', [Validators.required, Validators.minLength(3)]],
+    date: [
+      this.date.getDate() +
+        '/' +
+        this.date.getMonth() +
+        '/' +
+        this.date.getDay(),
+      [Validators.required, Validators.minLength(3)],
+    ],
+    categoria: ['Intermedio', [Validators.required, Validators.minLength(3)]],
   });
 
   constructor(
@@ -51,7 +55,9 @@ export class SwimmerPage implements OnInit {
     public deportistas: DeportistaService,
     private store: Store,
     private alertController: AlertController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private utilitiesService: UtilitiesService,
+
   ) {
     this.user$
       .subscribe((data: any) => {
@@ -61,29 +67,70 @@ export class SwimmerPage implements OnInit {
       })
       .unsubscribe();
 
-      this.resetFrom();
+    this.resetFrom();
   }
 
   ngOnInit() {
     this.getSwimmear();
     this.store.dispatch(new AddSwimmer('hola'));
-  }
 
+    // this.swimmerForm = this.formBuilder.group({
+    //   email: ['a@h.com', [Validators.required, Validators.minLength(3)]],
+    //   name: ['Carlitos', [Validators.required, Validators.minLength(3)]],
+    //   apellido: ['Coloradito', [Validators.required, Validators.minLength(3)]],
+    //   celular: ['3006629947', [Validators.required, Validators.minLength(3)]],
+    //   edad: ['30', [Validators.required]],
+    //   date: [
+    //     this.date.getFullYear() +
+    //       '-' +
+    //       this.date.getMonth() +
+    //       1 +
+    //       '-' +
+    //       this.date.getDate(),
+    //     [Validators.required, Validators.minLength(3)],
+    //   ],
+    //   categoria: ['Intermedio', [Validators.required, Validators.minLength(3)]],
+    // });
+  }
+  handleRefresh(event) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      this.getSwimmear();
+      event.target.complete();
+    }, 2000);
+  }
   cancel(isOpen: boolean) {
     this.isModalOpen = isOpen;
     this.modal.dismiss(null, 'cancel');
   }
 
   confirm(isOpen: boolean) {
-    //validar si el formulario es validator
-    if(this.swimmerForm.valid){
-      this.resetFrom();
+    // console.log(this.swimmerForm.valid);
+    this.swimmerDto = this.swimmerForm.value;
+    this.swimmerDto.idrol = 3;
+    this.swimmerDto.token = this.token;
+
+    console.log(this.swimmerDto);
+    if (this.swimmerForm.valid) {
       this.isModalOpen = isOpen;
       this.modal.dismiss(this.name, 'confirm');
+
+      this.swimmerService.addSwimmers(this.swimmerDto).subscribe((response) => {
+        console.log(response);
+        if (response) {
+          console.log('entroaaaaa');
+      this.resetFrom();
+
+        } else {
+          console.log(response);
+
+          this.utilitiesService.errorAlert(
+            'Error al crear deportista',
+            'Intente de nuevo'
+          );        }
+      });
     }
   }
-
-
 
   getSwimmear() {
     this.swimmerService.getSwimmers(this.token).subscribe((response) => {
@@ -97,12 +144,20 @@ export class SwimmerPage implements OnInit {
   creatFormSwimmer(isOpen: boolean) {
     console.log(this.swimmerForm.value);
     this.isModalOpen = isOpen;
+    //poner fecha actual al formulario date
+    this.swimmerForm.value.date =
+      this.date.getDay() +
+      '/' +
+      this.date.getMonth() +
+      '/' +
+      this.date.getFullYear();
+
     // this.addSwimmer();
   }
 
   tomarTiempo(obj) {
     this.deportistas.setDeportista(obj);
-    this.router.navigate(['inicio/timer']);
+    this.router.navigate(['/timer']);
   }
 
   async addSwimmer() {
@@ -151,18 +206,22 @@ export class SwimmerPage implements OnInit {
     await alert.present();
   }
 
-  resetFrom(){
+  resetFrom() {
     this.swimmerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.minLength(3)]],
       name: ['', [Validators.required, Validators.minLength(3)]],
-      lastname: ['', [Validators.required, Validators.minLength(3)]],
-      celphone: ['', [Validators.required, Validators.minLength(3)]],
-      age: ['', [Validators.required, Validators.minLength(3)]],
+      apellido: ['', [Validators.required, Validators.minLength(3)]],
+      celular: ['', [Validators.required, Validators.minLength(3)]],
+      edad: ['', [Validators.required, Validators.minLength(3)]],
       date: [
-        new Date().getDate(),
+        this.date.getDate() +
+          '/' +
+          this.date.getMonth() +
+          '/' +
+          this.date.getDay(),
         [Validators.required, Validators.minLength(3)],
       ],
-      category: ['', [Validators.required, Validators.minLength(3)]],
+      categoria: ['', [Validators.required, Validators.minLength(3)]],
     });
   }
 }

@@ -7,6 +7,7 @@ import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Usuario } from './entities/usuario.entity';
+import { CreateSwimmerDto } from 'src/swimmers/dto/create-swimmer.dto';
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -39,8 +40,14 @@ export class UsuariosController {
 
   @Get('/getswimmers/:token')
   findSwimmersByIdTraining(@Param('token') token: string) {   
-    console.log(token);
+    console.log("/getswimmers/:token");
     return this.usuariosService.findSwimmersByIdTraining(token);
   }
+
+  @Post('/createswimmer')
+  createSwimmer(@Body() createSwimmerDto: CreateSwimmerDto) {
+    return this.usuariosService.createSwimmer(createSwimmerDto);
+  }
+
  
 }

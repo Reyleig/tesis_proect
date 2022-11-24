@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { Usuario } from './usuarios/entities/usuario.entity';
+import { EntrenadorDeportista } from './usuarios/entities/entrenador_deportista.entity';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { UsuariosService } from './usuarios/usuarios.service'
@@ -17,7 +18,7 @@ import { SwimmersModule } from './swimmers/swimmers.module';
     username: 'root',
     password: '',
     database: 'tesis',
-    entities: [Usuario],
+    entities: [Usuario,EntrenadorDeportista],
     autoLoadEntities: true,
     synchronize: true,
   }),

@@ -2,14 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { createQueryBuilder, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
+import { CreateSwimmerDto } from 'src/swimmers/dto/create-swimmer.dto';
+import { EntrenadorDeportistaDto } from 'src/usuarios/dto/entrenador-deportista.dto';
+import { EntrenadorDeportista } from './entities/entrenador_deportista.entity';
+import { EntrenadorDeportistaService } from './entrenadordeportista.service';
 
 @Injectable()
 export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
     private usersRepository: Repository<Usuario>,
+    private entrenadorDeportistaService: EntrenadorDeportistaService,
   ) {}
 
   create(createUsuarioDto: CreateUsuarioDto) {
@@ -60,7 +65,7 @@ export class UsuariosService {
     return await this.usersRepository
     .createQueryBuilder('usuarios')
     .select(['usuarios.*'])
-    .where('ed.identrenador = :id', {id})
+    .where('ed.identrenador = :id and  usuarios.estado = :estado', {id, estado: 'A'})
     .innerJoin('entrenador_deportista', 'ed','usuarios.id = ed.iddeportista')
     .getRawMany();
   }
@@ -75,4 +80,25 @@ export class UsuariosService {
 
     return resp[0];
   }
+
+  async createSwimmer(createSwimmerDto: CreateSwimmerDto) {
+    //guardar usuario
+    let swimmer=await this.usersRepository.save(createSwimmerDto);
+    let entrenadorDeportista: EntrenadorDeportistaDto = new EntrenadorDeportistaDto();
+    console.log(entrenadorDeportista);
+    
+    entrenadorDeportista.iddeportista = swimmer.id;
+    let entrenador: Usuario = await this.findOneByToken(createSwimmerDto.token);
+    createSwimmerDto.token
+    entrenadorDeportista.identrenador = entrenador.id;
+    await this.entrenadorDeportistaService.createEntrenadorDeportista(entrenadorDeportista);
+    //guardar entrenador_deportista
+    
+
+    return 'This action adds a new usuario';
+  }
+
 }
+
+
+

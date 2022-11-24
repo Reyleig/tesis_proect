@@ -24,6 +24,13 @@ export class SwimmerService {
       .pipe(catchError(this.handleError<any>('Add Student')));
   }
 
+  addSwimmers(form): Observable<any> {
+    return this.http.post<any>(environment.url+'/usuarios/createswimmer/', form, this.httpHeader)
+      .pipe(
+        catchError(this.handleError<any>('Add Student'))
+      );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
