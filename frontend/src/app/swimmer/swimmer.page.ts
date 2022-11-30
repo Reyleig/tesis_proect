@@ -160,6 +160,19 @@ export class SwimmerPage implements OnInit {
     this.router.navigate(['/timer']);
   }
 
+  inactivarSwimmer(obj) {
+    console.log(obj);
+
+    this.swimmerService.inactivateSwimmer(this.token,obj.id,obj.estado).subscribe((response) => {
+      console.log(response);
+      if (response) {
+        console.log('entro');
+        this.swimmers = response;
+      }
+    });
+
+  }
+
   async addSwimmer() {
     const alert = await this.alertController.create({
       header: 'Please enter your info',

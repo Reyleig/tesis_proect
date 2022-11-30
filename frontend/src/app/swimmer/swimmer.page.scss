@@ -8,4 +8,26 @@
         align-items: center;
         flex-flow: column;
     }
+    ion-list {
+      background: transparent;
+
+      ion-item {
+          --background: transparent;
+      }
+  }
+}
+.div-inactivar{
+  display: flex;
+  align-items: center;
+}
+.div-button{
+  display: flex;
+}
+
+ion-toggle {
+  width: 40px;
+  --background: #ddd;
+  --background-checked: #ddd;
+  --handle-background: #eb7769;
+  contain: none;
 }

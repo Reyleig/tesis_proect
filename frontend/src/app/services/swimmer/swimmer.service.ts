@@ -23,6 +23,11 @@ export class SwimmerService {
       .get<any>(environment.url + '/usuarios/getswimmers/'+token, this.httpHeader)
       .pipe(catchError(this.handleError<any>('Add Student')));
   }
+  inactivateSwimmer(token: string,id:string,estado:string): Observable<any> {
+    return this.http
+      .get<any>(environment.url + '/usuarios/inactivarSwimmer/'+token+'/'+id+'/'+estado, this.httpHeader)
+      .pipe(catchError(this.handleError<any>('Add Student')));
+  }
 
   addSwimmers(form): Observable<any> {
     return this.http.post<any>(environment.url+'/usuarios/createswimmer/', form, this.httpHeader)

@@ -49,5 +49,14 @@ export class UsuariosController {
     return this.usuariosService.createSwimmer(createSwimmerDto);
   }
 
+  @Get('/inactivarSwimmer/:token/:id/:estado')
+  inactivateSwimmer(@Param('token') token: string,@Param('id') id: string,@Param('estado') estado: string) {  
+    console.log(token);
+    console.log(id);
+    console.log(estado);
+     
+    return this.usuariosService.inactivateSwimmer(token,id);
+  }
+
  
 }

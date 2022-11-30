@@ -70,6 +70,17 @@ export class UsuariosService {
     .getRawMany();
   }
 
+  async inactivateSwimmer(token: string, idSwimmer:string): Promise<any> {
+return null;
+    // let {id}: Usuario = await this.findOneByToken(token);
+    // return await this.usersRepository
+    // .createQueryBuilder('usuarios')
+    // .select(['usuarios.*'])
+    // .where('ed.identrenador = :id and  usuarios.estado = :estado', {id, estado: 'A'})
+    // .innerJoin('entrenador_deportista', 'ed','usuarios.id = ed.iddeportista')
+    // .getRawMany();
+  }
+
   remove(id: number) {
     return `This action removes a #${id} usuario`;
   }
