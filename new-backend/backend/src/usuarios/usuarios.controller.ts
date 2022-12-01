@@ -55,7 +55,7 @@ export class UsuariosController {
     console.log(id);
     console.log(estado);
      
-    return this.usuariosService.inactivateSwimmer(token,id);
+    return this.usuariosService.inactivateSwimmer(token,id,estado);
   }
 
  
