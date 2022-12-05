@@ -37,9 +37,19 @@ export class UsuariosService {
   }  
   async findOneByToken(token: string): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
-      select: ['id', 'name', 'email', 'password', 'idrol', 'token'],
+      select: ['id', 'name', 'email', 'password', 'idrol', 'token','estado'],
       where: {
         token: token,
+      },
+    });
+
+    return resp[0];
+  }
+  async findOneById(idusuario: number): Promise<Usuario | undefined> {
+    const resp = await this.usersRepository.find({
+      select: ['id', 'name', 'email', 'password', 'idrol', 'token','estado'],
+      where: {
+        id: idusuario,
       },
     });
 
@@ -59,18 +69,23 @@ export class UsuariosService {
   //   });
   // }
 
-  async findSwimmersByIdTraining(token: string): Promise<any> {
+  async findSwimmersByIdTraining(token: string,estado:string): Promise<any> {
 
     let {id}: Usuario = await this.findOneByToken(token);
     return await this.usersRepository
     .createQueryBuilder('usuarios')
     .select(['usuarios.*'])
-    .where('ed.identrenador = :id and  usuarios.estado = :estado', {id, estado: 'A'})
+    .where('ed.identrenador = :id and  usuarios.estado = :estado', {id, estado: estado})
     .innerJoin('entrenador_deportista', 'ed','usuarios.id = ed.iddeportista')
     .getRawMany();
   }
 
-  async inactivateSwimmer(token: string, idSwimmer:string): Promise<any> {
+  async inactivateSwimmer(token: string, idSwimmer:number, estado:string): Promise<any> {
+    estado = estado == 'true' ? 'I': 'A';  
+    let usuario : Usuario =await this.findOneById(idSwimmer);
+    usuario.estado = estado;
+    await this.updateUserToken(usuario);
+
 return null;
     // let {id}: Usuario = await this.findOneByToken(token);
     // return await this.usersRepository

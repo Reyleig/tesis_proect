@@ -18,9 +18,9 @@ export class SwimmerService {
 
   constructor(private http: HttpClient) {}
 
-  getSwimmers(token: string): Observable<any> {
+  getSwimmers(token: string, estado:string): Observable<any> {
     return this.http
-      .get<any>(environment.url + '/usuarios/getswimmers/'+token, this.httpHeader)
+      .get<any>(environment.url + '/usuarios/getswimmers/'+token+'/'+estado, this.httpHeader)
       .pipe(catchError(this.handleError<any>('Add Student')));
   }
   inactivateSwimmer(token: string,id:string,estado:string): Observable<any> {

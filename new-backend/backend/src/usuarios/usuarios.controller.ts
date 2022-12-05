@@ -2,11 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request }
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { LocalAuthGuard } from 'src/auth/local-auth.guard';
-import { AuthService } from 'src/auth/auth.service';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Usuario } from './entities/usuario.entity';
 import { CreateSwimmerDto } from 'src/swimmers/dto/create-swimmer.dto';
 
 @Controller('usuarios')
@@ -38,10 +33,9 @@ export class UsuariosController {
     return this.usuariosService.remove(+id);
   }
 
-  @Get('/getswimmers/:token')
-  findSwimmersByIdTraining(@Param('token') token: string) {   
-    console.log("/getswimmers/:token");
-    return this.usuariosService.findSwimmersByIdTraining(token);
+  @Get('/getswimmers/:token/:estado')
+  findSwimmersByIdTraining(@Param('token') token: string,@Param('estado') estado: string) {   
+    return this.usuariosService.findSwimmersByIdTraining(token,estado);
   }
 
   @Post('/createswimmer')
@@ -50,7 +44,7 @@ export class UsuariosController {
   }
 
   @Get('/inactivarSwimmer/:token/:id/:estado')
-  inactivateSwimmer(@Param('token') token: string,@Param('id') id: string,@Param('estado') estado: string) {  
+  inactivateSwimmer(@Param('token') token: string,@Param('id') id: number,@Param('estado') estado: string) {  
     console.log(token);
     console.log(id);
     console.log(estado);

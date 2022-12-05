@@ -8,8 +8,8 @@
       slot="end"
       style="zoom: 2; margin-right: 10px"
       (click)="creatFormSwimmer(true)"
-    >
-      <ion-icon name="settings-outline"></ion-icon>
+    > 
+      <ion-icon name="person-add-outline"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -26,6 +26,7 @@
   </ion-refresher>
 
   <div class="container">
+    <h1>Activos</h1>
     <mat-accordion>
       <mat-expansion-panel
         *ngFor="let item of swimmers"
@@ -38,15 +39,42 @@
         <p>{{item.edad}}</p>
         <p>{{item.categoria}}</p>
         <div class="div-inactivar">
-          <ion-label style="flex: 1;">Inactivar</ion-label>
-          <ion-toggle (click)="inactivarSwimmer(item)"slot="end" [checked]="true"></ion-toggle>
+          <ion-label style="flex: 1;">Activo</ion-label>
+          <ion-toggle (click)="inactivarSwimmer(item)"slot="end" [checked]=item.estado></ion-toggle>
         </div>
 
 
         <div class="div-button">
           <ion-button style="flex: 1;" (click)="tomarTiempo(item)">Tomar tiempo</ion-button>
 
-          <ion-button style="flex: 1;" (click)="tomarTiempo(item)">Editar</ion-button>
+          <ion-button style="flex: 1;" (click)="editarSwimmer(item)">Editar</ion-button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <h1>Inactivos</h1>
+
+    <mat-accordion>
+      <mat-expansion-panel
+        *ngFor="let item of swimmersInactive"
+        style="margin-bottom: 10px"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{item.name}} {{item.apellido}} </mat-panel-title>
+          <mat-panel-description> </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>{{item.edad}}</p>
+        <p>{{item.categoria}}</p>
+        <div class="div-inactivar">
+          <ion-label style="flex: 1;">Activo</ion-label>
+          <ion-toggle (click)="inactivarSwimmer(item)"slot="end" [checked]=item.estado></ion-toggle>
+        </div>
+
+
+        <div class="div-button">
+          <ion-button style="flex: 1;" (click)="tomarTiempo(item)">Tomar tiempo</ion-button>
+
+          <ion-button style="flex: 1;" (click)="editarSwimmer(item)">Editar</ion-button>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
@@ -59,13 +87,12 @@
           <ion-buttons slot="start">
             <ion-button (click)="cancel(false)">Cancel</ion-button>
           </ion-buttons>
-          <ion-title style="font-size: 15px; text-align: center"
-            >Editar<br />
-            deportistas</ion-title
+          <ion-title [innerHTML]="tittleModal" style="font-size: 15px; text-align: center"
+            ></ion-title
           >
           <ion-buttons slot="end">
-            <ion-icon name="person-add-outline" style="zoom: 2"></ion-icon>
-            <!-- <ion-button (click)="confirm(false)" [strong]="true">Confirm</ion-button> -->
+            <!-- <ion-icon name="person-add-outline" style="zoom: 2"></ion-icon> -->
+            <ion-button (click)="confirm(false)" [strong]="true">Confirm</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -84,6 +111,15 @@
         </ion-list> -->
 
         <form [formGroup]="swimmerForm" (ngSubmit)="login()">
+
+          <ion-item *ngIf="false">
+            <ion-label position="stacked">Enter your name*</ion-label>
+            <ion-input
+              type="number"
+              placeholder="id"
+              formControlName="id"
+            ></ion-input>
+          </ion-item>
           <ion-item>
             <ion-label position="stacked">Enter your name*</ion-label>
             <ion-input
@@ -141,11 +177,11 @@
                 interface="popover"
                 placeholder="Select category*"
               >
-                <ion-select-option value="Novato">Novato</ion-select-option>
-                <ion-select-option value="Intermedio"
+                <ion-select-option value="novato">Novato</ion-select-option>
+                <ion-select-option value="intermedio"
                   >Intermedio</ion-select-option
                 >
-                <ion-select-option value="Experto">Experto</ion-select-option>
+                <ion-select-option value="experto">Experto</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-list>

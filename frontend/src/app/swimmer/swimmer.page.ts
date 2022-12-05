@@ -24,6 +24,7 @@ export class SwimmerPage implements OnInit {
 
   swimmer!: string;
   swimmers = [];
+  swimmersInactive = [];
   token: string;
   name: string;
   message =
@@ -31,8 +32,11 @@ export class SwimmerPage implements OnInit {
   date: Date = new Date();
   isModalOpen = false;
   swimmerDto = new SwimmerDto();
+  tittleModal: string;
+  isEdit = false;
 
   public swimmerForm = this.formBuilder.group({
+    id: ['',[]],
     email: ['a@h.com', [Validators.required, Validators.minLength(3)]],
     name: ['Carlitos', [Validators.required, Validators.minLength(3)]],
     apellido: ['Coloradito', [Validators.required, Validators.minLength(3)]],
@@ -72,6 +76,7 @@ export class SwimmerPage implements OnInit {
 
   ngOnInit() {
     this.getSwimmear();
+    this.getSwimmearInactive();
     this.store.dispatch(new AddSwimmer('hola'));
 
     // this.swimmerForm = this.formBuilder.group({
@@ -96,6 +101,7 @@ export class SwimmerPage implements OnInit {
     setTimeout(() => {
       // Any calls to load data go here
       this.getSwimmear();
+      this.getSwimmearInactive();
       event.target.complete();
     }, 2000);
   }
@@ -109,7 +115,6 @@ export class SwimmerPage implements OnInit {
     this.swimmerDto = this.swimmerForm.value;
     this.swimmerDto.idrol = 3;
     this.swimmerDto.token = this.token;
-
     console.log(this.swimmerDto);
     if (this.swimmerForm.valid) {
       this.isModalOpen = isOpen;
@@ -133,15 +138,50 @@ export class SwimmerPage implements OnInit {
   }
 
   getSwimmear() {
-    this.swimmerService.getSwimmers(this.token).subscribe((response) => {
+    this.swimmers = [];
+    this.swimmerService.getSwimmers(this.token,'A').subscribe((response) => {
       console.log(response);
       if (response) {
         console.log('entro');
         this.swimmers = response;
+        for (let i = 0; i < this.swimmers.length; i++) {
+          this.swimmers[i].estado = this.swimmers[i].estado == 'A' ? true : false;
+        }
+
+      }
+    });
+  }
+  editarSwimmer(swimmer) {
+    this.tittleModal = 'Editar <br />  Deportista';
+    this.isEdit = true;
+    this.swimmerForm.controls['email'].setValue(swimmer.email);
+    this.swimmerForm.controls['name'].setValue(swimmer.name);
+    this.swimmerForm.controls['apellido'].setValue(swimmer.apellido);
+    this.swimmerForm.controls['celular'].setValue(swimmer.celular);
+    this.swimmerForm.controls['edad'].setValue(swimmer.edad);
+    this.swimmerForm.controls['date'].setValue(swimmer.date);
+    this.swimmerForm.controls['categoria'].setValue(swimmer.categoria);
+    this.isModalOpen = true;
+
+  }
+  getSwimmearInactive() {
+    this.swimmersInactive = [];
+    this.swimmerService.getSwimmers(this.token,'I').subscribe((response) => {
+      console.log(response);
+      if (response) {
+        console.log('entro');
+        this.swimmersInactive = response;
+        //recorrer el swimmersInactive y cambiar estado a true o false
+        for (let i = 0; i < this.swimmersInactive.length; i++) {
+          this.swimmersInactive[i].estado = this.swimmersInactive[i].estado == 'A' ? true : false;
+        }
+      
       }
     });
   }
   creatFormSwimmer(isOpen: boolean) {
+    this.tittleModal = 'Crear <br /> Deportista';
+    this.isEdit = false;
     console.log(this.swimmerForm.value);
     this.isModalOpen = isOpen;
     //poner fecha actual al formulario date
@@ -168,8 +208,13 @@ export class SwimmerPage implements OnInit {
       if (response) {
         console.log('entro');
         this.swimmers = response;
+        obj.estado = obj.estado == true ? false : true;
       }
     });
+
+
+    console.log(obj.estado);
+    
 
   }
 
@@ -221,6 +266,7 @@ export class SwimmerPage implements OnInit {
 
   resetFrom() {
     this.swimmerForm = this.formBuilder.group({
+      id: ['',[]],
       email: ['', [Validators.required, Validators.minLength(3)]],
       name: ['', [Validators.required, Validators.minLength(3)]],
       apellido: ['', [Validators.required, Validators.minLength(3)]],
