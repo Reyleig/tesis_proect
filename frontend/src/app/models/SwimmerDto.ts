@@ -1,5 +1,5 @@
 export class SwimmerDto {
-
+  id?: string;
   name?: string;
   lastname?: string;
   celphone?: string;

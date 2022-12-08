@@ -14,7 +14,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content style="padding: 10px;">
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content
       pullingIcon="chevron-down-circle-outline"
@@ -63,6 +63,7 @@
           <mat-panel-title> {{item.name}} {{item.apellido}} </mat-panel-title>
           <mat-panel-description> </mat-panel-description>
         </mat-expansion-panel-header>
+        <p>{{item.id}}</p>
         <p>{{item.edad}}</p>
         <p>{{item.categoria}}</p>
         <div class="div-inactivar">

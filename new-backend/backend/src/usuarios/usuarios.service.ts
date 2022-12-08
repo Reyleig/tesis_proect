@@ -8,6 +8,8 @@ import { CreateSwimmerDto } from 'src/swimmers/dto/create-swimmer.dto';
 import { EntrenadorDeportistaDto } from 'src/usuarios/dto/entrenador-deportista.dto';
 import { EntrenadorDeportista } from './entities/entrenador_deportista.entity';
 import { EntrenadorDeportistaService } from './entrenadordeportista.service';
+import { UsuarioRolDto } from './dto/usuario-rol.dto';
+import { RolUsuarioService } from './rolusuario.service';
 
 @Injectable()
 export class UsuariosService {
@@ -15,7 +17,8 @@ export class UsuariosService {
     @InjectRepository(Usuario)
     private usersRepository: Repository<Usuario>,
     private entrenadorDeportistaService: EntrenadorDeportistaService,
-  ) {}
+    private rolUsuarioService: RolUsuarioService,
+  ) { }
 
   create(createUsuarioDto: CreateUsuarioDto) {
     return 'This action adds a new usuario';
@@ -34,10 +37,10 @@ export class UsuariosService {
     });
 
     return resp[0];
-  }  
+  }
   async findOneByToken(token: string): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
-      select: ['id', 'name', 'email', 'password', 'idrol', 'token','estado'],
+      select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado'],
       where: {
         token: token,
       },
@@ -47,11 +50,12 @@ export class UsuariosService {
   }
   async findOneById(idusuario: number): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
-      select: ['id', 'name', 'email', 'password', 'idrol', 'token','estado'],
+      select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado','apellido','celular','categoria','edad','date',],
       where: {
         id: idusuario,
       },
     });
+    
 
     return resp[0];
   }
@@ -69,31 +73,26 @@ export class UsuariosService {
   //   });
   // }
 
-  async findSwimmersByIdTraining(token: string,estado:string): Promise<any> {
+  async findSwimmersByIdTraining(token: string, estado: string): Promise<any> {
 
-    let {id}: Usuario = await this.findOneByToken(token);
+
+    let { id }: Usuario = await this.findOneByToken(token);
+
     return await this.usersRepository
-    .createQueryBuilder('usuarios')
-    .select(['usuarios.*'])
-    .where('ed.identrenador = :id and  usuarios.estado = :estado', {id, estado: estado})
-    .innerJoin('entrenador_deportista', 'ed','usuarios.id = ed.iddeportista')
-    .getRawMany();
+      .createQueryBuilder('usuarios')
+      .select(['usuarios.*'])
+      .where('ed.identrenador = :id and  usuarios.estado = :estado', { id, estado: estado })
+      .innerJoin('entrenador_deportista', 'ed', 'usuarios.id = ed.iddeportista')
+      .getRawMany();
   }
 
-  async inactivateSwimmer(token: string, idSwimmer:number, estado:string): Promise<any> {
-    estado = estado == 'true' ? 'I': 'A';  
-    let usuario : Usuario =await this.findOneById(idSwimmer);
+  async inactivateSwimmer(token: string, idSwimmer: number, estado: string): Promise<any> {
+    estado = estado == 'true' ? 'I' : 'A';
+    let usuario: Usuario = await this.findOneById(idSwimmer);
     usuario.estado = estado;
     await this.updateUserToken(usuario);
 
-return null;
-    // let {id}: Usuario = await this.findOneByToken(token);
-    // return await this.usersRepository
-    // .createQueryBuilder('usuarios')
-    // .select(['usuarios.*'])
-    // .where('ed.identrenador = :id and  usuarios.estado = :estado', {id, estado: 'A'})
-    // .innerJoin('entrenador_deportista', 'ed','usuarios.id = ed.iddeportista')
-    // .getRawMany();
+    return usuario;
   }
 
   remove(id: number) {
@@ -101,27 +100,41 @@ return null;
   }
 
   async updateUserToken(user: Usuario): Promise<Usuario | undefined> {
+    console.log('user',user);
+    
     const resp = await this.usersRepository.update(user.id, user);
-    console.log(resp);
 
     return resp[0];
   }
 
   async createSwimmer(createSwimmerDto: CreateSwimmerDto) {
     //guardar usuario
-    let swimmer=await this.usersRepository.save(createSwimmerDto);
+    let swimmer = await this.usersRepository.save(createSwimmerDto);
     let entrenadorDeportista: EntrenadorDeportistaDto = new EntrenadorDeportistaDto();
-    console.log(entrenadorDeportista);
-    
+
     entrenadorDeportista.iddeportista = swimmer.id;
     let entrenador: Usuario = await this.findOneByToken(createSwimmerDto.token);
     createSwimmerDto.token
     entrenadorDeportista.identrenador = entrenador.id;
     await this.entrenadorDeportistaService.createEntrenadorDeportista(entrenadorDeportista);
-    //guardar entrenador_deportista
-    
+    //guardar usuario-rol
+    let usuarioRol: UsuarioRolDto = new UsuarioRolDto();
+    usuarioRol.idusuario = swimmer.id;
+    usuarioRol.idrol = 3;
+    await this.rolUsuarioService.createUsuarioRol(usuarioRol);
+
 
     return 'This action adds a new usuario';
+  }
+
+
+  async updateSwimmer(updateSwimmerDto: any) {
+    // actualizar usuario
+    let swimmer = await this.usersRepository.update(updateSwimmerDto.id, updateSwimmerDto);
+ 
+     return null;
+
+
   }
 
 }

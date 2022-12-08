@@ -3,10 +3,11 @@ import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { CreateSwimmerDto } from 'src/swimmers/dto/create-swimmer.dto';
+import { Usuario } from './entities/usuario.entity';
 
 @Controller('usuarios')
 export class UsuariosController {
-  constructor( private readonly usuariosService: UsuariosService) {}
+  constructor(private readonly usuariosService: UsuariosService) { }
 
   @Post()
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
@@ -34,8 +35,11 @@ export class UsuariosController {
   }
 
   @Get('/getswimmers/:token/:estado')
-  findSwimmersByIdTraining(@Param('token') token: string,@Param('estado') estado: string) {   
-    return this.usuariosService.findSwimmersByIdTraining(token,estado);
+  async findSwimmersByIdTraining(@Param('token') token: string, @Param('estado') estado: string) {
+     let token1 = await this.usuariosService.findSwimmersByIdTraining(token, estado);
+    console.log(token1);
+
+    return token1;
   }
 
   @Post('/createswimmer')
@@ -43,14 +47,20 @@ export class UsuariosController {
     return this.usuariosService.createSwimmer(createSwimmerDto);
   }
 
+  @Post('/updateswimmer')
+  updateSwimmer(@Body() updateSwimmerDto: Usuario) {
+
+    return this.usuariosService.updateSwimmer(updateSwimmerDto);
+  }
+
   @Get('/inactivarSwimmer/:token/:id/:estado')
-  inactivateSwimmer(@Param('token') token: string,@Param('id') id: number,@Param('estado') estado: string) {  
+  inactivateSwimmer(@Param('token') token: string, @Param('id') id: number, @Param('estado') estado: string) {
     console.log(token);
     console.log(id);
     console.log(estado);
-     
-    return this.usuariosService.inactivateSwimmer(token,id,estado);
+
+    return this.usuariosService.inactivateSwimmer(token, id, estado);
   }
 
- 
+
 }

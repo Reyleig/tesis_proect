@@ -1,4 +1,5 @@
 export class CreateSwimmerDto {
+     id?: number;
      name?: string;
      lastname?: string;
      celphone?: string;

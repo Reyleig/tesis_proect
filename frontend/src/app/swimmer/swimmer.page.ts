@@ -41,7 +41,7 @@ export class SwimmerPage implements OnInit {
     name: ['Carlitos', [Validators.required, Validators.minLength(3)]],
     apellido: ['Coloradito', [Validators.required, Validators.minLength(3)]],
     celular: ['3006629947', [Validators.required, Validators.minLength(3)]],
-    edad: ['30', [Validators.required, Validators.minLength(3)]],
+    edad: [30, [Validators.required, Validators.minLength(1)]],
     date: [
       this.date.getDate() +
         '/' +
@@ -113,27 +113,49 @@ export class SwimmerPage implements OnInit {
   confirm(isOpen: boolean) {
     // console.log(this.swimmerForm.valid);
     this.swimmerDto = this.swimmerForm.value;
-    this.swimmerDto.idrol = 3;
-    this.swimmerDto.token = this.token;
-    console.log(this.swimmerDto);
+    console.log(this.swimmerForm.valid);
     if (this.swimmerForm.valid) {
       this.isModalOpen = isOpen;
       this.modal.dismiss(this.name, 'confirm');
-
-      this.swimmerService.addSwimmers(this.swimmerDto).subscribe((response) => {
-        console.log(response);
-        if (response) {
-          console.log('entroaaaaa');
-      this.resetFrom();
-
-        } else {
+      console.log(this.isEdit);
+      
+      if (this.isEdit) {
+        console.log('entro');
+        
+        this.swimmerService.updateSwimmers(this.swimmerDto).subscribe((response) => {
           console.log(response);
+          if (response) {
+            console.log('entro');
+            this.resetFrom();
+          } else {
+            console.log(response);
+            this.utilitiesService.errorAlert(
+              'Error al crear deportista',
+              'Intente de nuevo'
+            );
+          }
+        });
 
-          this.utilitiesService.errorAlert(
-            'Error al crear deportista',
-            'Intente de nuevo'
-          );        }
-      });
+      }else{
+        this.swimmerDto.idrol = 3;
+        this.swimmerDto.token = this.token;
+        this.swimmerService.addSwimmers(this.swimmerDto).subscribe((response) => {
+          console.log(response);
+          if (response) {
+            console.log('entroaaaaa');
+        this.resetFrom();
+  
+          } else {
+            console.log(response);
+  
+            this.utilitiesService.errorAlert(
+              'Error al crear deportista',
+              'Intente de nuevo'
+            );        
+          }
+        });
+      }
+      
     }
   }
 
@@ -154,6 +176,7 @@ export class SwimmerPage implements OnInit {
   editarSwimmer(swimmer) {
     this.tittleModal = 'Editar <br />  Deportista';
     this.isEdit = true;
+    this.swimmerForm.controls['id'].setValue(swimmer.id);
     this.swimmerForm.controls['email'].setValue(swimmer.email);
     this.swimmerForm.controls['name'].setValue(swimmer.name);
     this.swimmerForm.controls['apellido'].setValue(swimmer.apellido);
@@ -205,15 +228,16 @@ export class SwimmerPage implements OnInit {
 
     this.swimmerService.inactivateSwimmer(this.token,obj.id,obj.estado).subscribe((response) => {
       console.log(response);
-      if (response) {
+      if (true) {
         console.log('entro');
-        this.swimmers = response;
+        // this.swimmers = response;
         obj.estado = obj.estado == true ? false : true;
+        console.log(obj.estado);
+
       }
     });
 
 
-    console.log(obj.estado);
     
 
   }
@@ -271,7 +295,7 @@ export class SwimmerPage implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       apellido: ['', [Validators.required, Validators.minLength(3)]],
       celular: ['', [Validators.required, Validators.minLength(3)]],
-      edad: ['', [Validators.required, Validators.minLength(3)]],
+      edad: [0, [Validators.required, Validators.minLength(1)]],
       date: [
         this.date.getDate() +
           '/' +
