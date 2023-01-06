@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonModal } from '@ionic/angular';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ResetUser } from '../login/store/user.actions';
 import { UserState } from '../login/store/user.state';
 import { UtilitiesService } from '../services/general/utilities.service';
+import { MenuController } from '@ionic/angular'; 
+
 
 @Component({
   selector: 'app-inicio',
@@ -13,12 +16,17 @@ import { UtilitiesService } from '../services/general/utilities.service';
 })
 export class InicioPage implements OnInit {
   @Select(UserState) user$!: Observable<any>;
+  @ViewChild(IonModal) modal: IonModal;
+
   username: string;
+  isModalOpen = false;
+
 
   constructor(
     private router: Router,
     private store: Store,
-    private utilitiesService: UtilitiesService
+    private utilitiesService: UtilitiesService,
+    private menu: MenuController
   ) {}
 
   ngOnInit() {
@@ -39,6 +47,18 @@ export class InicioPage implements OnInit {
         }
       });
   }
+  abrirModal() {
+    this.isModalOpen = true;
+    this.modal.present();
+  }
+  cerrarModal() {
+    this.isModalOpen = false;
+    this.modal.dismiss();
+  }
+  cerrarMenu() {
+    this.menu.close();
+  }
+  
 
   opctionsMenu(opcion) {
     switch (opcion) {

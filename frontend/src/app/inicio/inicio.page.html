@@ -1,10 +1,44 @@
-<ion-content>
+<ion-menu contentId="main-content" >
+  <ion-header>
+    <ion-toolbar>
+      <ion-item>
+        <ion-avatar slot="start">
+          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+        <ion-label>Menu</ion-label>
+      </ion-item>
+      <ion-buttons (click)="cerrarMenu()" fill="clear" slot="end" style="zoom: 2; margin-right: 10px">
+        <ion-icon name="chevron-back-circle-outline"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content >
+    <ion-menu-toggle>
+      <ion-list >
+        <ion-item button (click)="abrirModal()"  detail="true" lines="inset">
+          <ion-icon name="key-outline"  slot="start"></ion-icon>
+          <ion-label>Cuenta</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-menu-toggle>
+  </ion-content>
+</ion-menu>
 
-  <div style="text-align: end;margin-top:20px">
-    <ion-button (click)="logout()" fill="clear" >
-      <ion-icon name="exit-outline" slot="end" style="zoom:1.5;"></ion-icon>
-    </ion-button>
-  </div>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Home</ion-title>
+      <ion-buttons (click)="logout()" fill="clear" slot="end" class="button-native"  style="zoom: 2; margin-right: 10px">
+        <ion-icon name="exit-outline"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+<ion-content>
 
   <div class="container-logo">
     <ion-icon name="person" style="zoom:5.0;"></ion-icon>
@@ -38,35 +72,98 @@
         bottom: 40px;">Stats</ion-label>
       </ion-button>
     </div>
-
   </div>
 
-
-
-
-
-  <!-- <router-outlet name="inicio"></router-outlet> -->
-  <!-- <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="swimmer">
-        <ion-icon name="information-circle"></ion-icon>
-        <ion-label>Swimmer</ion-label>
-      </ion-tab-button>
-
-      <ion-tab-button tab="timer">
-        <ion-icon name="calendar"></ion-icon>
-        <ion-label>Timer</ion-label>
-      </ion-tab-button>
-
-      <ion-tab-button tab="training">
-        <ion-icon name="person-circle"></ion-icon>
-        <ion-label>Training</ion-label>
-      </ion-tab-button>
-
-      <ion-tab-button tab="stats">
-        <ion-icon name="map"></ion-icon>
-        <ion-label>Stats</ion-label>
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs> -->
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cerrarModal()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title [innerHTML]="tittleModal" style="font-size: 15px; text-align: center"
+            ></ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm(false)" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form [formGroup]="swimmerForm" (ngSubmit)="login()">
+          <ion-item *ngIf="false">
+            <ion-label position="stacked">Enter your name*</ion-label>
+            <ion-input
+              type="number"
+              placeholder="id"
+              formControlName="id"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Enter your name*</ion-label>
+            <ion-input
+              type="text"
+              placeholder="name"
+              formControlName="name"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Enter your last name*</ion-label>
+            <ion-input
+              type="text"
+              placeholder="last name"
+              formControlName="apellido"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Enter your age*</ion-label>
+            <ion-input
+              type="number"
+              placeholder="age"
+              formControlName="edad"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Day of birth*</ion-label>
+            <ion-input
+              type="date"
+              placeholder="yyyy-mm-dd"
+              formControlName="date"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Enter your celphone*</ion-label>
+            <ion-input
+              type="tel"
+              placeholder="celphone"
+              formControlName="celular"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Enter your email*</ion-label>
+            <ion-input
+              type="email"
+              placeholder="email"
+              formControlName="email"
+            ></ion-input>
+          </ion-item>
+          <ion-list>
+            <ion-item>
+              <ion-select
+                formControlName="categoria"
+                interface="popover"
+                placeholder="Select category*"
+              >
+                <ion-select-option value="novato">Novato</ion-select-option>
+                <ion-select-option value="intermedio"
+                  >Intermedio</ion-select-option
+                >
+                <ion-select-option value="experto">Experto</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
+</div>
