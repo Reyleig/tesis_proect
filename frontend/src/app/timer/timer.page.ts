@@ -21,9 +21,15 @@ export class TimerPage implements OnInit {
   minutes: any = 0;
   seconds: any = 0;
   milliseconds: any = 0;
+  millisecondsTotal: any = 0;
   selectorDeportista={};
   interval;
+  isPlaying = false;
   startStopButton = false;
+  lstBanderas = [];
+  banderas = {time:'',diferencia :'',diferenciaMilisegundos:0,cantidadBanderas:0};
+  mostrarBanderas=false;
+
   
   constructor(
     public deportistas: DeportistaService,
@@ -39,17 +45,36 @@ export class TimerPage implements OnInit {
     }).unsubscribe();
   }
 
+  crearBanderas(){
+    this.mostrarBanderas=true;
+    this.banderas.time=this.time.value;
+    if(this.lstBanderas.length>0){
+      this.banderas.diferenciaMilisegundos=this.millisecondsTotal-this.lstBanderas[this.lstBanderas.length-1].diferenciaMilisegundos;
+      this.millisecondsTotal=this.banderas.diferenciaMilisegundos;
+      this.banderas.diferencia=this.obtenerBandera(this.banderas.diferenciaMilisegundos);
+    }
+    else{
+      this.banderas.diferenciaMilisegundos=this.millisecondsTotal;
+      this.banderas.diferencia=this.obtenerBandera(this.millisecondsTotal);
+    }
+    this.banderas.cantidadBanderas=this.lstBanderas.length+1;
+    this.lstBanderas.push(this.banderas);
+    this.banderas={time:'',diferencia:'',diferenciaMilisegundos:0,cantidadBanderas:0};
+  }
+
   //guardar tiempo
   saveTime(){
     //pausar el cronometro
     this.pauseTimer();
+    this.startStopButton = false;
     //mostrar confirmacion de guardado
     this.utilitiesService
     .infoAlert('Desea guardar el tiempo')
     .then((result) => {
       if (result.role === 'confirm') {
         console.log(this.swimmer);
-        
+        this.isPlaying = false;
+        this.stopTimer();
       }
     });
     console.log(this.selectorDeportista);
@@ -57,6 +82,7 @@ export class TimerPage implements OnInit {
   }
 
   startTimer() {
+    this.isPlaying = true;
     if (!this.interval) {
       this.interval = setInterval(() => {
         this.updateTimeValue();
@@ -79,6 +105,7 @@ export class TimerPage implements OnInit {
 
   updateTimeValue() {
     this.milliseconds++;
+    this.millisecondsTotal++;
     if (this.milliseconds / 100 === 1) {
       this.seconds++;
       this.milliseconds = 0;
@@ -96,6 +123,17 @@ export class TimerPage implements OnInit {
     this.time.next(actualTime);
   }
 
+  obtenerBandera(millisecondsTotal) {
+    let minutes = Math.floor(millisecondsTotal / 6000);
+    let seconds = Math.floor((millisecondsTotal % 6000) / 100);
+    let milliseconds = Math.floor(millisecondsTotal % 100);
+    let stringminutes = String('0' + Math.floor(minutes)).slice(-2);
+    let stringseconds = String('0' + Math.floor(seconds)).slice(-2);
+    let stringmilliseconds = String('0' + milliseconds).slice(-2);
+    const actualTime = `${stringminutes}:${stringseconds}:${stringmilliseconds}`;
+    return actualTime;
+  }
+
   pauseTimer() {
     if (this.interval) {
       clearInterval(this.interval);
@@ -108,7 +146,12 @@ export class TimerPage implements OnInit {
     this.minutes = 0;
     this.seconds = 0;
     this.milliseconds = 0;
+    this.millisecondsTotal = 0;
     this.time.next(`00:00:00`);
+    this.isPlaying = false;
+    this.startStopButton = false;
+    this.lstBanderas = [];
+    this.mostrarBanderas=false;
   }
 
 

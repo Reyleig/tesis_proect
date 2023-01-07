@@ -27,14 +27,28 @@
       <ion-icon name="pause-circle" style="zoom:2.5;"></ion-icon> 
     </ion-button>
 
-    <ion-button fill="clear" (click)="stopTimer()" style="height: 100%;">
+    <ion-button *ngIf="isPlaying && !startStopButton" fill="clear" (click)="stopTimer()" style="height: 100%;">
       <ion-icon name="stop-circle-sharp"  style="zoom:2.5;"></ion-icon>
     </ion-button>
+    
+    <ion-button *ngIf="startStopButton" fill="clear" (click)="crearBanderas()" style="height: 100%;">
+      <ion-icon name="flag" style="zoom:2;"></ion-icon>
+    </ion-button>
 
-    <ion-button fill="clear" (click)="saveTime()" style="height: 100%;">
+    <ion-button *ngIf="isPlaying" fill="clear" (click)="saveTime()" style="height: 100%;">
       <ion-icon name="save" style="zoom:2;"></ion-icon>
     </ion-button>
    </div>
+  </div>
+  <div *ngIf="mostrarBanderas">
+    <ion-list>
+      <ion-item *ngFor="let item of lstBanderas">
+        <ion-icon style="margin-right: 10px;" slot="start" name="flag"></ion-icon>
+        <ion-label style="max-width: 30px;" >{{item.cantidadBanderas}}</ion-label>
+        <ion-label>{{item.time}}</ion-label>
+        <ion-label>{{item.diferencia}}</ion-label>
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>  
 
