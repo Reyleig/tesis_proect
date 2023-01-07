@@ -77,7 +77,6 @@ export class SwimmerPage implements OnInit {
   ngOnInit() {
     this.getSwimmear();
     this.getSwimmearInactive();
-    this.store.dispatch(new AddSwimmer('hola'));
 
     // this.swimmerForm = this.formBuilder.group({
     //   email: ['a@h.com', [Validators.required, Validators.minLength(3)]],
@@ -219,6 +218,7 @@ export class SwimmerPage implements OnInit {
   }
 
   tomarTiempo(obj) {
+    this.store.dispatch(new AddSwimmer(obj));
     this.deportistas.setDeportista(obj);
     this.router.navigate(['/timer']);
   }

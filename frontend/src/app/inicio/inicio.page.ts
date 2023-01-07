@@ -26,7 +26,8 @@ export class InicioPage implements OnInit {
     private router: Router,
     private store: Store,
     private utilitiesService: UtilitiesService,
-    private menu: MenuController
+    private menu: MenuController,
+    
   ) {}
 
   ngOnInit() {

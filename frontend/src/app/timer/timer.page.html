@@ -19,21 +19,21 @@
     </h1>
   
    <div>
-    <ion-button fill="clear" (click)="startTimer()" style="height: 100%;">
-      <ion-icon name="caret-forward-circle"  style="zoom:2.5;"></ion-icon>
+    <ion-button *ngIf="!startStopButton" fill="clear" (click)="startStopTimer()" style="height: 100%;">      
+      <ion-icon name="play-circle-sharp"  style="zoom:2.5;"></ion-icon>
     </ion-button>
-    <ion-button fill="clear" (click)="pauseTimer()" style="height: 100%;">
-      <ion-icon name="refresh-circle"  style="zoom:2.5;"></ion-icon>
+    
+    <ion-button *ngIf="startStopButton" fill="clear" (click)="startStopTimer()" style="height: 100%;">     
+      <ion-icon name="pause-circle" style="zoom:2.5;"></ion-icon> 
     </ion-button>
+
     <ion-button fill="clear" (click)="stopTimer()" style="height: 100%;">
       <ion-icon name="stop-circle-sharp"  style="zoom:2.5;"></ion-icon>
     </ion-button>
-    <!-- <ion-icon name="stop-circle-sharp"></ion-icon>
 
-    <ion-icon name="refresh-circle"></ion-icon>
-    <button (click)="startTimer()">Start</button>
-    <button (click)="pauseTimer()">Pause</button>
-    <button (click)="stopTimer()">Stop</button> -->
+    <ion-button fill="clear" (click)="saveTime()" style="height: 100%;">
+      <ion-icon name="save" style="zoom:2;"></ion-icon>
+    </ion-button>
    </div>
   </div>
 </ion-content>  

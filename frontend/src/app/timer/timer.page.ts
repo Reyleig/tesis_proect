@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { DeportistaService } from '../deportista.service';
+import { UtilitiesService } from '../services/general/utilities.service';
+import { SwimmerState } from '../swimmer/store/swimmer.state';
 
 
 @Component({
@@ -10,18 +13,47 @@ import { DeportistaService } from '../deportista.service';
 })
 export class TimerPage implements OnInit {
 
+  @Select(SwimmerState) swimmer$!: Observable<any>;
+  swimmer: any;
+
+
   time: BehaviorSubject<string> = new BehaviorSubject('00:00:00');
   minutes: any = 0;
   seconds: any = 0;
   milliseconds: any = 0;
   selectorDeportista={};
-  private interval;
+  interval;
+  startStopButton = false;
   
   constructor(
-    public deportistas: DeportistaService
+    public deportistas: DeportistaService,
+    private utilitiesService: UtilitiesService,
+    private store: Store,
+
+
   ) { }
 
   ngOnInit() {
+    this.swimmer$.subscribe((data: any) => {
+        this.swimmer = data.name;
+    }).unsubscribe();
+  }
+
+  //guardar tiempo
+  saveTime(){
+    //pausar el cronometro
+    this.pauseTimer();
+    //mostrar confirmacion de guardado
+    this.utilitiesService
+    .infoAlert('Desea guardar el tiempo')
+    .then((result) => {
+      if (result.role === 'confirm') {
+        console.log(this.swimmer);
+        
+      }
+    });
+    console.log(this.selectorDeportista);
+    console.log(this.time.value);
   }
 
   startTimer() {
@@ -32,6 +64,17 @@ export class TimerPage implements OnInit {
     }
     this.selectorDeportista=this.deportistas.getDeportista();
 
+  }
+  startStopTimer() {
+    console.log(this.interval);
+    
+    if (!this.interval) {
+      this.startTimer();
+      this.startStopButton = true;
+    } else {
+      this.startStopButton = false;
+      this.pauseTimer();
+    }
   }
 
   updateTimeValue() {

@@ -8,7 +8,7 @@ const VALUE_SWIMMER = new StateToken<SwimmerStateModel>('swimmer')
 @State<SwimmerStateModel>({
     name: VALUE_SWIMMER,
     defaults: {
-        name:'',
+        name:{},
     }
 })
 @Injectable()
