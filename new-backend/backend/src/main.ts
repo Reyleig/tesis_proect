@@ -32,16 +32,6 @@ async function bootstrap() {
   
   app.enableCors();
 
-
-//   app.post('/login/auth', passport.authenticate('local', { 
-//     successRedirect: '/dashboard', 
-//     failureRedirect: '/', 
-//     failureFlash: true }),
-//  function(req, res) {
-//     res.redirect('/');
-//  });
-
-
   await app.listen(3000);
 
   if (module.hot) {

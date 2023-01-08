@@ -62,3 +62,21 @@ insert tesis.entrenador_deportista SET  WHERE identrenador = 5 AND iddeportista 
 insert tesis.entrenador_deportista SET  WHERE identrenador = 5 AND iddeportista = 12;
 insert tesis.entrenador_deportista SET  WHERE identrenador = 5 AND iddeportista = 24;
 insert tesis.entrenador_deportista SET  WHERE identrenador = 5 AND iddeportista = 31;
+
+
+
+--2023/01/07
+create table time_deportista
+(
+    id_deportista  int          null,
+    fecha_registro timestamp    null,
+    banderas       varchar(255) null,
+    time           varchar(255) null,
+    id             int auto_increment,
+    constraint time_deportista_pk
+        primary key (id)
+);
+
+create index time_deportista_id_deportista_index
+    on time_deportista (id_deportista);
+
