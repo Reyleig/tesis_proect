@@ -116,6 +116,8 @@ export class UsuariosService {
     
     const resp = await this.usersRepository.update(user.id, user);
 
+    console.log('resp',resp);
+    
     return resp[0];
   }
 
@@ -147,6 +149,19 @@ export class UsuariosService {
      return null;
 
 
+  }
+
+  async updatePassword(UpdatePasswordDto: any) {
+
+    let user: Usuario = await this.findOneByToken(UpdatePasswordDto.token);
+    if (!user) {
+      return "The user don't exist";
+    }
+    user.password = UpdatePasswordDto.password;
+    let result = await this.usersRepository.update(user.password, user);
+
+    console.log(result);
+     return result;
   }
 
 }

@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request }
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { UpdatePasswordDto } from './dto/update-user-password.dto';
 import { CreateSwimmerDto } from 'src/swimmers/dto/create-swimmer.dto';
 import { Usuario } from './entities/usuario.entity';
 
@@ -34,8 +35,13 @@ export class UsuariosController {
     return this.usuariosService.remove(+id);
   }
 
+  @Post('/updatepassword')
+  updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
+    return this.usuariosService.updatePassword(updatePasswordDto);
+  }
+
   //Swimmers
-  
+
   @Get('/getswimmers/:token/:estado')
   async findSwimmersByIdTraining(@Param('token') token: string, @Param('estado') estado: string) {
      let token1 = await this.usuariosService.findSwimmersByIdTraining(token, estado);
