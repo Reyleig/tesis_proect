@@ -34,6 +34,8 @@ export class UsuariosController {
     return this.usuariosService.remove(+id);
   }
 
+  //Swimmers
+  
   @Get('/getswimmers/:token/:estado')
   async findSwimmersByIdTraining(@Param('token') token: string, @Param('estado') estado: string) {
      let token1 = await this.usuariosService.findSwimmersByIdTraining(token, estado);
@@ -62,5 +64,14 @@ export class UsuariosController {
     return this.usuariosService.inactivateSwimmer(token, id, estado);
   }
 
+  //Coach
+
+  @Get('/getcoach/:token')
+  async findChoachByToken(@Param('token') token: string) {
+     let result = await this.usuariosService.findCoachByToken(token);
+    console.log(result);
+
+    return result;
+  }
 
 }

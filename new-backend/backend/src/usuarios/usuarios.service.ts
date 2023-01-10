@@ -48,6 +48,18 @@ export class UsuariosService {
 
     return resp[0];
   }
+
+  async findCoachByToken(token: string): Promise<Usuario | undefined> {
+    const resp = await this.usersRepository.find({
+      select: ['name', 'apellido', 'edad', 'date', 'celular', 'email', 'idrol'],
+      where: {
+        token: token,
+      },
+    });
+
+    return resp[0];
+  }
+
   async findOneById(idusuario: number): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
       select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado','apellido','celular','categoria','edad','date',],
