@@ -11,6 +11,7 @@ import { SwimmersModule } from './swimmers/swimmers.module';
 import { TimesModule } from './times/times.module';
 import { TimeDeportista } from './times/entities/time_deportista.entity';
 import { RolUsuario } from './usuarios/entities/usuario-rol.entity';
+import { EstilosNadoModule } from './estilos-nado/estilos-nado.module';
 @Module({
   imports: [UsersModule, UsuariosModule,AuthModule,
   TypeOrmModule.forRoot({
@@ -25,7 +26,8 @@ import { RolUsuario } from './usuarios/entities/usuario-rol.entity';
     synchronize: true,
   }),
   SwimmersModule,
-  TimesModule],
+  TimesModule,
+  EstilosNadoModule],
   
   controllers: [AppController],
   providers: [AppService,AuthModule],
