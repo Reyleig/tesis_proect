@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { GenericDto } from '../general/generic.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
@@ -14,6 +15,7 @@ import { RolUsuarioService } from './rolusuario.service';
 
 @Injectable()
 export class UsuariosService {
+  genericDto: GenericDto = new GenericDto();
   constructor(
     @InjectRepository(Usuario)
     private usersRepository: Repository<Usuario>,
@@ -63,12 +65,12 @@ export class UsuariosService {
 
   async findOneById(idusuario: number): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
-      select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado','apellido','celular','categoria','edad','date',],
+      select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado', 'apellido', 'celular', 'categoria', 'edad', 'date',],
       where: {
         id: idusuario,
       },
     });
-    
+
 
     return resp[0];
   }
@@ -112,8 +114,8 @@ export class UsuariosService {
     return `This action removes a #${id} usuario`;
   }
 
-  async updateUserToken(user: Usuario): Promise<Usuario | undefined> {    
-    const resp = await this.usersRepository.update(user.id, user);    
+  async updateUserToken(user: Usuario): Promise<Usuario | undefined> {
+    const resp = await this.usersRepository.update(user.id, user);
     return resp[0];
   }
 
@@ -141,8 +143,8 @@ export class UsuariosService {
   async updateSwimmer(updateSwimmerDto: any) {
     // actualizar usuario
     let swimmer = await this.usersRepository.update(updateSwimmerDto.id, updateSwimmerDto);
- 
-     return null;
+
+    return null;
 
 
   }
@@ -151,13 +153,20 @@ export class UsuariosService {
 
     let user: Usuario = await this.findOneByToken(UpdatePasswordDto.token);
     if (!user) {
-      return "The user don't exist";
+      this.genericDto.status = HttpStatus.BAD_REQUEST;
+      this.genericDto.message = "The user don't exist";
+      return this.genericDto;
     }
     user.password = UpdatePasswordDto.password;
     let result = await this.usersRepository.update(user.id, user);
-
-    console.log(result);
-     return result;
+    if (result.affected == 0) {
+      this.genericDto.status = HttpStatus.BAD_REQUEST;
+      this.genericDto.message = "The password was not updated";
+      return this.genericDto;
+    }
+    this.genericDto.status = HttpStatus.OK;
+    this.genericDto.message = "The password was updated";
+    return this.genericDto;
   }
 
 }
