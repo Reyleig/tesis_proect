@@ -2,7 +2,7 @@ const mysql = require('mysql');
 var mysqlConexion = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "",
+    password: "root",
     database: 'tesis',
     // multipleStatements: true,
 });

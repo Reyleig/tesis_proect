@@ -99,6 +99,9 @@ INSERT INTO estilos_nado (id, descripcion, metros) VALUES (2, 'Mariposa', null);
 INSERT INTO estilos_nado (id, descripcion, metros) VALUES (3, 'Espalda', null);
 
 alter table time_deportista
+    add id_estilos int null;
+
+alter table time_deportista
     add constraint time_deportista_estilos_nado_id_fk
         foreign key (id_estilos) references estilos_nado (id);
 
