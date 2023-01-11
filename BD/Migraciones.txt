@@ -80,3 +80,27 @@ create table time_deportista
 create index time_deportista_id_deportista_index
     on time_deportista (id_deportista);
 
+
+
+--2023/01/11
+create table estilos_nado
+(
+    id          int          null,
+    descripcion varchar(255) null,
+    metros      int          null
+);
+
+alter table estilos_nado
+    add constraint estilos_nado_pk
+        primary key (id);
+
+INSERT INTO estilos_nado (id, descripcion, metros) VALUES (1, 'Libre', null);
+INSERT INTO estilos_nado (id, descripcion, metros) VALUES (2, 'Mariposa', null);
+INSERT INTO estilos_nado (id, descripcion, metros) VALUES (3, 'Espalda', null);
+
+alter table time_deportista
+    add constraint time_deportista_estilos_nado_id_fk
+        foreign key (id_estilos) references estilos_nado (id);
+
+
+
