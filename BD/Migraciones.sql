@@ -106,4 +106,18 @@ alter table time_deportista
         foreign key (id_estilos) references estilos_nado (id);
 
 
+--2023/01/11 Jorgito <3
+DROP TABLE time_deportista;
+create table time_deportista
+(
+    id             int auto_increment
+        primary key,
+    id_deportista  int                    not null,
+    id_estilos     int                    not null,
+    fecha_registro date default curdate() not null,
+    hora_registro  time default curtime() not null,
+    time           varchar(255)           not null,
+    banderas       varchar(255)           not null
+
+);
 

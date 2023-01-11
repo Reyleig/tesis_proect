@@ -34,14 +34,12 @@ export class TimesService {
       return  this.genericDto;
       }
 
-      async findTimesByFilters(id_deportista: number, id_estilos: number, fecha_registro: string) {
-
+      async findTimesByFilters(id_deportista: number, id_estilos: number, fecha_registro: Date) {
 
         return await this.timeDeportistaRepository
           .createQueryBuilder('time_deportista')
           .select(['time_deportista.*'])
-          .where('id_deportista = :id_deportista and  id_estilos = :id_estilos', { id_deportista, id_estilos })
-          //.innerJoin('entrenador_deportista', 'ed', 'usuarios.id = ed.iddeportista')
+          .where('id_deportista = :id_deportista and id_estilos = :id_estilos and fecha_registro = :fecha_registro', { id_deportista, id_estilos, fecha_registro })
           .getRawMany();
       }
     

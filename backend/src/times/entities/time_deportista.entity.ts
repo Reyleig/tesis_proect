@@ -1,44 +1,48 @@
 import {
-    Entity,
-    Column,
-    PrimaryColumn,
-    PrimaryGeneratedColumn,
-  } from 'typeorm';
-  @Entity('time_deportista')
-  export class TimeDeportista {
-    @Column()
-    id_deportista: number;
+  Entity,
+  Column,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+@Entity('time_deportista')
+export class TimeDeportista {
 
-    @Column({ type: 'timestamp', default: () => 'NOW()',})
-    fecha_registro: Date;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    banderas: string;
+  @Column()
+  id_deportista: number;
 
-    @Column()
-    time: string;
+  @Column()
+  id_estilos: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({ type: 'date', default: () => 'curdate()', })
+  fecha_registro: Date;
 
-    @Column()
-    id_estilos: number;
+  @Column({ type: 'time', default: () => 'curtime()', })
+  hora_registro: string;
 
-    constructor(
-        id_deportista: number,
-        fecha_registro: Date,
-        banderas: string,
-        time: string,
-        id: number,
-        id_estilos: number,
+  @Column()
+  time: string;
 
-    ) {
-        this.id_deportista = id_deportista;
-        this.fecha_registro = fecha_registro;
-        this.banderas = banderas;
-        this.time = time;
-        this.id = id;
-        this.id_estilos = id_estilos;
-    }
+  @Column()
+  banderas: string;
+
+  constructor(
+    id: number,
+    id_deportista: number,
+    id_estilos: number,
+    fecha_registro: Date,
+    hora_registro: string,
+    time: string,
+    banderas: string,
+  ) {
+    this.id = id;
+    this.id_deportista = id_deportista;
+    this.id_estilos = id_estilos;
+    this.fecha_registro = fecha_registro;
+    this.hora_registro = hora_registro;
+    this.time = time;
+    this.banderas = banderas;
   }
-  
+}

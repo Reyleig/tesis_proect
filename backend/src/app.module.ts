@@ -24,6 +24,7 @@ import { EstilosNadoModule } from './estilos-nado/estilos-nado.module';
     entities: [Usuario,EntrenadorDeportista,TimeDeportista,RolUsuario],
     autoLoadEntities: true,
     synchronize: true,
+    logging: true,
   }),
   SwimmersModule,
   TimesModule,

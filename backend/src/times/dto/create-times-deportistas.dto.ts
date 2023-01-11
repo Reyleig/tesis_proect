@@ -1,8 +1,9 @@
 export class CreateTimesDeportistaDto {
-    id_deportista: number;
-    fecha_registro: Date;
-    banderas: string;
-    time: string;
     id: number;
+    id_deportista: number;
     id_estilos: number;
+    fecha_registro: Date;
+    hora_registro: string;
+    time: string;
+    banderas: string;
 }	
