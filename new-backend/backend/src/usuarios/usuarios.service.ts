@@ -48,6 +48,18 @@ export class UsuariosService {
 
     return resp[0];
   }
+
+  async findCoachByToken(token: string): Promise<Usuario | undefined> {
+    const resp = await this.usersRepository.find({
+      select: ['name', 'apellido', 'edad', 'date', 'celular', 'email', 'idrol'],
+      where: {
+        token: token,
+      },
+    });
+
+    return resp[0];
+  }
+
   async findOneById(idusuario: number): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
       select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado','apellido','celular','categoria','edad','date',],
@@ -104,6 +116,8 @@ export class UsuariosService {
     
     const resp = await this.usersRepository.update(user.id, user);
 
+    console.log('resp',resp);
+    
     return resp[0];
   }
 
@@ -135,6 +149,19 @@ export class UsuariosService {
      return null;
 
 
+  }
+
+  async updatePassword(UpdatePasswordDto: any) {
+
+    let user: Usuario = await this.findOneByToken(UpdatePasswordDto.token);
+    if (!user) {
+      return "The user don't exist";
+    }
+    user.password = UpdatePasswordDto.password;
+    let result = await this.usersRepository.update(user.password, user);
+
+    console.log(result);
+     return result;
   }
 
 }
