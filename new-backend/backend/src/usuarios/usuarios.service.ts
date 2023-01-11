@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { CreateSwimmerDto } from 'src/swimmers/dto/create-swimmer.dto';
 import { EntrenadorDeportistaDto } from 'src/usuarios/dto/entrenador-deportista.dto';
+import { UpdatePasswordDto } from 'src/usuarios/dto/update-user-password.dto';
 import { EntrenadorDeportista } from './entities/entrenador_deportista.entity';
 import { EntrenadorDeportistaService } from './entrenadordeportista.service';
 import { UsuarioRolDto } from './dto/usuario-rol.dto';
@@ -111,13 +112,8 @@ export class UsuariosService {
     return `This action removes a #${id} usuario`;
   }
 
-  async updateUserToken(user: Usuario): Promise<Usuario | undefined> {
-    console.log('user',user);
-    
-    const resp = await this.usersRepository.update(user.id, user);
-
-    console.log('resp',resp);
-    
+  async updateUserToken(user: Usuario): Promise<Usuario | undefined> {    
+    const resp = await this.usersRepository.update(user.id, user);    
     return resp[0];
   }
 
@@ -151,14 +147,14 @@ export class UsuariosService {
 
   }
 
-  async updatePassword(UpdatePasswordDto: any) {
+  async updatePassword(UpdatePasswordDto: UpdatePasswordDto) {
 
     let user: Usuario = await this.findOneByToken(UpdatePasswordDto.token);
     if (!user) {
       return "The user don't exist";
     }
     user.password = UpdatePasswordDto.password;
-    let result = await this.usersRepository.update(user.password, user);
+    let result = await this.usersRepository.update(user.id, user);
 
     console.log(result);
      return result;
