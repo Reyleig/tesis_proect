@@ -82,8 +82,12 @@ export class TimerPage implements OnInit {
           "id_deportista": this.swimmer.id
         }        
         this.timesService.createTimes(data).subscribe((data:any)=>{
-          console.log(data);
-          
+          if(data.status == 200) {
+            this.stopTimer();
+            this.utilitiesService.succesAlert(data.message);
+          }else{
+            this.utilitiesService.errorAlert(data.message,data.recommendation);
+          }
         });
 
       }

@@ -46,5 +46,24 @@ export class UtilitiesService {
         return  await alert.onDidDismiss();
 
       }
+
+
+      async succesAlert(header) {
+        const alert = await this.alertController.create({
+          header: 'Succes!',
+          subHeader: header,
+          buttons: [
+            {
+              text: 'OK',
+              role: 'confirm',
+            }
+          ],
+        });
+
+        await alert.present();
+
+        return  await alert.onDidDismiss();
+
+      }
     }
 

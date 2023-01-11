@@ -8,8 +8,8 @@ export class TimesController {
 
 
     @Post("/create")
-    create(@Res() response,@Body() createSwimmerDto: CreateTimesDeportistaDto) {
-      return  this.timesService.create(createSwimmerDto,response);
+    create(@Body() createSwimmerDto: CreateTimesDeportistaDto) {
+      return  this.timesService.create(createSwimmerDto);
     } 
     
 
