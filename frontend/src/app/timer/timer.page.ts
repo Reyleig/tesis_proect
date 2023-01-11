@@ -3,6 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DeportistaService } from '../deportista.service';
 import { UtilitiesService } from '../services/general/utilities.service';
+import { TimesService } from '../services/times/times.service';
 import { SwimmerState } from '../swimmer/store/swimmer.state';
 
 
@@ -35,6 +36,7 @@ export class TimerPage implements OnInit {
     public deportistas: DeportistaService,
     private utilitiesService: UtilitiesService,
     private store: Store,
+    private timesService: TimesService,
 
 
   ) { }
@@ -73,8 +75,17 @@ export class TimerPage implements OnInit {
     .then((result) => {
       if (result.role === 'confirm') {
         console.log(this.swimmer);
-        this.isPlaying = false;
-        this.stopTimer();
+        const bandetasString = JSON.stringify(this.lstBanderas);
+        let data = {
+          "banderas": bandetasString,
+          "time": this.time.value,
+          "id_deportista": this.swimmer.id
+        }        
+        this.timesService.createTimes(data).subscribe((data:any)=>{
+          console.log(data);
+          
+        });
+
       }
     });
     console.log(this.selectorDeportista);

@@ -16,7 +16,7 @@ import { RolUsuarioService } from './rolusuario.service';
 ],
   controllers: [UsuariosController],
   providers: [UsuariosService,EntrenadorDeportistaService,RolUsuarioService],
-  exports: [UsuariosService,EntrenadorDeportistaService,RolUsuarioService],
+  exports: [UsuariosService],
 
 })  
 export class UsuariosModule {}
