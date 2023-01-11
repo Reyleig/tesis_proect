@@ -154,22 +154,19 @@ export class UsuariosService {
     let user: Usuario = await this.findOneByToken(UpdatePasswordDto.token);
     if (!user) {
       this.genericDto.status = HttpStatus.BAD_REQUEST;
-      this.genericDto.message = "The user don't exist";
+      this.genericDto.payload = "The user don't exist";
       return this.genericDto;
     }
     user.password = UpdatePasswordDto.password;
     let result = await this.usersRepository.update(user.id, user);
     if (result.affected == 0) {
       this.genericDto.status = HttpStatus.BAD_REQUEST;
-      this.genericDto.message = "The password was not updated";
+      this.genericDto.payload = "The password was not updated";
       return this.genericDto;
     }
     this.genericDto.status = HttpStatus.OK;
-    this.genericDto.message = "The password was updated";
+    this.genericDto.payload = "The password was updated";
     return this.genericDto;
   }
 
 }
-
-
-

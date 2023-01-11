@@ -21,12 +21,16 @@ import {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Column()
+    id_estilos: number;
+
     constructor(
         id_deportista: number,
         fecha_registro: Date,
         banderas: string,
         time: string,
         id: number,
+        id_estilos: number,
 
     ) {
         this.id_deportista = id_deportista;
@@ -34,6 +38,7 @@ import {
         this.banderas = banderas;
         this.time = time;
         this.id = id;
+        this.id_estilos = id_estilos;
     }
   }
   

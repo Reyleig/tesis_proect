@@ -4,4 +4,5 @@ export class CreateTimesDeportistaDto {
     banderas: string;
     time: string;
     id: number;
+    id_estilos: number;
 }	
