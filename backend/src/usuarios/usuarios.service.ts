@@ -52,15 +52,17 @@ export class UsuariosService {
     return resp[0];
   }
 
-  async findCoachByToken(token: string): Promise<Usuario | undefined> {
+  async findCoachByToken(token: string){
     const resp = await this.usersRepository.find({
       select: ['name', 'apellido', 'edad', 'date', 'celular', 'email', 'idrol'],
       where: {
         token: token,
       },
     });
-
-    return resp[0];
+    
+    this.genericDto.status = HttpStatus.OK;
+    this.genericDto.payload = resp[0];
+    return this.genericDto;
   }
 
   async findOneById(idusuario: number): Promise<Usuario | undefined> {
@@ -154,22 +156,34 @@ export class UsuariosService {
     let user: Usuario = await this.findOneByToken(UpdatePasswordDto.token);
     if (!user) {
       this.genericDto.status = HttpStatus.BAD_REQUEST;
+      this.genericDto.recomendation = "Try again with another user";
       this.genericDto.payload = "The user don't exist";
       return this.genericDto;
     }
+
     if (user.password != UpdatePasswordDto.actualPassword) {
       this.genericDto.status = HttpStatus.BAD_REQUEST;
+      this.genericDto.recomendation = "Try again with the correct password";
       this.genericDto.payload = "The old password is incorrect";
       return this.genericDto;
     }
-    
+
+    if (user.email == UpdatePasswordDto.actualPassword) {
+      this.genericDto.status = HttpStatus.BAD_REQUEST;
+      this.genericDto.recomendation = "Try again with the another password";
+      this.genericDto.payload = "The old password is not valid";
+      return this.genericDto;
+    }
+
     user.password = UpdatePasswordDto.newPassword;
     let result = await this.usersRepository.update(user.id, user);
     if (result.affected == 0) {
       this.genericDto.status = HttpStatus.BAD_REQUEST;
+      this.genericDto.recomendation = "Try again, something went wrong";
       this.genericDto.payload = "The password was not updated";
       return this.genericDto;
     }
+
     this.genericDto.status = HttpStatus.OK;
     this.genericDto.payload = "The password was updated";
     return this.genericDto;

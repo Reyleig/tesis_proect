@@ -36,11 +36,22 @@ export class TimesService {
 
       async findTimesByFilters(id_deportista: number, id_estilos: number, fecha_registro: Date) {
 
-        return await this.timeDeportistaRepository
+        let result = await this.timeDeportistaRepository
           .createQueryBuilder('time_deportista')
           .select(['time_deportista.*'])
           .where('id_deportista = :id_deportista and id_estilos = :id_estilos and fecha_registro = :fecha_registro', { id_deportista, id_estilos, fecha_registro })
           .getRawMany();
+
+          if (result.length == 0) {
+            this.genericDto.status = HttpStatus.BAD_REQUEST;
+            this.genericDto.recomendation = "Try with other filters";
+            this.genericDto.payload = "Don't exist times";
+            return this.genericDto;
+          }
+          
+          this.genericDto.status = HttpStatus.OK;
+          this.genericDto.payload = result;
+          return this.genericDto;
       }
     
 }

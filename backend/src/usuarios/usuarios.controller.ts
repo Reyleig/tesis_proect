@@ -46,7 +46,7 @@ export class UsuariosController {
 
   @Get('/getswimmers/:token/:estado')
   async findSwimmersByIdTraining(@Param('token') token: string, @Param('estado') estado: string) {
-     let token1 = await this.usuariosService.findSwimmersByIdTraining(token, estado);
+    let token1 = await this.usuariosService.findSwimmersByIdTraining(token, estado);
     console.log(token1);
 
     return token1;
@@ -76,11 +76,8 @@ export class UsuariosController {
 
   @Get('/getcoach/:token')
   async findChoachByToken(@Param('token') token: string) {
-     let result = await this.usuariosService.findCoachByToken(token);
-    this.genericDto.status = HttpStatus.OK;
-    this.genericDto.payload = result;
-
-    return this.genericDto;
+    let result = await this.usuariosService.findCoachByToken(token);
+    return result;
   }
 
 }
