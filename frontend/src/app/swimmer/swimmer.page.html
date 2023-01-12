@@ -6,12 +6,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-buttons
-      expand="block"
-      slot="end"
-      style="zoom: 2; margin-right: 10px"
-      (click)="creatFormSwimmer(true)"
-    > 
+    <ion-buttons expand="block" slot="end" style="zoom: 2; margin-right: 10px" (click)="creatFormSwimmer(true)">
       <ion-icon name="person-add-outline"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
@@ -19,31 +14,28 @@
 
 <ion-content style="padding: 10px;">
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="chevron-down-circle-outline"
-      pullingText="Pull to refresh"
-      refreshingSpinner="circles"
-      refreshingText="Refreshing..."
-    >
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles" refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
 
   <div class="container">
     <h1>Activos</h1>
     <mat-accordion>
-      <mat-expansion-panel
-        *ngFor="let item of swimmers"
-        style="margin-bottom: 10px"
-      >
+      <mat-expansion-panel *ngFor="let item of swimmers" style="margin-bottom: 10px">
         <mat-expansion-panel-header>
           <mat-panel-title> {{item.name}} {{item.apellido}} </mat-panel-title>
           <mat-panel-description> </mat-panel-description>
         </mat-expansion-panel-header>
-        <p>{{item.edad}}</p>
-        <p>{{item.categoria}}</p>
+        <p>Edad: {{item.edad}}</p>
+        <p>Mejor Tiempo: </p>
+        <p>Estilo: </p>
+        <p>Fecha:</p>
+
+
         <div class="div-inactivar">
           <ion-label style="flex: 1;">Activo</ion-label>
-          <ion-toggle (click)="inactivarSwimmer(item)"slot="end" [checked]=item.estado></ion-toggle>
+          <ion-toggle (click)="inactivarSwimmer(item)" slot="end" [checked]=item.estado></ion-toggle>
         </div>
 
 
@@ -58,20 +50,18 @@
     <h1>Inactivos</h1>
 
     <mat-accordion>
-      <mat-expansion-panel
-        *ngFor="let item of swimmersInactive"
-        style="margin-bottom: 10px"
-      >
+      <mat-expansion-panel *ngFor="let item of swimmersInactive" style="margin-bottom: 10px">
         <mat-expansion-panel-header>
           <mat-panel-title> {{item.name}} {{item.apellido}} </mat-panel-title>
           <mat-panel-description> </mat-panel-description>
         </mat-expansion-panel-header>
-        <p>{{item.id}}</p>
-        <p>{{item.edad}}</p>
-        <p>{{item.categoria}}</p>
+        <p>Edad: {{item.edad}}</p>
+        <p>Mejor Tiempo: </p>
+        <p>Estilo: </p>
+        <p>Fecha:</p>
         <div class="div-inactivar">
           <ion-label style="flex: 1;">Activo</ion-label>
-          <ion-toggle (click)="inactivarSwimmer(item)"slot="end" [checked]=item.estado></ion-toggle>
+          <ion-toggle (click)="inactivarSwimmer(item)" slot="end" [checked]=item.estado></ion-toggle>
         </div>
 
 
@@ -91,8 +81,7 @@
           <ion-buttons slot="start">
             <ion-button (click)="cancel(false)">Cancel</ion-button>
           </ion-buttons>
-          <ion-title [innerHTML]="tittleModal" style="font-size: 15px; text-align: center"
-            ></ion-title>
+          <ion-title [innerHTML]="tittleModal" style="font-size: 15px; text-align: center"></ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="confirm(false)" [strong]="true">Confirm</ion-button>
           </ion-buttons>
@@ -102,72 +91,38 @@
         <form [formGroup]="swimmerForm" (ngSubmit)="login()">
           <ion-item *ngIf="false">
             <ion-label position="stacked">Enter your name*</ion-label>
-            <ion-input
-              type="number"
-              placeholder="id"
-              formControlName="id"
-            ></ion-input>
+            <ion-input type="number" placeholder="id" formControlName="id"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="stacked">Enter your name*</ion-label>
-            <ion-input
-              type="text"
-              placeholder="name"
-              formControlName="name"
-            ></ion-input>
+            <ion-input type="text" placeholder="name" formControlName="name"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="stacked">Enter your last name*</ion-label>
-            <ion-input
-              type="text"
-              placeholder="last name"
-              formControlName="apellido"
-            ></ion-input>
+            <ion-input type="text" placeholder="last name" formControlName="apellido"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="stacked">Enter your age*</ion-label>
-            <ion-input
-              type="number"
-              placeholder="age"
-              formControlName="edad"
-            ></ion-input>
+            <ion-input type="number" placeholder="age" formControlName="edad"></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label position="stacked">Day of birth*</ion-label>
-            <ion-input
-              type="date"
-              placeholder="yyyy-mm-dd"
-              formControlName="date"
-            ></ion-input>
+            <ion-input type="date" placeholder="yyyy-mm-dd" formControlName="date"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="stacked">Enter your celphone*</ion-label>
-            <ion-input
-              type="tel"
-              placeholder="celphone"
-              formControlName="celular"
-            ></ion-input>
+            <ion-input type="tel" placeholder="celphone" formControlName="celular"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="stacked">Enter your email*</ion-label>
-            <ion-input
-              type="email"
-              placeholder="email"
-              formControlName="email"
-            ></ion-input>
+            <ion-input type="email" placeholder="email" formControlName="email"></ion-input>
           </ion-item>
           <ion-list>
             <ion-item>
-              <ion-select
-                formControlName="categoria"
-                interface="popover"
-                placeholder="Select category*"
-              >
+              <ion-select formControlName="categoria" interface="popover" placeholder="Select category*">
                 <ion-select-option value="novato">Novato</ion-select-option>
-                <ion-select-option value="intermedio"
-                  >Intermedio</ion-select-option
-                >
+                <ion-select-option value="intermedio">Intermedio</ion-select-option>
                 <ion-select-option value="experto">Experto</ion-select-option>
               </ion-select>
             </ion-item>

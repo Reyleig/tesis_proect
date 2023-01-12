@@ -7,6 +7,7 @@ import { ResetUser } from '../login/store/user.actions';
 import { UserState } from '../login/store/user.state';
 import { UtilitiesService } from '../services/general/utilities.service';
 import { MenuController } from '@ionic/angular'; 
+import { SwimmerState } from '../swimmer/store/swimmer.state';
 
 
 @Component({
@@ -16,9 +17,11 @@ import { MenuController } from '@ionic/angular';
 })
 export class InicioPage implements OnInit {
   @Select(UserState) user$!: Observable<any>;
+  @Select(SwimmerState) swimmer$!: Observable<any>;
   @ViewChild(IonModal) modal: IonModal;
 
   username: string;
+  swimmer: any;
   isModalOpen = false;
 
 
@@ -35,6 +38,9 @@ export class InicioPage implements OnInit {
       if (data.token) {
         this.username = data.username;
       }
+    }).unsubscribe();
+    this.swimmer$.subscribe((data: any) => {
+        this.swimmer = data.name;
     }).unsubscribe();
   }
 
@@ -67,6 +73,14 @@ export class InicioPage implements OnInit {
         this.router.navigateByUrl('/swimmer');
         break;
       case 2:
+        if (Object.keys(this.swimmer).length === 0) {
+          this.utilitiesService.infoAlert('Debe seleccionar un deportista').then((result) => {
+            if (result.role === 'confirm') {
+            this.router.navigate(['/swimmer']);
+            }
+          });
+          return;
+        }
         this.router.navigateByUrl('/timer');
         break;
       case 3:

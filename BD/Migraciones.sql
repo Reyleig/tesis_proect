@@ -121,3 +121,7 @@ create table time_deportista
 
 );
 
+ 
+--2023/01/11 smorales 
+alter table usuarios
+    alter column estado set default 'A';

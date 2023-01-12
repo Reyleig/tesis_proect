@@ -35,19 +35,19 @@ export class SwimmerPage implements OnInit {
   tittleModal: string;
   isEdit = false;
 
-  public swimmerForm = this.formBuilder.group({
-    id: ['',[]],
-    email: ['a@h.com', [Validators.required, Validators.minLength(3)]],
-    name: ['Carlitos', [Validators.required, Validators.minLength(3)]],
-    apellido: ['Coloradito', [Validators.required, Validators.minLength(3)]],
-    celular: ['3006629947', [Validators.required, Validators.minLength(3)]],
-    edad: [30, [Validators.required, Validators.minLength(1)]],
+  swimmerForm = this.formBuilder.group({
+    id: ['', []],
+    email: ['', [Validators.required, Validators.minLength(3)]],
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    apellido: ['', [Validators.required, Validators.minLength(3)]],
+    celular: ['', [Validators.required, Validators.minLength(3)]],
+    edad: [0, [Validators.required, Validators.minLength(1)]],
     date: [
       this.date.getDate() +
-        '/' +
-        this.date.getMonth() +
-        '/' +
-        this.date.getDay(),
+      '/' +
+      this.date.getMonth() +
+      '/' +
+      this.date.getDay(),
       [Validators.required, Validators.minLength(3)],
     ],
     categoria: ['Intermedio', [Validators.required, Validators.minLength(3)]],
@@ -58,7 +58,6 @@ export class SwimmerPage implements OnInit {
     private router: Router,
     public deportistas: DeportistaService,
     private store: Store,
-    private alertController: AlertController,
     private formBuilder: FormBuilder,
     private utilitiesService: UtilitiesService,
 
@@ -77,28 +76,10 @@ export class SwimmerPage implements OnInit {
   ngOnInit() {
     this.getSwimmear();
     this.getSwimmearInactive();
-
-    // this.swimmerForm = this.formBuilder.group({
-    //   email: ['a@h.com', [Validators.required, Validators.minLength(3)]],
-    //   name: ['Carlitos', [Validators.required, Validators.minLength(3)]],
-    //   apellido: ['Coloradito', [Validators.required, Validators.minLength(3)]],
-    //   celular: ['3006629947', [Validators.required, Validators.minLength(3)]],
-    //   edad: ['30', [Validators.required]],
-    //   date: [
-    //     this.date.getFullYear() +
-    //       '-' +
-    //       this.date.getMonth() +
-    //       1 +
-    //       '-' +
-    //       this.date.getDate(),
-    //     [Validators.required, Validators.minLength(3)],
-    //   ],
-    //   categoria: ['Intermedio', [Validators.required, Validators.minLength(3)]],
-    // });
   }
+
   handleRefresh(event) {
     setTimeout(() => {
-      // Any calls to load data go here
       this.getSwimmear();
       this.getSwimmearInactive();
       event.target.complete();
@@ -110,24 +91,17 @@ export class SwimmerPage implements OnInit {
   }
 
   confirm(isOpen: boolean) {
-    // console.log(this.swimmerForm.valid);
     this.swimmerDto = this.swimmerForm.value;
     console.log(this.swimmerForm.valid);
     if (this.swimmerForm.valid) {
       this.isModalOpen = isOpen;
       this.modal.dismiss(this.name, 'confirm');
-      console.log(this.isEdit);
-      
       if (this.isEdit) {
-        console.log('entro');
-        
         this.swimmerService.updateSwimmers(this.swimmerDto).subscribe((response) => {
           console.log(response);
           if (response) {
-            console.log('entro');
             this.resetFrom();
           } else {
-            console.log(response);
             this.utilitiesService.errorAlert(
               'Error al crear deportista',
               'Intente de nuevo'
@@ -135,35 +109,28 @@ export class SwimmerPage implements OnInit {
           }
         });
 
-      }else{
+      } else {
         this.swimmerDto.idrol = 3;
         this.swimmerDto.token = this.token;
         this.swimmerService.addSwimmers(this.swimmerDto).subscribe((response) => {
-          console.log(response);
           if (response) {
-            console.log('entroaaaaa');
-        this.resetFrom();
-  
+            this.resetFrom();
           } else {
-            console.log(response);
-  
             this.utilitiesService.errorAlert(
               'Error al crear deportista',
               'Intente de nuevo'
-            );        
+            );
           }
         });
       }
-      
+
     }
   }
 
   getSwimmear() {
     this.swimmers = [];
-    this.swimmerService.getSwimmers(this.token,'A').subscribe((response) => {
-      console.log(response);
+    this.swimmerService.getSwimmers(this.token, 'A').subscribe((response) => {
       if (response) {
-        console.log('entro');
         this.swimmers = response;
         for (let i = 0; i < this.swimmers.length; i++) {
           this.swimmers[i].estado = this.swimmers[i].estado == 'A' ? true : false;
@@ -172,6 +139,7 @@ export class SwimmerPage implements OnInit {
       }
     });
   }
+  
   editarSwimmer(swimmer) {
     this.tittleModal = 'Editar <br />  Deportista';
     this.isEdit = true;
@@ -188,25 +156,27 @@ export class SwimmerPage implements OnInit {
   }
   getSwimmearInactive() {
     this.swimmersInactive = [];
-    this.swimmerService.getSwimmers(this.token,'I').subscribe((response) => {
+    this.swimmerService.getSwimmers(this.token, 'I').subscribe((response) => {
       console.log(response);
       if (response) {
         console.log('entro');
         this.swimmersInactive = response;
-        //recorrer el swimmersInactive y cambiar estado a true o false
         for (let i = 0; i < this.swimmersInactive.length; i++) {
           this.swimmersInactive[i].estado = this.swimmersInactive[i].estado == 'A' ? true : false;
         }
-      
+
       }
     });
   }
   creatFormSwimmer(isOpen: boolean) {
     this.tittleModal = 'Crear <br /> Deportista';
+    if (this.isEdit) {
+      this.resetFrom();
+    }
+
     this.isEdit = false;
     console.log(this.swimmerForm.value);
     this.isModalOpen = isOpen;
-    //poner fecha actual al formulario date
     this.swimmerForm.value.date =
       this.date.getDay() +
       '/' +
@@ -214,7 +184,6 @@ export class SwimmerPage implements OnInit {
       '/' +
       this.date.getFullYear();
 
-    // this.addSwimmer();
   }
 
   tomarTiempo(obj) {
@@ -226,7 +195,7 @@ export class SwimmerPage implements OnInit {
   inactivarSwimmer(obj) {
     console.log(obj);
 
-    this.swimmerService.inactivateSwimmer(this.token,obj.id,obj.estado).subscribe((response) => {
+    this.swimmerService.inactivateSwimmer(this.token, obj.id, obj.estado).subscribe((response) => {
       console.log(response);
       if (true) {
         console.log('entro');
@@ -236,61 +205,11 @@ export class SwimmerPage implements OnInit {
 
       }
     });
-
-
-    
-
-  }
-
-  async addSwimmer() {
-    const alert = await this.alertController.create({
-      header: 'Please enter your info',
-      buttons: ['OK'],
-      inputs: [
-        {
-          type: 'text',
-          placeholder: 'Nombre',
-        },
-        {
-          type: 'text',
-          placeholder: 'Apellido',
-        },
-        {
-          type: 'number',
-          placeholder: 'Edad',
-          min: 1,
-          max: 100,
-        },
-        {
-          type: 'tel',
-          placeholder: 'Celular',
-          min: 1,
-          max: 100,
-        },
-        {
-          type: 'email',
-          placeholder: 'Correo',
-          attributes: {
-            maxlength: 8,
-          },
-        },
-        {
-          type: 'text',
-          placeholder: 'Categoria',
-        },
-        {
-          type: 'textarea',
-          placeholder: 'A little about yourself',
-        },
-      ],
-    });
-
-    await alert.present();
   }
 
   resetFrom() {
     this.swimmerForm = this.formBuilder.group({
-      id: ['',[]],
+      id: ['', []],
       email: ['', [Validators.required, Validators.minLength(3)]],
       name: ['', [Validators.required, Validators.minLength(3)]],
       apellido: ['', [Validators.required, Validators.minLength(3)]],
@@ -298,10 +217,10 @@ export class SwimmerPage implements OnInit {
       edad: [0, [Validators.required, Validators.minLength(1)]],
       date: [
         this.date.getDate() +
-          '/' +
-          this.date.getMonth() +
-          '/' +
-          this.date.getDay(),
+        '/' +
+        this.date.getMonth() +
+        '/' +
+        this.date.getDay(),
         [Validators.required, Validators.minLength(3)],
       ],
       categoria: ['', [Validators.required, Validators.minLength(3)]],

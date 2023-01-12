@@ -20,12 +20,13 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { TrainingPage } from './training/training.page';
 import { StatsPage } from './stats/stats.page';
 import { SwimmerState } from './swimmer/store/swimmer.state';
+import { TimerState } from './timer/store/timer.state';
 
 
 
 
 @NgModule({
-    declarations: [AppComponent, TimerPage, TrainingPage,StatsPage],
+    declarations: [AppComponent, TrainingPage,StatsPage],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),
@@ -33,10 +34,10 @@ import { SwimmerState } from './swimmer/store/swimmer.state';
         HttpClientModule,
         BrowserAnimationsModule,
         MatExpansionModule,
-        NgxsModule.forRoot([UserState,SwimmerState], {
+        NgxsModule.forRoot([UserState,SwimmerState,TimerState], {
             developmentMode: !environment.production
         }),
-        NgxsStoragePluginModule.forRoot({ key: ['user','swimmer'] }),
+        NgxsStoragePluginModule.forRoot({ key: ['user','swimmer','timer'] }),
 
         NgxsReduxDevtoolsPluginModule.forRoot(),
     ],
