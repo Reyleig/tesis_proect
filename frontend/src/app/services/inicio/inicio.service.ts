@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class TimesService {
+export class InicioService {
 
   urlBase= environment.url
   httpHeader = {
@@ -17,20 +17,14 @@ export class TimesService {
 
   constructor(  private http: HttpClient,) { }
 
-  createTimes(form): Observable<any> {
-    return this.http.post<any>(environment.url+'/times/create', form, this.httpHeader)
+  
+  cambiarPassword(cambiarPassword:any): Observable<any> {
+    return this.http.post<any>(environment.url+'/usuarios/updatepassword',cambiarPassword, this.httpHeader)
       .pipe(
-        catchError(this.handleError<any>('Create Times'))
+        catchError(this.handleError<any>('cambiar password'))
       );
   }
 
-  getEstilos(): Observable<any> {
-    return this.http.get<any>(environment.url+'/estilos-nado', this.httpHeader)
-      .pipe(
-        catchError(this.handleError<any>('Get Estilos Nado'))
-      );
-  }
-  
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
@@ -38,7 +32,5 @@ export class TimesService {
       return of(result as T);
     };
   }
-
+  
 }
-
-

@@ -54,7 +54,8 @@ export class TimerPage implements OnInit, OnDestroy {
   nameSwimmer = '';
   isModalOpen = false;
   swimmers = [];
-  tittleModal: string = 'Seleccionar<br> nadador';
+  tittleModal: string = 'Seleccionar nadador';
+  estilos = [];
 
 
   timerForm = this.formBuilder.group({
@@ -73,8 +74,8 @@ export class TimerPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.timerForm.controls['estilos'].setValue('1');
-    
+    this.getEstilos();    
+
     this.swimmer$.subscribe((data: any) => {
       this.swimmer = data.name;
       this.nameSwimmer = this.swimmer.name;
@@ -86,26 +87,36 @@ export class TimerPage implements OnInit, OnDestroy {
       if (this.timer.time != '00:00:00') {
         this.timerForm.controls['estilos'].setValue(this.timer.id_estilo);
         this.time.next(this.timer.time);
-        this.isPlaying = true;        
+        this.isPlaying = true;
         this.obtenerTime(this.timer.milisegundos);
-          let banderas = JSON.parse(this.timer.banderas);
-          for (let i = 0; i < banderas.length; i++) {
-            this.lstBanderas.push(banderas[i]);
-          }
+        let banderas = JSON.parse(this.timer.banderas);
+        for (let i = 0; i < banderas.length; i++) {
+          this.lstBanderas.push(banderas[i]);
+        }
 
-          if (this.lstBanderas.length > 0) {
-            this.mostrarBanderas = true;
-          }
+        if (this.lstBanderas.length > 0) {
+          this.mostrarBanderas = true;
+        }
       }
     }).unsubscribe();
 
-    this.user$.subscribe((data: any) => {    
+    this.user$.subscribe((data: any) => {
       this.user = data;
     }).unsubscribe();
   }
 
+  getEstilos() {
+    this.timesService.getEstilos().subscribe((response) => {
+      if (response) {
+        this.estilos = response.payload;
+        this.timerForm.controls['estilos'].setValue('1');
 
-  cambiarSwimmer(event) {    
+      }
+    });
+  }
+
+
+  cambiarSwimmer(event) {
     this.utilitiesService.infoAlert('¿Está seguro que desea cambiar de nadador?').then((response) => {
       if (response.role == 'confirm') {
         this.store.dispatch(new AddSwimmer(event));
@@ -114,7 +125,7 @@ export class TimerPage implements OnInit, OnDestroy {
       }
     });
   }
-  
+
 
   abrirModal() {
     this.isModalOpen = true;
@@ -139,12 +150,12 @@ export class TimerPage implements OnInit, OnDestroy {
   }
 
   //sacar minutos y segundos y milisegundos de milisegundosTotales
-    obtenerTime (milisegundosTotales) {
+  obtenerTime(milisegundosTotales) {
     this.minutes = Math.floor(milisegundosTotales / 6000);
     this.seconds = Math.floor((milisegundosTotales % 6000) / 100);
-    this.milliseconds =  Math.floor(milisegundosTotales % 100);
+    this.milliseconds = Math.floor(milisegundosTotales % 100);
     this.millisecondsTotal = milisegundosTotales;
-    this.interval= null;
+    this.interval = null;
   }
 
 
@@ -216,7 +227,7 @@ export class TimerPage implements OnInit, OnDestroy {
     }
   }
 
-  updateTimeValue() {   
+  updateTimeValue() {
     this.milliseconds++;
     this.millisecondsTotal++;
     if (this.milliseconds / 100 === 1) {
@@ -273,7 +284,7 @@ export class TimerPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    
+
   }
 
 

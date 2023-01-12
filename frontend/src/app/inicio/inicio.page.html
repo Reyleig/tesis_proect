@@ -1,4 +1,4 @@
-<ion-menu contentId="main-content" >
+<ion-menu contentId="main-content">
   <ion-header>
     <ion-toolbar>
       <ion-item>
@@ -12,12 +12,16 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  <ion-content >
+  <ion-content>
     <ion-menu-toggle>
-      <ion-list >
-        <ion-item button (click)="abrirModal()"  detail="true" lines="inset">
-          <ion-icon name="key-outline"  slot="start"></ion-icon>
+      <ion-list>
+        <ion-item button (click)="abrirModal()" detail="true" lines="inset">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
           <ion-label>Cuenta</ion-label>
+        </ion-item>
+        <ion-item button (click)="abrirModal()" detail="true" lines="inset">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          <ion-label>Cambiar password</ion-label>
         </ion-item>
       </ion-list>
     </ion-menu-toggle>
@@ -27,53 +31,138 @@
 
 <div class="ion-page" id="main-content">
   <ion-header>
-    <ion-toolbar>
-      
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>Home</ion-title>
-      <ion-buttons (click)="logout()" fill="clear" slot="end" class="button-native"  style="zoom: 2; margin-right: 10px">
-        <ion-icon name="exit-outline"></ion-icon>
-      </ion-buttons>
-    </ion-toolbar>
+    <div class="toolbar-container" style="height: 56px;">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Home</ion-title>
+        <ion-buttons (click)="logout()" fill="clear" slot="end" class="button-native" style="zoom: 2; margin-right: 10px">
+          <ion-icon name="exit-outline"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </div>
+
   </ion-header>
-<ion-content>
+  <ion-content>
 
-  <div class="container-logo">
-    <ion-icon name="person" style="zoom:5.0;"></ion-icon>
-    <p style="margin: 20px 0;">{{username}}</p>
-  </div>
+    <div class="container-logo">
+      <ion-icon name="person" style="zoom:5.0;"></ion-icon>
+      <p style="margin: 20px 0;">{{username}}</p>
+    </div>
 
-  <div class="conten-menu">
-    <div class="btn-content">
-      <ion-button (click)="opctionsMenu(1)" fill="clear" type="submit" mat-icon-button aria-label="login" class="btn-menu-left"
-        style="border-radius: 0 35px 0 0;">
-        <ion-icon name="people" style="zoom:5.0;"></ion-icon>
-        <ion-label style="position: absolute;
+    <div class="conten-menu">
+      <div class="btn-content">
+        <ion-button (click)="opctionsMenu(1)" fill="clear" type="submit" mat-icon-button aria-label="login"
+          class="btn-menu-left" style="border-radius: 0 35px 0 0;">
+          <ion-icon name="people" style="zoom:5.0;"></ion-icon>
+          <ion-label style="position: absolute;
         bottom: 40px;">Swimmer</ion-label>
-      </ion-button>
-      <ion-button (click)="opctionsMenu(2)" fill="clear" type="submit" mat-icon-button aria-label="login" class="btn-menu-righ"
-        style="border-radius: 35px 0 0 0;">
-        <ion-icon name="timer-outline" style="zoom:4.9;"></ion-icon>
-        <ion-label style="position: absolute;
+        </ion-button>
+        <ion-button (click)="opctionsMenu(2)" fill="clear" type="submit" mat-icon-button aria-label="login"
+          class="btn-menu-righ" style="border-radius: 35px 0 0 0;">
+          <ion-icon name="timer-outline" style="zoom:4.9;"></ion-icon>
+          <ion-label style="position: absolute;
         bottom: 40px;">Timer</ion-label>
-      </ion-button>
-    </div>
-    <div class="btn-content">
-      <ion-button (click)="opctionsMenu(3)" fill="clear" type="submit" mat-icon-button aria-label="login" class="btn-menu-left">
-        <ion-icon name="file-tray-full" style="zoom:5.0;"></ion-icon>
-        <ion-label style="position: absolute;
+        </ion-button>
+      </div>
+      <div class="btn-content">
+        <ion-button (click)="opctionsMenu(3)" fill="clear" type="submit" mat-icon-button aria-label="login"
+          class="btn-menu-left">
+          <ion-icon name="file-tray-full" style="zoom:5.0;"></ion-icon>
+          <ion-label style="position: absolute;
         bottom: 40px;">Training</ion-label>
-      </ion-button>
-      <ion-button (click)="opctionsMenu(4)" fill="clear" type="submit" mat-icon-button aria-label="login" class="btn-menu-righ">
-        <ion-icon name="stats-chart" style="zoom:4.0;"></ion-icon>
-        <ion-label style="position: absolute;
+        </ion-button>
+        <ion-button (click)="opctionsMenu(4)" fill="clear" type="submit" mat-icon-button aria-label="login"
+          class="btn-menu-righ">
+          <ion-icon name="stats-chart" style="zoom:4.0;"></ion-icon>
+          <ion-label style="position: absolute;
         bottom: 40px;">Stats</ion-label>
-      </ion-button>
+        </ion-button>
+      </div>
     </div>
-  </div>
 
+    <ion-modal>
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="cerrarModal()">Cancel</ion-button>
+            </ion-buttons>
+            <ion-title [innerHTML]="tittleModal" style="font-size: 15px; text-align: center"></ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="cambiarPassword()" [strong]="true">Confirm</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <form [formGroup]="form">
+            <ion-item>
+              <ion-label position="floating" for="password">Password anterior
+
+              </ion-label>
+              <ion-input type="password" formControlName="password" class="form-control" id="password" [class.valid]="form.get('password').valid && 
+              (form.get('password').dirty || form.get('password').touched)" [class.invalid]="form.get('password').invalid && 
+              (form.get('password').dirty || form.get('password').touched)"></ion-input>
+            </ion-item>
+            <div *ngIf="form.get('password').invalid && 
+        form.get('password').errors && 
+        (form.get('password').dirty || form.get('password').touched)">
+              <small class="text-danger" *ngIf="form.get('password').hasError('required')">
+                This field is required.
+              </small>
+              <small class="text-danger" *ngIf="form.get('password').hasError('minlength')">
+                The minimum length for this field is {{form.get('password').errors.minlength.requiredLength}}
+                characters.
+              </small>
+              <small class="text-danger" *ngIf="form.get('password').hasError('maxlength')">
+                The maximum length for this field is {{form.get('password').errors.maxlength.requiredLength}}
+                characters.
+              </small>
+            </div>
+            <ion-item>
+              <ion-label position="floating">Password nueva</ion-label>
+              <ion-input type="password" formControlName="newPassword"></ion-input>
+            </ion-item>
+            <div *ngIf="form.get('newPassword').invalid && 
+            form.get('newPassword').errors && 
+            (form.get('newPassword').dirty || form.get('newPassword').touched)">
+                  <small class="text-danger" *ngIf="form.get('newPassword').hasError('required')">
+                    This field is required.
+                  </small>
+                  <small class="text-danger" *ngIf="form.get('newPassword').hasError('minlength')">
+                    The minimum length for this field is {{form.get('newPassword').errors.minlength.requiredLength}}
+                    characters.
+                  </small>
+                  <small class="text-danger" *ngIf="form.get('newPassword').hasError('maxlength')">
+                    The maximum length for this field is {{form.get('newPassword').errors.maxlength.requiredLength}}
+                    characters.
+                  </small>
+                </div>
+            <ion-item>
+              <ion-label position="floating">Confirmar password</ion-label>
+              <ion-input type="password" formControlName="confirmPassword"></ion-input>
+            </ion-item>
+            <div *ngIf="form.get('confirmPassword').invalid && 
+            form.get('confirmPassword').errors && 
+            (form.get('confirmPassword').dirty || form.get('confirmPassword').touched)">
+                  <small class="text-danger" *ngIf="form.get('confirmPassword').hasError('required')">
+                    This field is required.
+                  </small>
+                  <small class="text-danger" *ngIf="form.get('confirmPassword').hasError('minlength')">
+                    The minimum length for this field is {{form.get('confirmPassword').errors.minlength.requiredLength}}
+                    characters.
+                  </small>
+                  <small class="text-danger" *ngIf="form.get('confirmPassword').hasError('maxlength')">
+                    The maximum length for this field is {{form.get('confirmPassword').errors.maxlength.requiredLength}}
+                    characters.
+                  </small>
+                </div>
+          </form>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <!-- 
   <ion-modal [isOpen]="isModalOpen">
     <ng-template>
       <ion-header>
@@ -164,6 +253,6 @@
         </form>
       </ion-content>
     </ng-template>
-  </ion-modal>
-</ion-content>
+  </ion-modal> -->
+  </ion-content>
 </div>

@@ -14,9 +14,7 @@
   <ion-list>
     <ion-item>
       <ion-select formControlName="estilos" placeholder="Selecione estilo">
-        <ion-select-option value="1">Libre</ion-select-option>
-        <ion-select-option value="2">Mariposa</ion-select-option>
-        <ion-select-option value="3">Espalda</ion-select-option>
+        <ion-select-option *ngFor="let item of this.estilos" value="{{item.id}}">{{item.descripcion}}</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
