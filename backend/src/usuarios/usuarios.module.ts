@@ -9,13 +9,14 @@ import { AuthModule } from 'src/auth/auth.module';
 import { EntrenadorDeportistaService } from './entrenadordeportista.service';
 import { RolUsuario } from './entities/usuario-rol.entity';
 import { RolUsuarioService } from './rolusuario.service';
+import { UtilityService } from '../general/utility.service';
 
 
 @Module({
   imports: [TypeOrmModule.forFeature([Usuario,EntrenadorDeportista,RolUsuario]), 
 ],
   controllers: [UsuariosController],
-  providers: [UsuariosService,EntrenadorDeportistaService,RolUsuarioService],
+  providers: [UsuariosService,EntrenadorDeportistaService,RolUsuarioService,UtilityService],
   exports: [UsuariosService],
 
 })  

@@ -1,7 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { GenericDto } from '../general/generic.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
@@ -12,15 +11,16 @@ import { EntrenadorDeportista } from './entities/entrenador_deportista.entity';
 import { EntrenadorDeportistaService } from './entrenadordeportista.service';
 import { UsuarioRolDto } from './dto/usuario-rol.dto';
 import { RolUsuarioService } from './rolusuario.service';
+import { UtilityService } from '../general/utility.service';
 
 @Injectable()
 export class UsuariosService {
-  genericDto: GenericDto = new GenericDto();
   constructor(
     @InjectRepository(Usuario)
     private usersRepository: Repository<Usuario>,
     private entrenadorDeportistaService: EntrenadorDeportistaService,
     private rolUsuarioService: RolUsuarioService,
+    private utilityService: UtilityService,
   ) { }
 
   create(createUsuarioDto: CreateUsuarioDto) {
@@ -52,17 +52,14 @@ export class UsuariosService {
     return resp[0];
   }
 
-  async findCoachByToken(token: string){
+  async findCoachByToken(token: string) {
     const resp = await this.usersRepository.find({
       select: ['name', 'apellido', 'edad', 'date', 'celular', 'email', 'idrol'],
       where: {
         token: token,
       },
     });
-    
-    this.genericDto.status = HttpStatus.OK;
-    this.genericDto.payload = resp[0];
-    return this.genericDto;
+    return await this.utilityService.serviceResponse(HttpStatus.OK, resp[0]);
   }
 
   async findOneById(idusuario: number): Promise<Usuario | undefined> {
@@ -155,38 +152,23 @@ export class UsuariosService {
 
     let user: Usuario = await this.findOneByToken(UpdatePasswordDto.token);
     if (!user) {
-      this.genericDto.status = HttpStatus.BAD_REQUEST;
-      this.genericDto.recomendation = "Try again with another user";
-      this.genericDto.payload = "The user don't exist";
-      return this.genericDto;
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user don't exist", "Try again with another user");
     }
 
     if (user.password != UpdatePasswordDto.actualPassword) {
-      this.genericDto.status = HttpStatus.BAD_REQUEST;
-      this.genericDto.recomendation = "Try again with the correct password";
-      this.genericDto.payload = "The old password is incorrect";
-      return this.genericDto;
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The old password is incorrect", "Try again with the correct password");
     }
 
     if (user.email == UpdatePasswordDto.actualPassword) {
-      this.genericDto.status = HttpStatus.BAD_REQUEST;
-      this.genericDto.recomendation = "Try again with the another password";
-      this.genericDto.payload = "The old password is not valid";
-      return this.genericDto;
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The old password is not valid", "Try again with the another password");
     }
 
     user.password = UpdatePasswordDto.newPassword;
     let result = await this.usersRepository.update(user.id, user);
     if (result.affected == 0) {
-      this.genericDto.status = HttpStatus.BAD_REQUEST;
-      this.genericDto.recomendation = "Try again, something went wrong";
-      this.genericDto.payload = "The password was not updated";
-      return this.genericDto;
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The password was not updated", "Try again, something went wrong");
     }
-
-    this.genericDto.status = HttpStatus.OK;
-    this.genericDto.payload = "The password was updated";
-    return this.genericDto;
+    return await this.utilityService.serviceResponse(HttpStatus.OK, "The password was updated");
   }
 
 }

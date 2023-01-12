@@ -3,55 +3,45 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { Repository } from 'typeorm';
 import { TimeDeportista } from './entities/time_deportista.entity';
-import { GenericDto } from '../general/generic.dto';
+import { UtilityService } from '../general/utility.service';
+
 
 @Injectable()
 export class TimesService {
-    genericDto = new GenericDto();
+  constructor(
+    @InjectRepository(TimeDeportista)
+    private timeDeportistaRepository: Repository<TimeDeportista>,
+    private usuariosService: UsuariosService,
+    private utilityService: UtilityService,
 
-    constructor(
-        @InjectRepository(TimeDeportista)
-        private timeDeportistaRepository: Repository<TimeDeportista>,
-        private usuariosService: UsuariosService,
-      ) {}
+  ) { }
 
-    async create(createTimesDeportistaDto: TimeDeportista) {
+  async create(createTimesDeportistaDto: TimeDeportista) {
 
-      if (createTimesDeportistaDto.id_deportista) {
-        let usuario = await this.usuariosService.findOneById(createTimesDeportistaDto.id_deportista);
-        if (usuario) {
-          let save = (await this.timeDeportistaRepository.save(createTimesDeportistaDto));
-          if (save) {
-            this.genericDto.status = HttpStatus.OK;
-            this.genericDto.payload = 'Time creado';
-            return this.genericDto;
-          }
+    if (createTimesDeportistaDto.id_deportista) {
+      let usuario = await this.usuariosService.findOneById(createTimesDeportistaDto.id_deportista);
+      if (usuario) {
+        let save = (await this.timeDeportistaRepository.save(createTimesDeportistaDto));
+        if (save) {
+          return await this.utilityService.serviceResponse(HttpStatus.OK, "Time was created");
         }
       }
-      this.genericDto.status = HttpStatus.BAD_REQUEST;
-      this.genericDto.recomendation = 'Comuniquese con el administrador';
-      this.genericDto.payload = 'Error al crear Time';
-      return  this.genericDto;
-      }
+    }
+    return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "Error al crear Time", "Comuniquese con el administrador");
+  }
 
-      async findTimesByFilters(id_deportista: number, id_estilos: number, fecha_registro: Date) {
+  async findTimesByFilters(id_deportista: number, id_estilos: number, fecha_registro: Date) {
 
-        let result = await this.timeDeportistaRepository
-          .createQueryBuilder('time_deportista')
-          .select(['time_deportista.*'])
-          .where('id_deportista = :id_deportista and id_estilos = :id_estilos and fecha_registro = :fecha_registro', { id_deportista, id_estilos, fecha_registro })
-          .getRawMany();
+    let result = await this.timeDeportistaRepository
+      .createQueryBuilder('time_deportista')
+      .select(['time_deportista.*'])
+      .where('id_deportista = :id_deportista and id_estilos = :id_estilos and fecha_registro = :fecha_registro', { id_deportista, id_estilos, fecha_registro })
+      .getRawMany();
 
-          if (result.length == 0) {
-            this.genericDto.status = HttpStatus.BAD_REQUEST;
-            this.genericDto.recomendation = "Try with other filters";
-            this.genericDto.payload = "Don't exist times";
-            return this.genericDto;
-          }
-          
-          this.genericDto.status = HttpStatus.OK;
-          this.genericDto.payload = result;
-          return this.genericDto;
-      }
-    
+    if (result.length == 0) {
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "Don't exist times", "Try with other filters");
+    }
+    return await this.utilityService.serviceResponse(HttpStatus.OK, result);
+  }
+
 }

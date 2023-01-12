@@ -3,13 +3,11 @@ import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { UpdatePasswordDto } from './dto/update-user-password.dto';
-import { GenericDto } from '../general/generic.dto';
 import { CreateSwimmerDto } from 'src/swimmers/dto/create-swimmer.dto';
 import { Usuario } from './entities/usuario.entity';
 
 @Controller('usuarios')
 export class UsuariosController {
-  genericDto: GenericDto = new GenericDto();
   constructor(private readonly usuariosService: UsuariosService) { }
 
   @Post()
