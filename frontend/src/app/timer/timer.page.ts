@@ -180,7 +180,7 @@ export class TimerPage implements OnInit, OnDestroy {
             "banderas": bandetasString,
             "time": this.time.value,
             "id_deportista": this.swimmer.id,
-            "id_estilo": this.timerForm.value.estilos,
+            "id_estilos": this.timerForm.value.estilos,
           }
 
           this.timesService.createTimes(data).subscribe((data: any) => {
