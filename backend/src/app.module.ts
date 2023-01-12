@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { Usuario } from './usuarios/entities/usuario.entity';
+import { EstilosNado } from './estilos-nado/entities/estilos-nado.entity';
 import { EntrenadorDeportista } from './usuarios/entities/entrenador_deportista.entity';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from 'src/auth/auth.module';
@@ -21,7 +22,7 @@ import { EstilosNadoModule } from './estilos-nado/estilos-nado.module';
     username: 'root',
     password: '',
     database: 'tesis',
-    entities: [Usuario,EntrenadorDeportista,TimeDeportista,RolUsuario],
+    entities: [Usuario,EstilosNado,EntrenadorDeportista,TimeDeportista,RolUsuario],
     autoLoadEntities: true,
     synchronize: true,
     logging: true,
