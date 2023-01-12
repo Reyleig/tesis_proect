@@ -157,7 +157,13 @@ export class UsuariosService {
       this.genericDto.payload = "The user don't exist";
       return this.genericDto;
     }
-    user.password = UpdatePasswordDto.password;
+    if (user.password != UpdatePasswordDto.actualPassword) {
+      this.genericDto.status = HttpStatus.BAD_REQUEST;
+      this.genericDto.payload = "The old password is incorrect";
+      return this.genericDto;
+    }
+    
+    user.password = UpdatePasswordDto.newPassword;
     let result = await this.usersRepository.update(user.id, user);
     if (result.affected == 0) {
       this.genericDto.status = HttpStatus.BAD_REQUEST;
