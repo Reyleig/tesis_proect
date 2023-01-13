@@ -35,6 +35,10 @@ const routes: Routes = [
     path: 'swimmer',
     loadChildren: () => import('./swimmer/swimmer.module').then(m => m.SwimmerModule)
   },
+  {
+    path: 'graphics',
+    loadChildren: () => import('./stats/graphics/graphics/graphics.module').then( m => m.GraphicsPageModule)
+  }
 ];
 
 @NgModule({

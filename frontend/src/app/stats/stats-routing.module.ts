@@ -5,8 +5,15 @@ import { StatsPage } from './stats.page';
 const routes: Routes = [
   {
     path: '',
-    component: StatsPage
-  }];
+    component: StatsPage,
+    children: [
+      {
+        path: 'graphics',
+        loadChildren: () => import('./graphics/graphics/graphics-routing.module').then( m => m.GraphicsPageRoutingModule)
+      }
+    ]
+  },  ]
+;
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -2,17 +2,34 @@
   <div class="login-container">
     <h1>LOGIN</h1>
     <div class="login-container-content">
-      <form [formGroup]="userForm" (ngSubmit)="login()" >
+      <form [formGroup]="userForm" (ngSubmit)="login()">
         <ion-item style="border-radius: 44px;margin-bottom: 10px;">
           <ion-label position="floating">Email</ion-label>
-          <ion-input formControlName="email"></ion-input>
+          <ion-input formControlName="email" class="userForm-control" id="email" [class.valid]="userForm.get('email').valid && 
+          (userForm.get('email').dirty || userForm.get('email').touched)" [class.invalid]="userForm.get('email').invalid && 
+          (userForm.get('email').dirty || userForm.get('email').touched)"></ion-input>
         </ion-item>
+        <div *ngIf="userForm.get('email').invalid && 
+        userForm.get('email').errors && 
+        (userForm.get('email').dirty || userForm.get('email').touched)">
+          <small class="text-danger" *ngIf="userForm.get('email').hasError('required')">
+            This field is required.
+          </small>
+          <small class="text-danger" *ngIf="userForm.get('email').hasError('minlength')">
+            The minimum length for this field is {{form.get('email').errors.minlength.requiredLength}}
+            characters.
+          </small>
+          <small class="text-danger" *ngIf="userForm.get('email').hasError('maxlength')">
+            The maximum length for this field is {{form.get('email').errors.maxlength.requiredLength}}
+            characters.
+          </small>
+        </div>
         <ion-item style="border-radius: 44px;">
           <ion-label position="floating">Password</ion-label>
           <ion-input type="password" formControlName="password"></ion-input>
         </ion-item>
-        <button  type="submit" [disabled]="!userForm.valid"
-        mat-icon-button aria-label="login">
+
+        <button type="submit" [disabled]="!userForm.valid" mat-icon-button aria-label="login">
           <mat-icon>double_arrow</mat-icon>
         </button>
       </form>
@@ -26,6 +43,3 @@
     <img src="assets/log.png" alt="logo">
   </div>
 </ion-content>
-  
-
-
