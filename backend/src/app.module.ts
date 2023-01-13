@@ -30,7 +30,8 @@ import { TaskModule } from './task/task.module';
   SwimmersModule,
   TimesModule,
   EstilosNadoModule,
-  TaskModule],
+  TaskModule,
+  CategoryModule],
   
   controllers: [AppController],
   providers: [AppService,AuthModule],
