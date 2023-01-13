@@ -6,40 +6,69 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-buttons  (click)="presentAlert()" fill="clear" slot="end" style="zoom: 2; margin-right: 10px">
-      <ion-icon name="add-outline"></ion-icon>    </ion-buttons>
+    <ion-buttons fill="clear" slot="end" style="zoom: 2; margin-right: 10px">
+      <ion-icon name="settings-outline"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-  <ion-item *ngFor="let item of tasks" button (click)="editAlert()" detail="true" >
-    <ion-label>
-      <h4>{{item.titulo_tarea}}</h4>
-      <p>{{item.descripcion_tarea}}</p>
-    </ion-label>
-  </ion-item>
-</ion-list>
+    <ion-item *ngFor="let item of tasks" button (click)="editAlert(item)" detail="true">
+      <ion-label>
+        <h3 style="display: flex;"><p style="flex: 1;">{{item.titulo_tarea}}</p>
+            <p style="font-size: 10px;"> {{item.fecha_registro}}</p></h3>
+        <p ss>{{item.descripcion_tarea}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list> 
 
-<ion-modal [isOpen]="isModalOpen">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button (click)="cerrarModal()">Cancel</ion-button>
-        </ion-buttons>
-        <ion-title [innerHTML]="tittleModal" style="font-size: 15px; text-align: center"
-          ></ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <form>
-        
-      </form>
-    </ion-content>
-  </ng-template>
-</ion-modal>
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cerrarModal()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title [innerHTML]="tittleModal" style="font-size: 15px; text-align: center"></ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="eliminarNota()" [disabled]="!form.valid" [strong]="true"><ion-icon name="trash-outline"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form [formGroup]="form">
+          <ion-item>
+            <ion-label position="stacked">Titulo</ion-label>
+            <ion-input type="text" placeholder="name" formControlName="title"  class="form-control" id="title" [class.valid]="form.get('title').valid && 
+            (form.get('title').dirty || form.get('title').touched)" [class.invalid]="form.get('title').invalid && 
+            (form.get('title').dirty || form.get('title').touched)"></ion-input>
+          </ion-item>
+          <div *ngIf="form.get('title').invalid && 
+          form.get('title').errors && 
+          (form.get('title').dirty || form.get('title').touched)">
+            <small class="text-danger" *ngIf="form.get('title').hasError('required')">
+              This field is required.
+            </small>
+          </div>
+          <ion-item>
+            <ion-label position="stacked">Descripcion</ion-label>
+            <ion-textarea formControlName="description" placeholder="Type something here" [autoGrow]="true"
+              value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tellus sem, auctor accumsan egestas sed, venenatis at ex. Nam consequat ex odio, suscipit rhoncus orci dictum eget. Aenean sit amet ligula varius felis facilisis lacinia nec volutpat nulla. Duis ullamcorper sit amet turpis sed blandit. Integer pretium massa eu faucibus interdum.">
+            </ion-textarea>
+          </ion-item>
 
 
 
-</ion-content> 
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-fab (click)="presentAlert()"  slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

@@ -23,7 +23,7 @@ import { TimerState } from './timer/store/timer.state';
 
 
 @NgModule({
-    declarations: [AppComponent, TrainingPage],
+    declarations: [AppComponent],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),

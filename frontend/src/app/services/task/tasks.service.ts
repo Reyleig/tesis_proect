@@ -24,6 +24,27 @@ export class TasksService {
       );
   }
 
+  createTask(data ): Observable<any> {
+    return this.http.post<any>(environment.url+'/task/createTask',data, this.httpHeader)
+      .pipe(
+        catchError(this.handleError<any>('create tasks'))
+      );
+  }
+
+  updateTask(data): Observable<any> {
+    return this.http.patch<any>(environment.url+'/task',data, this.httpHeader)
+      .pipe(
+        catchError(this.handleError<any>('update tasks'))
+      );
+  }
+  
+  deleteTask(token:string,id:number): Observable<any> {
+    return this.http.delete<any>(environment.url+'/task/'+token+'/'+id, this.httpHeader)
+      .pipe(
+        catchError(this.handleError<any>('delete tasks'))
+      );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
