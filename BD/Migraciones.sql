@@ -175,3 +175,57 @@ alter table entrenador_deportista
         drop table swimmer;
         
         drop table rol_usuario;
+
+--2023/01/13 Jorgito <3
+
+
+alter table usuarios
+    drop column time;
+
+alter table usuarios
+    modify name varchar(255) not null after idrol;
+
+alter table usuarios
+    modify celular varchar(255) not null after categoria;
+
+alter table usuarios
+    modify email varchar(255) not null after celular;
+
+alter table usuarios
+    modify password varchar(255) not null after email;
+
+alter table usuarios
+    change date fecha_nacimiento varchar(255) not null;
+
+alter table usuarios
+    modify token varchar(255) not null after fecha_nacimiento;
+
+alter table usuarios
+    modify categoria varchar(255) not null after celular;
+
+alter table usuarios
+    modify fecha_nacimiento varchar(255) not null after edad;
+
+alter table usuarios
+    change categoria id_categoria int not null;
+
+alter table usuarios
+    drop column categoria;
+
+alter table usuarios
+    add id_categoria int not null after celular;
+
+create table categorias
+(
+    id                    int auto_increment,
+    descripcion_categoria varchar(255) not null,
+    constraint categorias_pk
+        primary key (id)
+);
+
+create unique index categorias_id_uindex
+    on categorias (id);
+
+alter table usuarios
+    add constraint usuarios_categorias_id_fk
+        foreign key (id_categoria) references categorias (id);
