@@ -112,6 +112,10 @@ export class InicioPage implements OnInit {
     }
   }
 
+  goProfile() {
+    this.router.navigateByUrl('/profile');
+  }
+
 
   cambiarPassword() {
     //validar si la nueva contraceña es igual a la confirmacion

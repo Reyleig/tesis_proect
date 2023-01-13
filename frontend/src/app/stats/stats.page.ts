@@ -191,6 +191,7 @@ export class StatsPage implements AfterViewInit, OnInit {
     this.swimmerService.getSwimmers(this.user.token, 'A').subscribe((response) => {
       if (response) {
         this.swimmers = response;
+        this.swimmers = this.swimmers.filter((item) => item.id !== this.swimmer.id)
         for (let i = 0; i < this.swimmers.length; i++) {
           this.swimmers[i].estado = this.swimmers[i].estado == 'A' ? true : false;
         }

@@ -75,11 +75,7 @@ export class TimerPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getEstilos();    
-
-    this.swimmer$.subscribe((data: any) => {
-      this.swimmer = data.name;
-      this.nameSwimmer = this.swimmer.name;
-    }).unsubscribe();
+    this.getStateSwimmer();
 
     this.timer$.subscribe((data: any) => {
       console.log(data.time);
@@ -142,6 +138,7 @@ export class TimerPage implements OnInit, OnDestroy {
     this.swimmerService.getSwimmers(this.user.token, 'A').subscribe((response) => {
       if (response) {
         this.swimmers = response;
+        this.swimmers = this.swimmers.filter((item) => item.id !== this.swimmer.id)
         for (let i = 0; i < this.swimmers.length; i++) {
           this.swimmers[i].estado = this.swimmers[i].estado == 'A' ? true : false;
         }
@@ -176,11 +173,20 @@ export class TimerPage implements OnInit, OnDestroy {
     this.banderas = { time: '', diferencia: '', diferenciaMilisegundos: 0, cantidadBanderas: 0 };
   }
 
+  getStateSwimmer() {
+    this.swimmer$.subscribe((data: any) => {
+      this.swimmer = data.name;
+      this.nameSwimmer = this.swimmer.name;
+    }).unsubscribe();
+  }
+
   //guardar tiempo
   saveTime() {
     //pausar el cronometro
     this.pauseTimer();
     this.startStopButton = false;
+    //obtiene el estado del swimmer
+    this.getStateSwimmer();
     //mostrar confirmacion de guardado
     this.utilitiesService
       .infoAlert('Desea guardar el tiempo')
