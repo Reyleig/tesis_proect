@@ -5,30 +5,33 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Controller('task')
 export class TaskController {
-  constructor(private readonly taskService: TaskService) {}
-
-  @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.taskService.create(createTaskDto);
-  }
+  constructor(private readonly taskService: TaskService) { }
 
   @Get()
-  findAll() {
-    return this.taskService.findAll();
+  async findAll() {
+    let result = this.taskService.findAll();
+    return result;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.taskService.findOne(+id);
+  @Get('/:token')
+  async findUserTasks(@Param('token') token: string) {
+    let result = this.taskService.findByIdUsuario(token);
+    return result;
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.taskService.update(+id, updateTaskDto);
+  @Post('/createTask')
+  create(@Body() createTaskDto: CreateTaskDto) {
+    return this.taskService.createTask(createTaskDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.taskService.remove(+id);
+  @Post('/updateTask')
+  updateTask(@Body() updateTaskDto: UpdateTaskDto) {
+    let result = this.taskService.updateTask(updateTaskDto);
+    return result;
+  }
+
+  @Delete('/:token/:id')
+  remove(@Param('token') token: string, @Param('id') id: number) {
+    return this.taskService.remove(token, id);
   }
 }

@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 import { Usuario } from './usuarios/entities/usuario.entity';
 import { EstilosNado } from './estilos-nado/entities/estilos-nado.entity';
 import { EntrenadorDeportista } from './usuarios/entities/entrenador_deportista.entity';
@@ -16,7 +15,7 @@ import { EstilosNadoModule } from './estilos-nado/estilos-nado.module';
 import { ToDoModule } from './to-do/to-do.module';
 import { TaskModule } from './task/task.module';
 @Module({
-  imports: [UsersModule, UsuariosModule,AuthModule,
+  imports: [UsuariosModule,AuthModule,
   TypeOrmModule.forRoot({
     type: 'mysql',
     host: 'localhost',
@@ -32,7 +31,6 @@ import { TaskModule } from './task/task.module';
   SwimmersModule,
   TimesModule,
   EstilosNadoModule,
-  ToDoModule,
   TaskModule],
   
   controllers: [AppController],

@@ -125,3 +125,25 @@ create table time_deportista
 --2023/01/11 smorales 
 alter table usuarios
     alter column estado set default 'A';
+
+--2023/01/13
+create table task
+(
+    id                int auto_increment,
+    id_usuario        int     not null,
+    titulo_tarea      varchar(255)  not null,
+    descripcion_tarea varchar(255)    null,
+    fecha_registro    date    null,
+    constraint task_pk
+        primary key (id)
+);
+
+create unique index task_id_uindex
+    on task (id);
+
+alter table task
+    alter column fecha_registro set default current_date;
+
+alter table task
+    add constraint task_usuarios_id_fk
+        foreign key (id_usuario) references usuarios (id);
