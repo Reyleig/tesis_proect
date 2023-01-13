@@ -232,3 +232,6 @@ alter table usuarios
 
 alter table usuarios
     alter column estado set default 'A';
+
+alter table usuarios
+    modify id_categoria int null;

@@ -30,7 +30,7 @@ export class UsuariosService {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user don't exist", "Try again with another user");
     }
 
-    let newUser = await this.buildNewUser(createUsuarioDto);
+    let newUser = await this.buildUserEntity(createUsuarioDto);
     if (!newUser) {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user was not created", "Try again with another user");
     }
@@ -53,6 +53,36 @@ export class UsuariosService {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user was not created", "Try again with another user");
     }
     return await this.utilityService.serviceResponse(HttpStatus.OK, "The user was created successfully");
+  }
+
+  
+  async update(updateUsuarioDto: UpdateUsuarioDto) {
+
+    let user: Usuario = await this.findOneByToken(updateUsuarioDto.tokenCreater);
+    if (!user) {
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user don't exist", "Try again with another user");
+    }
+
+    let userUpdated: Usuario = await this.findOneById(updateUsuarioDto.id);
+    if (!userUpdated) {
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user don't exist", "Try again with another user");
+    }
+
+    userUpdated.name = updateUsuarioDto.name;
+    userUpdated.apellido = updateUsuarioDto.apellido;
+    userUpdated.edad = updateUsuarioDto.edad;
+    userUpdated.fecha_nacimiento = updateUsuarioDto.fecha_nacimiento;
+    userUpdated.celular = updateUsuarioDto.celular;
+    userUpdated.id_categoria = updateUsuarioDto.id_categoria;
+    userUpdated.email = updateUsuarioDto.email;
+    userUpdated.estado = updateUsuarioDto.estado;
+    
+    let result = await this.usersRepository.update(userUpdated.id, userUpdated);
+
+    if (result.affected == 0) {
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user was not updated", "Try again, something went wrong");
+    }
+    return await this.utilityService.serviceResponse(HttpStatus.OK, "The user was updated");
   }
 
   findAll(): Promise<Usuario[]> {
@@ -100,10 +130,6 @@ export class UsuariosService {
 
 
     return resp[0];
-  }
-
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
   }
 
   // findSwimmersByIdTraining(id: number) {
@@ -197,7 +223,7 @@ export class UsuariosService {
     return await this.utilityService.serviceResponse(HttpStatus.OK, "The password was updated");
   }
 
-  async buildNewUser(createUsuarioDto: CreateUsuarioDto) {
+  async buildUserEntity(createUsuarioDto: CreateUsuarioDto) {
     let newUser = new Usuario(
       createUsuarioDto.name,
       createUsuarioDto.apellido,
