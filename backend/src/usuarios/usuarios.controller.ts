@@ -10,9 +10,10 @@ import { Usuario } from './entities/usuario.entity';
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) { }
 
-  @Post()
+  @Post('/createUser')
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuariosService.create(createUsuarioDto);
+    let response = this.usuariosService.create(createUsuarioDto);
+    return response;
   }
 
   @Get()

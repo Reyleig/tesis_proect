@@ -23,8 +23,36 @@ export class UsuariosService {
     private utilityService: UtilityService,
   ) { }
 
-  create(createUsuarioDto: CreateUsuarioDto) {
-    return 'This action adds a new usuario';
+  async create(createUsuarioDto: CreateUsuarioDto) {
+
+    let user: Usuario = await this.findOneByToken(createUsuarioDto.tokenCreater);
+    if (!user) {
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user don't exist", "Try again with another user");
+    }
+
+    let newUser = await this.buildNewUser(createUsuarioDto);
+    if (!newUser) {
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user was not created", "Try again with another user");
+    }
+
+    switch (user.idrol) {
+      case 1:
+        newUser.idrol = 2;
+        break;
+
+      case 2:
+        newUser.idrol = 3;
+        break;
+
+      default:
+        return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user don't have permission to create a new user", "Try again with another user");
+    }
+
+    let response = await this.usersRepository.save(newUser);
+    if (!response) {
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user was not created", "Try again with another user");
+    }
+    return await this.utilityService.serviceResponse(HttpStatus.OK, "The user was created successfully");
   }
 
   findAll(): Promise<Usuario[]> {
@@ -54,7 +82,7 @@ export class UsuariosService {
 
   async findCoachByToken(token: string) {
     const resp = await this.usersRepository.find({
-      select: ['name', 'apellido', 'edad', 'date', 'celular', 'email', 'idrol'],
+      select: ['name', 'apellido', 'edad', 'fecha_nacimiento', 'celular', 'email', 'idrol'],
       where: {
         token: token,
       },
@@ -64,7 +92,7 @@ export class UsuariosService {
 
   async findOneById(idusuario: number): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
-      select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado', 'apellido', 'celular', 'categoria', 'edad', 'date',],
+      select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado', 'apellido', 'celular', 'id_categoria', 'edad', 'fecha_nacimiento',],
       where: {
         id: idusuario,
       },
@@ -144,8 +172,6 @@ export class UsuariosService {
     let swimmer = await this.usersRepository.update(updateSwimmerDto.id, updateSwimmerDto);
 
     return null;
-
-
   }
 
   async updatePassword(UpdatePasswordDto: UpdatePasswordDto) {
@@ -169,6 +195,21 @@ export class UsuariosService {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The password was not updated", "Try again, something went wrong");
     }
     return await this.utilityService.serviceResponse(HttpStatus.OK, "The password was updated");
+  }
+
+  async buildNewUser(createUsuarioDto: CreateUsuarioDto) {
+    let newUser = new Usuario(
+      createUsuarioDto.name,
+      createUsuarioDto.apellido,
+      createUsuarioDto.edad,
+      createUsuarioDto.fecha_nacimiento,
+      createUsuarioDto.celular,
+      createUsuarioDto.id_categoria,
+      createUsuarioDto.email,
+      createUsuarioDto.password,
+      createUsuarioDto.token,
+      createUsuarioDto.estado);
+    return newUser;
   }
 
 }

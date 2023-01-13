@@ -229,3 +229,6 @@ create unique index categorias_id_uindex
 alter table usuarios
     add constraint usuarios_categorias_id_fk
         foreign key (id_categoria) references categorias (id);
+
+alter table usuarios
+    alter column estado set default 'A';
