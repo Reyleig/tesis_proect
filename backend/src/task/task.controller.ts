@@ -24,7 +24,7 @@ export class TaskController {
     return this.taskService.createTask(createTaskDto);
   }
 
-  @Post('/updateTask')
+  @Patch()
   updateTask(@Body() updateTaskDto: UpdateTaskDto) {
     let result = this.taskService.updateTask(updateTaskDto);
     return result;
