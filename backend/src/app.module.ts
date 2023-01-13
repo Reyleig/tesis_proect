@@ -12,7 +12,6 @@ import { TimesModule } from './times/times.module';
 import { TimeDeportista } from './times/entities/time_deportista.entity';
 import { RolUsuario } from './usuarios/entities/usuario-rol.entity';
 import { EstilosNadoModule } from './estilos-nado/estilos-nado.module';
-import { ToDoModule } from './to-do/to-do.module';
 import { TaskModule } from './task/task.module';
 @Module({
   imports: [UsuariosModule,AuthModule,

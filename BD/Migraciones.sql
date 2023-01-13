@@ -147,3 +147,31 @@ alter table task
 alter table task
     add constraint task_usuarios_id_fk
         foreign key (id_usuario) references usuarios (id);
+
+--2023/01/13 smorales
+    alter table time_deportista
+    add constraint time_deportista_usuarios_id_fk
+        foreign key (id_deportista) references usuarios (id);
+
+        alter table time_deportista
+    add constraint time_deportista_estilos_nado_id_fk
+        foreign key (id_estilos) references estilos_nado (id);
+
+
+        alter table entrenador_deportista
+    add constraint entrenador_deportista_usuarios_id_fk
+        foreign key (identrenador) references usuarios (id);
+
+alter table entrenador_deportista
+    add constraint entrenador_deportista_usuarios_id_fk_2
+        foreign key (iddeportista) references usuarios (id);
+
+        alter table usuarios
+    add constraint usuarios_rol_idrol_fk
+        foreign key (idrol) references rol (idrol);
+
+        drop table deportista;
+
+        drop table swimmer;
+        
+        drop table rol_usuario;
