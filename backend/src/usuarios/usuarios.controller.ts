@@ -10,9 +10,10 @@ import { Usuario } from './entities/usuario.entity';
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) { }
 
-  @Post()
+  @Post('/createUser')
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuariosService.create(createUsuarioDto);
+    let response = this.usuariosService.create(createUsuarioDto);
+    return response;
   }
 
   @Get()
@@ -25,9 +26,10 @@ export class UsuariosController {
     return this.usuariosService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuariosService.update(+id, updateUsuarioDto);
+  @Patch()
+  update(@Body() updateUsuarioDto: UpdateUsuarioDto) {
+    let response = this.usuariosService.update(updateUsuarioDto);
+    return response;
   }
 
   @Delete(':id')

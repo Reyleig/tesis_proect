@@ -8,23 +8,15 @@ import {
 import * as bcrypt from 'bcrypt';
 @Entity('usuarios')
 export class Usuario {
+
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  name: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  password: string;
 
   @Column()
   idrol: number;
 
   @Column()
-  token: string;
+  name: string;
 
   @Column()
   apellido: string;
@@ -33,16 +25,22 @@ export class Usuario {
   edad: string;
 
   @Column()
+  fecha_nacimiento: string;
+
+  @Column()
   celular: string;
 
   @Column()
-  categoria: string;
+  id_categoria: number;
 
   @Column()
-  date: string;
+  email: string;
 
   @Column()
-  time: string;
+  password: string;
+
+  @Column()
+  token: string;
 
   @Column()
   estado: string;
@@ -54,32 +52,26 @@ export class Usuario {
   }
 
   constructor(
-    id: number,
     name: string,
-    email: string,
-    pass: string,
-    idrol: number,
-    token: string,
     apellido: string,
     edad: string,
+    fecha_nacimiento: string,
     celular: string,
-    categoria: string,
-    date: string,
-    time: string,
+    id_categoria: number,
+    email: string,
+    password: string,
+    token: string,
     estado: string,
   ) {
-    this.id = id;
     this.name = name;
-    this.email = email;
-    this.password = pass;
-    this.idrol = idrol;
-    this.token = token;
     this.apellido = apellido;
     this.edad = edad;
+    this.fecha_nacimiento = fecha_nacimiento;
     this.celular = celular;
-    this.categoria = categoria;
-    this.date = date;
-    this.time = time;
+    this.id_categoria = id_categoria;
+    this.email = email;
+    this.password = password;
+    this.token = token;
     this.estado = estado;
   }
 }
