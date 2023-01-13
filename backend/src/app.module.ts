@@ -13,6 +13,7 @@ import { TimesModule } from './times/times.module';
 import { TimeDeportista } from './times/entities/time_deportista.entity';
 import { RolUsuario } from './usuarios/entities/usuario-rol.entity';
 import { EstilosNadoModule } from './estilos-nado/estilos-nado.module';
+import { ToDoModule } from './to-do/to-do.module';
 @Module({
   imports: [UsersModule, UsuariosModule,AuthModule,
   TypeOrmModule.forRoot({
@@ -29,7 +30,8 @@ import { EstilosNadoModule } from './estilos-nado/estilos-nado.module';
   }),
   SwimmersModule,
   TimesModule,
-  EstilosNadoModule],
+  EstilosNadoModule,
+  ToDoModule],
   
   controllers: [AppController],
   providers: [AppService,AuthModule],
