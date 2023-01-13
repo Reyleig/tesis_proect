@@ -13,6 +13,9 @@ import { TimeDeportista } from './times/entities/time_deportista.entity';
 import { RolUsuario } from './usuarios/entities/usuario-rol.entity';
 import { EstilosNadoModule } from './estilos-nado/estilos-nado.module';
 import { TaskModule } from './task/task.module';
+import { CategoryModule } from './category/category.module';
+import { Category } from './category/entities/category.entity';
+
 @Module({
   imports: [UsuariosModule,AuthModule,
   TypeOrmModule.forRoot({
@@ -22,7 +25,7 @@ import { TaskModule } from './task/task.module';
     username: 'root',
     password: '',
     database: 'tesis',
-    entities: [Usuario,EstilosNado,EntrenadorDeportista,TimeDeportista,RolUsuario],
+    entities: [Usuario,EstilosNado,EntrenadorDeportista,TimeDeportista,RolUsuario,Category],
     autoLoadEntities: true,
     synchronize: true,
     logging: true,
