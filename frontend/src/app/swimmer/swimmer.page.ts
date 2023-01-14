@@ -42,7 +42,7 @@ export class SwimmerPage implements OnInit {
     apellido: ['', [Validators.required, Validators.minLength(3)]],
     celular: ['', [Validators.required, Validators.minLength(3)]],
     edad: [0, [Validators.required, Validators.minLength(1)]],
-    date: [
+    fecha_nacimiento: [
       this.date.getDate() +
       '/' +
       this.date.getMonth() +
@@ -50,7 +50,7 @@ export class SwimmerPage implements OnInit {
       this.date.getDay(),
       [Validators.required, Validators.minLength(3)],
     ],
-    categoria: ['Intermedio', [Validators.required, Validators.minLength(3)]],
+    id_categoria: ['Intermedio', [Validators.required, Validators.minLength(3)]],
   });
 
   constructor(
@@ -177,7 +177,7 @@ export class SwimmerPage implements OnInit {
     this.isEdit = false;
     console.log(this.swimmerForm.value);
     this.isModalOpen = isOpen;
-    this.swimmerForm.value.date =
+    this.swimmerForm.value.fecha_nacimiento =
       this.date.getDay() +
       '/' +
       this.date.getMonth() +
@@ -215,7 +215,7 @@ export class SwimmerPage implements OnInit {
       apellido: ['', [Validators.required, Validators.minLength(3)]],
       celular: ['', [Validators.required, Validators.minLength(3)]],
       edad: [0, [Validators.required, Validators.minLength(1)]],
-      date: [
+      fecha_nacimiento: [
         this.date.getDate() +
         '/' +
         this.date.getMonth() +
@@ -223,7 +223,7 @@ export class SwimmerPage implements OnInit {
         this.date.getDay(),
         [Validators.required, Validators.minLength(3)],
       ],
-      categoria: ['', [Validators.required, Validators.minLength(3)]],
+      id_categoria: ['', [Validators.required, Validators.minLength(3)]],
     });
   }
 }

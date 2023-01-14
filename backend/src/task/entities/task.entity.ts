@@ -22,13 +22,16 @@ export class Task {
     fecha_registro: Date;
 
     constructor(
+        id: number,
         id_usuario: number,
         titulo_tarea: string,
         descripcion_tarea: string,
     ) {
+        this.id = id;
         this.id_usuario = id_usuario;
         this.titulo_tarea = titulo_tarea;
         this.descripcion_tarea = descripcion_tarea;
     }
+
 
 }
