@@ -3,9 +3,12 @@ import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { UpdatePasswordDto } from './dto/update-user-password.dto';
-import { CreateSwimmerDto } from 'src/swimmers/dto/create-swimmer.dto';
 import { Usuario } from './entities/usuario.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) { }
@@ -17,6 +20,7 @@ export class UsuariosController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.usuariosService.findAll();
   }
@@ -32,18 +36,12 @@ export class UsuariosController {
     return response;
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usuariosService.remove(+id);
-  }
-
   @Post('/updatepassword')
   updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
     return this.usuariosService.updatePassword(updatePasswordDto);
   }
 
   //Swimmers
-
   @Get('/getswimmers/:token/:estado')
   async findSwimmersByIdTraining(@Param('token') token: string, @Param('estado') estado: string) {
     let token1 = await this.usuariosService.findSwimmersByIdTraining(token, estado);
@@ -53,7 +51,7 @@ export class UsuariosController {
   }
 
   @Post('/createswimmer')
-  createSwimmer(@Body() createSwimmerDto: CreateSwimmerDto) {
+  createSwimmer(@Body() createSwimmerDto: CreateUsuarioDto) {
     return this.usuariosService.createSwimmer(createSwimmerDto);
   }
 
@@ -77,6 +75,14 @@ export class UsuariosController {
   @Get('/getcoach/:token')
   async findChoachByToken(@Param('token') token: string) {
     let result = await this.usuariosService.findCoachByToken(token);
+    return result;
+  }
+
+  @Get('/a/getcoach')
+  findAllCoach() { 
+    console.log("get all coach");
+    
+    let result = this.usuariosService.findAllCoachs();
     return result;
   }
 

@@ -1,7 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, HttpStatus } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateTimesDeportistaDto } from './dto/create-times-deportistas.dto';
 import { TimesService } from './times.service';
 
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('times')
 export class TimesController {
   constructor(private readonly timesService: TimesService) { }

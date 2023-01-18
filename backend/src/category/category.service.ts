@@ -14,24 +14,11 @@ export class CategoryService {
     private utilityService: UtilityService,
 
   ){}
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
-  }
 
   async findAll() {
     let response = await this.categoryRepository.find();
     return await this.utilityService.serviceResponse(HttpStatus.OK, response);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
-  }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} category`;
-  }
 }

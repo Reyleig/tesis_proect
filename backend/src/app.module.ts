@@ -7,7 +7,6 @@ import { EstilosNado } from './estilos-nado/entities/estilos-nado.entity';
 import { EntrenadorDeportista } from './usuarios/entities/entrenador_deportista.entity';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from 'src/auth/auth.module';
-import { SwimmersModule } from './swimmers/swimmers.module';
 import { TimesModule } from './times/times.module';
 import { TimeDeportista } from './times/entities/time_deportista.entity';
 import { RolUsuario } from './usuarios/entities/usuario-rol.entity';
@@ -30,7 +29,6 @@ import { Category } from './category/entities/category.entity';
     synchronize: true,
     logging: true,
   }),
-  SwimmersModule,
   TimesModule,
   EstilosNadoModule,
   TaskModule,

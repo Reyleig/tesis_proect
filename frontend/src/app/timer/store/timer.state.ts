@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, StateToken, Selector } from '@ngxs/store';
-import { AddTimer } from './timer.actions';
+import { AddTimer, ResetTimer } from './timer.actions';
 import { TimerStateModel } from './timer.model'
 
 const VALUE_TIMER = new StateToken<TimerStateModel>('timer')
@@ -37,6 +37,19 @@ export class TimerState {
         return state
     }
 
+    @Action(ResetTimer)
+    resetUser(ctx: StateContext<TimerStateModel>) {
+      const state = ctx.getState();
+      // let stateValue= state.token;
+      ctx.setState({
+        ...state,
+        banderas: [],
+        time: '00:00:00',
+        id_deportista: 0,
+        id_estilo: 0,
+        milisegundos: 0,
+      });
+    }
 }
 
 

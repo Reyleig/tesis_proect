@@ -10,7 +10,7 @@ export class AppController {
   constructor(private authService: AuthService) {}
 
   @Post('auth/login')
-  async login(@Body() request:CreateUsuarioDto,@Request() req) {
+  async login(@Body() request:CreateUsuarioDto) {
     return this.authService.login(request);
   }
 

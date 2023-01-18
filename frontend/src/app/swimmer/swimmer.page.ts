@@ -149,8 +149,7 @@ export class SwimmerPage implements OnInit {
     this.swimmerForm.controls['apellido'].setValue(swimmer.apellido);
     this.swimmerForm.controls['celular'].setValue(swimmer.celular);
     this.swimmerForm.controls['edad'].setValue(swimmer.edad);
-    this.swimmerForm.controls['date'].setValue(swimmer.date);
-    this.swimmerForm.controls['categoria'].setValue(swimmer.categoria);
+    this.swimmerForm.controls['id_categoria'].setValue(swimmer.categoria);
     this.isModalOpen = true;
 
   }

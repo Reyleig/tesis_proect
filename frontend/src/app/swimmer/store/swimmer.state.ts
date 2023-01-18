@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, StateToken, Selector } from '@ngxs/store';
-import { AddSwimmer } from './swimmer.actions';
+import { AddSwimmer, ResetSwimmer } from './swimmer.actions';
 import { SwimmerStateModel } from './swimmer.model'
 
 const VALUE_SWIMMER = new StateToken<SwimmerStateModel>('swimmer')
@@ -26,6 +26,16 @@ export class SwimmerState {
     @Selector()
     static swimmer(state: SwimmerStateModel) {
         return state
+    }
+
+    @Action(ResetSwimmer)
+    resetUser(ctx: StateContext<SwimmerStateModel>) {
+      const state = ctx.getState();
+      // let stateValue= state.token;
+      ctx.setState({
+        ...state,
+        name: {},
+      });
     }
 
 }

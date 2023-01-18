@@ -1,5 +1,10 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class GenericDto {
-status: number;
-recomendation: string;
-payload: any;
+    @ApiProperty()
+    status: number;
+    @ApiProperty()
+    recomendation: string;
+    @ApiProperty()
+    payload: any;
 }

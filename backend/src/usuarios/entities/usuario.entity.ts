@@ -2,46 +2,59 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  Table,
   BeforeInsert,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { ApiProperty } from '@nestjs/swagger';
+
 @Entity('usuarios')
 export class Usuario {
 
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty()
   @Column()
   idrol: number;
 
+  @ApiProperty()
   @Column()
   name: string;
 
+  @ApiProperty()
   @Column()
   apellido: string;
 
+  @ApiProperty()
   @Column()
   edad: string;
 
+  @ApiProperty()
   @Column()
   fecha_nacimiento: string;
 
+  @ApiProperty()
   @Column()
   celular: string;
 
+  @ApiProperty()
   @Column()
   id_categoria: number;
 
+  @ApiProperty()
   @Column()
   email: string;
 
+  @ApiProperty()
   @Column()
   password: string;
 
+  @ApiProperty()
   @Column()
   token: string;
 
+  @ApiProperty()
   @Column()
   estado: string;
 

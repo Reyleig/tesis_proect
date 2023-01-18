@@ -1,10 +1,9 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
-import { CreateSwimmerDto } from 'src/swimmers/dto/create-swimmer.dto';
 import { EntrenadorDeportistaDto } from 'src/usuarios/dto/entrenador-deportista.dto';
 import { UpdatePasswordDto } from 'src/usuarios/dto/update-user-password.dto';
 import { EntrenadorDeportista } from './entities/entrenador_deportista.entity';
@@ -85,6 +84,22 @@ export class UsuariosService {
     return await this.utilityService.serviceResponse(HttpStatus.OK, "The user was updated");
   }
 
+
+  async findAllCoachs() {
+    let idRolCoach = 2;
+    let resp = await this.usersRepository.find({
+      select: ['name', 'apellido', 'edad', 'fecha_nacimiento', 'celular', 'email', 'idrol'],
+      where: {
+        idrol: idRolCoach,
+      },
+    });
+
+    if (resp.length == 0) {
+      throw new HttpException("There are not coachs",HttpStatus.BAD_REQUEST);
+    }
+    return await this.utilityService.serviceResponse(HttpStatus.OK, resp);
+  }
+
   findAll(): Promise<Usuario[]> {
     return this.usersRepository.find();
   }
@@ -132,15 +147,6 @@ export class UsuariosService {
     return resp[0];
   }
 
-  // findSwimmersByIdTraining(id: number) {
-  //   const resp = await this.usersRepository.find({
-  //     select: ['id', 'name', 'email', 'password', 'idrol', 'token'],
-  //     where: {
-  //       email: email,
-  //     },
-  //   });
-  // }
-
   async findSwimmersByIdTraining(token: string, estado: string): Promise<any> {
 
 
@@ -163,16 +169,13 @@ export class UsuariosService {
     return usuario;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} usuario`;
-  }
 
   async updateUserToken(user: Usuario): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.update(user.id, user);
     return resp[0];
   }
 
-  async createSwimmer(createSwimmerDto: CreateSwimmerDto) {
+  async createSwimmer(createSwimmerDto: CreateUsuarioDto) {
     //guardar usuario
     let swimmer = await this.usersRepository.save(createSwimmerDto);
     let entrenadorDeportista: EntrenadorDeportistaDto = new EntrenadorDeportistaDto();

@@ -10,6 +10,8 @@ import { MenuController } from '@ionic/angular';
 import { SwimmerState } from '../swimmer/store/swimmer.state';
 import { FormBuilder, Validators } from '@angular/forms';
 import { InicioService } from '../services/inicio/inicio.service';
+import { ResetSwimmer } from '../swimmer/store/swimmer.actions';
+import { ResetTimer } from '../timer/store/timer.actions';
 
 
 @Component({
@@ -67,7 +69,11 @@ export class InicioPage implements OnInit {
       .infoAlert('Desea cerrar sesion')
       .then((result) => {
         if (result.role === 'confirm') {
+
           this.store.dispatch(new ResetUser());
+          this.store.dispatch(new ResetSwimmer());
+          this.store.dispatch(new ResetTimer());
+
           this.router.navigateByUrl('/login');
         }
       });
