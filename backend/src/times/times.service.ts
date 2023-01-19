@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { Repository } from 'typeorm';
@@ -40,6 +40,21 @@ export class TimesService {
 
     if (result.length == 0) {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "Don't exist times", "Try with other filters");
+    }
+    return await this.utilityService.serviceResponse(HttpStatus.OK, result);
+  }
+
+  async findTimesStats() {
+
+    let result = await this.timeDeportistaRepository
+      .createQueryBuilder('time_deportista')
+      .select(['round(AVG(time_deportista.time_milisecons), 0) as time_milisecons, id_deportista, u.name, time_deportista.time'])
+      .innerJoin('usuarios', 'u', 'u.id = time_deportista.id_deportista')
+      .groupBy('id_deportista, u.name')
+      .getRawMany();
+
+    if (result.length == 0) {
+      throw new HttpException(`Sin Resultados`, HttpStatus.BAD_REQUEST);
     }
     return await this.utilityService.serviceResponse(HttpStatus.OK, result);
   }

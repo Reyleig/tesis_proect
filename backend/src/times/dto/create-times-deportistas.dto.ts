@@ -15,4 +15,6 @@ export class CreateTimesDeportistaDto {
     time: string;
     @ApiProperty()
     banderas: string;
+    @ApiProperty()
+    time_milisecons: number;
 }	

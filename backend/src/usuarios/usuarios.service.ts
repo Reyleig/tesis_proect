@@ -154,9 +154,12 @@ export class UsuariosService {
 
     return await this.usersRepository
       .createQueryBuilder('usuarios')
-      .select(['usuarios.*'])
+      .select([`usuarios.*,coalesce(td.time,'00:00:00') as time, coalesce(max(td.time_milisecons),0) as time_milisecons, coalesce(en.descripcion,'') as estilo, coalesce(fecha_registro,'') as fecha_registro `])
       .where('ed.identrenador = :id and  usuarios.estado = :estado', { id, estado: estado })
       .innerJoin('entrenador_deportista', 'ed', 'usuarios.id = ed.iddeportista')
+      .leftJoin('time_deportista', 'td', 'usuarios.id = td.id_deportista')
+      .leftJoin('estilos_nado', 'en', 'td.id_estilos = en.id')
+      .groupBy('usuarios.id,idrol,name,apellido,celular,email,password,edad,fecha_nacimiento,estado,token,id_categoria')
       .getRawMany();
   }
 

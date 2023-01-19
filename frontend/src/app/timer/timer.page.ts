@@ -43,7 +43,9 @@ export class TimerPage implements OnInit, OnDestroy {
   minutes: any = 0;
   seconds: any = 0;
   milliseconds: any = 0;
-  millisecondsTotal: any = 0;
+  milisegundosTotal: any = 0;
+  millisecondsTotalBandera: any = 0;
+
   selectorDeportista = {};
   interval;
   isPlaying = false;
@@ -151,7 +153,7 @@ export class TimerPage implements OnInit, OnDestroy {
     this.minutes = Math.floor(milisegundosTotales / 6000);
     this.seconds = Math.floor((milisegundosTotales % 6000) / 100);
     this.milliseconds = Math.floor(milisegundosTotales % 100);
-    this.millisecondsTotal = milisegundosTotales;
+    this.millisecondsTotalBandera = milisegundosTotales;
     this.interval = null;
   }
 
@@ -160,13 +162,13 @@ export class TimerPage implements OnInit, OnDestroy {
     this.mostrarBanderas = true;
     this.banderas.time = this.time.value;
     if (this.lstBanderas.length > 0) {
-      this.banderas.diferenciaMilisegundos = this.millisecondsTotal - this.lstBanderas[this.lstBanderas.length - 1].diferenciaMilisegundos;
-      this.millisecondsTotal = this.banderas.diferenciaMilisegundos;
+      this.banderas.diferenciaMilisegundos = this.millisecondsTotalBandera - this.lstBanderas[this.lstBanderas.length - 1].diferenciaMilisegundos;
+      this.millisecondsTotalBandera = this.banderas.diferenciaMilisegundos;
       this.banderas.diferencia = this.obtenerBandera(this.banderas.diferenciaMilisegundos);
     }
     else {
-      this.banderas.diferenciaMilisegundos = this.millisecondsTotal;
-      this.banderas.diferencia = this.obtenerBandera(this.millisecondsTotal);
+      this.banderas.diferenciaMilisegundos = this.millisecondsTotalBandera;
+      this.banderas.diferencia = this.obtenerBandera(this.millisecondsTotalBandera);
     }
     this.banderas.cantidadBanderas = this.lstBanderas.length + 1;
     this.lstBanderas.push(this.banderas);
@@ -198,6 +200,7 @@ export class TimerPage implements OnInit, OnDestroy {
             "time": this.time.value,
             "id_deportista": this.swimmer.id,
             "id_estilos": this.timerForm.value.estilos,
+            "time_milisecons": this.milisegundosTotal,
           }
 
           this.timesService.createTimes(data).subscribe((data: any) => {
@@ -235,7 +238,8 @@ export class TimerPage implements OnInit, OnDestroy {
 
   updateTimeValue() {
     this.milliseconds++;
-    this.millisecondsTotal++;
+    this.millisecondsTotalBandera++;
+    this.milisegundosTotal++;
     if (this.milliseconds / 100 === 1) {
       this.seconds++;
       this.milliseconds = 0;
@@ -251,15 +255,15 @@ export class TimerPage implements OnInit, OnDestroy {
 
     const actualTime = `${this.minutes}:${this.seconds}:${this.milliseconds}`;
 
-    this.store.dispatch(new AddTimer(JSON.stringify(this.lstBanderas), actualTime, this.swimmer.id, this.timerForm.value.estilos, this.millisecondsTotal));
+    this.store.dispatch(new AddTimer(JSON.stringify(this.lstBanderas), actualTime, this.swimmer.id, this.timerForm.value.estilos, this.millisecondsTotalBandera));
 
     this.time.next(actualTime);
   }
 
-  obtenerBandera(millisecondsTotal) {
-    let minutes = Math.floor(millisecondsTotal / 6000);
-    let seconds = Math.floor((millisecondsTotal % 6000) / 100);
-    let milliseconds = Math.floor(millisecondsTotal % 100);
+  obtenerBandera(millisecondsTotalBandera) {
+    let minutes = Math.floor(millisecondsTotalBandera / 6000);
+    let seconds = Math.floor((millisecondsTotalBandera % 6000) / 100);
+    let milliseconds = Math.floor(millisecondsTotalBandera % 100);
     let stringminutes = String('0' + Math.floor(minutes)).slice(-2);
     let stringseconds = String('0' + Math.floor(seconds)).slice(-2);
     let stringmilliseconds = String('0' + milliseconds).slice(-2);
@@ -279,13 +283,14 @@ export class TimerPage implements OnInit, OnDestroy {
     this.minutes = 0;
     this.seconds = 0;
     this.milliseconds = 0;
-    this.millisecondsTotal = 0;
+    this.milisegundosTotal = 0;
+    this.millisecondsTotalBandera = 0;
     this.time.next(`00:00:00`);
     this.isPlaying = false;
     this.startStopButton = false;
     this.lstBanderas = [];
     this.mostrarBanderas = false;
-    this.store.dispatch(new AddTimer(JSON.stringify(this.lstBanderas), '00:00:00', this.swimmer.id, this.timerForm.value.estilos, this.millisecondsTotal));
+    this.store.dispatch(new AddTimer(JSON.stringify(this.lstBanderas), '00:00:00', this.swimmer.id, this.timerForm.value.estilos, this.millisecondsTotalBandera));
 
   }
 

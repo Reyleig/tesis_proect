@@ -1,11 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, HttpStatus } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { EstilosNadoService } from './estilos-nado.service';
 
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@ApiTags('estilos-nado')
 @Controller('estilos-nado')
 export class EstilosNadoController {
 
