@@ -9,7 +9,7 @@ const routes: Routes = [
     children: [
       {
         path: 'graphics',
-        loadChildren: () => import('./graphics/graphics/graphics-routing.module').then( m => m.GraphicsPageRoutingModule)
+        loadChildren: () => import('./graphics/graphics-routing.module').then( m => m.GraphicsPageRoutingModule)
       }
     ]
   },  ]

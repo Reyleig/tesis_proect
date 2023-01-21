@@ -234,3 +234,8 @@ alter table usuarios
 
 alter table usuarios
     modify id_categoria int null;
+
+
+    --2023/01/13 smorales
+    alter table time_deportista
+    add time_milisecons numeric default 0 null;

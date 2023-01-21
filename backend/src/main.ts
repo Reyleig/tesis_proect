@@ -10,10 +10,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   var LocalStrategy = require("passport-local");
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Proyecto de Grado')
+    .setDescription('The API description')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('category')
+    .addTag('estilos-nado')
+    .addTag('task')
+    .addTag('times')
+    .addTag('usuarios')
+    .addTag('auth')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);

@@ -6,10 +6,11 @@ import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { Usuario } from './entities/usuario.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@ApiTags('usuarios')
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) { }

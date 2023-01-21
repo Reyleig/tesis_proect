@@ -37,7 +37,7 @@ const routes: Routes = [
   },
   {
     path: 'graphics',
-    loadChildren: () => import('./stats/graphics/graphics/graphics.module').then( m => m.GraphicsPageModule)
+    loadChildren: () => import('./stats/graphics/graphics.module').then( m => m.GraphicsPageModule)
   },
   {
     path: 'profile',

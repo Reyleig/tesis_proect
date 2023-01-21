@@ -28,6 +28,9 @@ export class TimeDeportista {
   @Column()
   banderas: string;
 
+  @Column({ type: 'numeric', default: () => 0, })
+  time_milisecons: number;
+
   constructor(
     id: number,
     id_deportista: number,

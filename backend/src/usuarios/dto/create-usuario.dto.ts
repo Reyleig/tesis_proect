@@ -15,9 +15,9 @@ export class CreateUsuarioDto {
     celular: string;
     @ApiProperty()
     id_categoria: number;
-    @ApiProperty()
+    @ApiProperty({default: 'a@e.com',})
     email: string;
-    @ApiProperty()
+    @ApiProperty({default: 'fcsM0keqlIluZlwzdpanvhjTh6eNbVW0hUt/99WSUEI=',})
     password: string;
     @ApiProperty()
     token: string;
