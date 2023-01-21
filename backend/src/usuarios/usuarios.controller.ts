@@ -21,11 +21,6 @@ export class UsuariosController {
     return response;
   }
 
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.usuariosService.findAll();
-  }
 
   @Get('/getUsuarioById/:id')
   findOne(@Param('id') id: string) {
