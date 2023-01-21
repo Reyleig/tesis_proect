@@ -97,14 +97,16 @@ export class InicioPage implements OnInit {
         this.router.navigateByUrl('/swimmer');
         break;
       case 2:
-        if (Object.keys(this.swimmer).length === 0) {
-          this.utilitiesService.infoAlert('Debe seleccionar un deportista').then((result) => {
-            if (result.role === 'confirm') {
-              this.router.navigate(['/swimmer']);
-            }
-          });
-          return;
-        }
+        // console.log(this.swimmer);
+        
+        // if (Object.keys(this.swimmer).length === 0) {
+        //   this.utilitiesService.infoAlert('Debe seleccionar un deportista').then((result) => {
+        //     if (result.role === 'confirm') {
+        //       this.router.navigate(['/swimmer']);
+        //     }
+        //   });
+        //   return;
+        // }
         this.router.navigateByUrl('/timer');
         break;
       case 3:

@@ -4,9 +4,8 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
-import { EntrenadorDeportistaDto } from 'src/usuarios/dto/entrenador-deportista.dto';
-import { UpdateUserPasswordDto } from 'src/usuarios/dto/update-user-password.dto';
-import { EntrenadorDeportista } from './entities/entrenador_deportista.entity';
+import { EntrenadorDeportistaDto } from '../usuarios/dto/entrenador-deportista.dto';
+import { UpdateUserPasswordDto } from '../usuarios/dto/update-user-password.dto';
 import { EntrenadorDeportistaService } from './entrenadordeportista.service';
 import { UsuarioRolDto } from './dto/usuario-rol.dto';
 import { RolUsuarioService } from './rolusuario.service';
@@ -162,10 +161,10 @@ export class UsuariosService {
       .getRawMany();
   }
 
-  async inactivateSwimmer(token: string, idSwimmer: number, estado: string): Promise<any> {
+  async inactivateSwimmer(idSwimmer: number, estado: string): Promise<any> {
     estado = estado == 'true' ? 'I' : 'A';
     let usuario: Usuario = await this.findOneById(idSwimmer);
-    usuario.estado = estado;
+    // usuario.estado = estado;
     await this.updateUserToken(usuario);
 
     return usuario;

@@ -26,6 +26,8 @@ export class LoginPage implements OnInit, OnDestroy {
   @ViewChild(IonModal) modal: IonModal;
 
   token!: string;
+  username!: string;
+  idrol!: number;
   form = this.formBuilder.group({
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
     newPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
@@ -100,6 +102,8 @@ export class LoginPage implements OnInit, OnDestroy {
           console.log(response);
           
           this.token = response.access_token;
+          this.username = response.username;
+          this.idrol = response.idrol;
           return;
         } else {
           this.addUser(response.access_token, response.username, response.idrol);
@@ -144,6 +148,8 @@ export class LoginPage implements OnInit, OnDestroy {
     this.loginService.cambiarPassword(cambiarPassword,this.token).subscribe((data: any) => {
       if (data) {
         if (data.status === 200) {
+          this.addUser(this.token, this.username, this.idrol);
+
           this.utilitiesService.infoAlert(data.payload);
           this.cerrarModal();
           this.router.navigateByUrl('/inicio');

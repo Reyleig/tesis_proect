@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UsuarioRolDto } from './dto/usuario-rol.dto';
 import { EntrenadorDeportista } from './entities/entrenador_deportista.entity';
 
 @Injectable()
