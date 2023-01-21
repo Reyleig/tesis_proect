@@ -34,6 +34,12 @@ export class UsuariosService {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user was not created", "Try again with another user");
     }
 
+    let validEmail = await this.findOne(createUsuarioDto.email);
+
+    if (validEmail) {
+      return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The email is already in use", "Try again with another email");
+    }
+
     switch (user.idrol) {
       case 1:
         newUser.idrol = 2;
@@ -46,7 +52,7 @@ export class UsuariosService {
       default:
         return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user don't have permission to create a new user", "Try again with another user");
     }
-
+    
     let response = await this.usersRepository.save(newUser);
     if (!response) {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user was not created", "Try again with another user");
@@ -112,6 +118,7 @@ export class UsuariosService {
 
     return resp[0];
   }
+
   async findOneByToken(token: string): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
       select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado'],
@@ -152,7 +159,7 @@ export class UsuariosService {
 
     return await this.usersRepository
       .createQueryBuilder('usuarios')
-      .select([`usuarios.*,coalesce(td.time,'00:00:00') as time, coalesce(max(td.time_milisecons),0) as time_milisecons, coalesce(en.descripcion,'') as estilo, coalesce(fecha_registro,'') as fecha_registro `])
+      .select([`usuarios.*,coalesce(td.time,'00:00:00') as time, coalesce(min(td.time_milisecons),0) as time_milisecons, coalesce(en.descripcion,'') as estilo, coalesce(fecha_registro,'') as fecha_registro `])
       .where('ed.identrenador = :id and  usuarios.estado = :estado', { id, estado: estado })
       .innerJoin('entrenador_deportista', 'ed', 'usuarios.id = ed.iddeportista')
       .leftJoin('time_deportista', 'td', 'usuarios.id = td.id_deportista')
@@ -225,12 +232,6 @@ export class UsuariosService {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The password was not updated", "Try again, something went wrong");
     }
     return await this.utilityService.serviceResponse(HttpStatus.OK, "The password was updated");
-  }
-
-
-
-  async updateUserPassword(updatePasswordDto: UpdatePasswordDto) {
-    return null;
   }
 
   async buildUserEntity(createUsuarioDto: CreateUsuarioDto) {
