@@ -7,7 +7,6 @@ import { Usuario } from './entities/usuario.entity';
 import { EntrenadorDeportistaDto } from '../usuarios/dto/entrenador-deportista.dto';
 import { UpdateUserPasswordDto } from '../usuarios/dto/update-user-password.dto';
 import { EntrenadorDeportistaService } from './entrenadordeportista.service';
-import { UsuarioRolDto } from './dto/usuario-rol.dto';
 import { RolUsuarioService } from './rolusuario.service';
 import { UtilityService } from '../general/utility.service';
 import { UpdatePasswordDto } from './dto/update-password.dto';
@@ -193,11 +192,6 @@ export class UsuariosService {
     createSwimmerDto.token
     entrenadorDeportista.identrenador = entrenador.id;
     await this.entrenadorDeportistaService.createEntrenadorDeportista(entrenadorDeportista);
-    //guardar usuario-rol
-    let usuarioRol: UsuarioRolDto = new UsuarioRolDto();
-    usuarioRol.idusuario = swimmer.id;
-    usuarioRol.idrol = 3;
-    await this.rolUsuarioService.createUsuarioRol(usuarioRol);
 
 
     return 'This action adds a new usuario';
@@ -208,7 +202,7 @@ export class UsuariosService {
     // actualizar usuario
     let swimmer = await this.usersRepository.update(updateSwimmerDto.id, updateSwimmerDto);
 
-    return null;
+    return swimmer;
   }
 
   async updatePassword(updateUserPasswordDto: UpdateUserPasswordDto) {

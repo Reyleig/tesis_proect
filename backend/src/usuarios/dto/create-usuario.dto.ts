@@ -23,4 +23,6 @@ export class CreateUsuarioDto {
     token: string;
     @ApiProperty({default: 'A',})
     estado: string;
+
+    
 }

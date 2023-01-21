@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsuariosService } from 'src/usuarios/usuarios.service';
+import { UsuariosService } from '../usuarios/usuarios.service';
 import { Repository } from 'typeorm';
 import { TimeDeportista } from './entities/time_deportista.entity';
 import { UtilityService } from '../general/utility.service';

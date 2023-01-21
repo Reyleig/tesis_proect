@@ -4,7 +4,7 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UtilityService } from '../general/utility.service';
-import { UsuariosService } from 'src/usuarios/usuarios.service';
+import { UsuariosService } from '../usuarios/usuarios.service';
 import { Task } from './entities/task.entity';
 
 @Injectable()
