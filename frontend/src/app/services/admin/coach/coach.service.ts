@@ -35,5 +35,8 @@ export class CoachService {
     
     return this.http.get<any>(environment.url+'/usuarios/getallcoach/'+'A', this.httpHeader)
   }
+  resetPassword(data:any): Observable<any> {
+    return this.http.post<any>(environment.url+'/usuarios/resetpassword',data, this.httpHeader)
+  }
 
 }

@@ -18,7 +18,6 @@ import { MatIconModule } from '@angular/material/icon';
     InicioPageRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    IonicModule,
     MatButtonModule,
     MatIconModule,
   ],

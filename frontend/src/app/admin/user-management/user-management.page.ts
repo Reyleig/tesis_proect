@@ -11,6 +11,7 @@ import { ResetTimer } from 'src/app/timer/store/timer.actions';
 import { UtilitiesService } from 'src/app/services/general/utilities.service';
 import { CoachService } from 'src/app/services/admin/coach/coach.service';
 
+
 @Component({
   selector: 'app-user-management',
   templateUrl: './user-management.page.html',
@@ -39,13 +40,30 @@ export class UserManagementPage implements OnInit {
   }
 
   getAllCoaches() {
-    this.coachs = [];
-    console.log('getAllCoaches');
-    
+    this.coachs = [];    
     this.coachService.getAllCoach().subscribe((data) => {
-
+      this.coachs = data.payload;      
+      
+    },
+    (error) => {
+      this.utilitiesService.errorAlert(error.error.message, 'Intenta mas tarde');
     }
-    ).unsubscribe();
+    );
+  }
+
+  resetPassword(data) {
+    const info = {
+      id: data.id,
+      newPassword: this.utilitiesService.encrytarPassword(data.email)
+    }
+    this.coachService.resetPassword(info).subscribe((data) => {
+      console.log(data);
+    },
+    (error) => {
+      this.utilitiesService.errorAlert(error.error.message, 'Intenta mas tarde');
+    }
+    );
+    
   }
 
   goProfile() {

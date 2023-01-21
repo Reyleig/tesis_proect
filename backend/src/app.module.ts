@@ -22,7 +22,7 @@ import { Category } from './category/entities/category.entity';
     host: 'localhost',
     port: 3306,
     username: 'root',
-    password: 'root',
+    password: '',
     database: 'tesis',
     entities: [Usuario,EstilosNado,EntrenadorDeportista,TimeDeportista,RolUsuario,Category],
     autoLoadEntities: true,

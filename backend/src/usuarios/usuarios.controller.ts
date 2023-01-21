@@ -6,7 +6,7 @@ import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { Usuario } from './entities/usuario.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -81,9 +81,16 @@ export class UsuariosController {
   }
 
   @Get('/getallcoach/:estado')
-  findAllCoach(@Param('estado') estado: string) {     
-    let result = this.usuariosService.findAllCoachs(estado);
+  async findAllCoach(@Param('estado') estado: string) {     
+    let result = await this.usuariosService.findAllCoachs(estado);    
     return result;
   }
+
+  @Post('/resetpassword')
+  async resetPassword(@Body() updatePasswordDto:UpdatePasswordDto)  {
+    let result = await this.usuariosService.resetPassword(updatePasswordDto);
+    return result;
+  }
+
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import {
   UntypedFormControl,
@@ -12,10 +12,9 @@ import { AddUser } from './store/user.actions';
 import { Observable, Subscription } from 'rxjs';
 import { UserState } from './store/user.state';
 import { UtilitiesService } from '../services/general/utilities.service';
-import sha256 from 'crypto-js/sha256';
-import hmacSHA512 from 'crypto-js/hmac-sha512';
-import Base64 from 'crypto-js/enc-base64';
 import { environment } from 'src/environments/environment';
+import { IonModal } from '@ionic/angular';
+import { InicioService } from '../services/inicio/inicio.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +23,15 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginPage implements OnInit, OnDestroy {
   @Select(UserState.token) token$!: Observable<string>;
+  @ViewChild(IonModal) modal: IonModal;
+
   token!: string;
+  form = this.formBuilder.group({
+    password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
+    newPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
+    confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]]
+  });
+
   private valueSuscription: Subscription;
 
   public userForm: UntypedFormGroup = new UntypedFormGroup({
@@ -34,15 +41,16 @@ export class LoginPage implements OnInit, OnDestroy {
 
   ishidden = false;
   user: any;
-  hashDigest = sha256('Message');
-  hmacDigest = Base64.stringify(hmacSHA512('Message', 'Secret Passphrase'));
+  isModalOpen = false;
+  titleModal: string = 'Cambiar password';
 
   constructor(
     private loginService: LoginService,
     private router: Router,
     private store: Store,
     private utilitiesService: UtilitiesService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private inicioService: InicioService
   ) {
     this.userForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.minLength(3)]],
@@ -51,10 +59,8 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    
     this.validarToken();
-  }
-  ngOnDestroy() {
-    this.valueSuscription.unsubscribe();
   }
 
   validarToken() {
@@ -64,8 +70,8 @@ export class LoginPage implements OnInit, OnDestroy {
           if (data.token) {
             if (data.idrol === 1) {
               this.router.navigateByUrl('/user-management');
-            }else{
-            this.router.navigateByUrl('/inicio');
+            } else {
+              this.router.navigateByUrl('/inicio');
             }
           }
           this.ishidden = true;
@@ -86,29 +92,84 @@ export class LoginPage implements OnInit, OnDestroy {
 
   login() {
     const password = this.userForm.get('password').value;
-    const hashPassword = sha256(password);
-    const hashPasswordBase64 = Base64.stringify(hashPassword);
-    this.userForm.get('password').setValue(hashPasswordBase64);
-
+    this.userForm.get('password').setValue(this.utilitiesService.encrytarPassword(this.userForm.get('password').value));
     this.loginService.login(this.userForm.value).subscribe((response) => {
       if (response) {
-        this.addUser(response.access_token, response.username, response.idrol);
-        this.userForm.get('password').setValue('');
-        this.userForm.get('email').setValue('');
-        if (response.idrol == 1) {
-        this.router.navigateByUrl('/user-management');
+        if (this.userForm.value.email == password) {
+          this.abrirModal();
+          console.log(response);
+          
+          this.token = response.access_token;
+          return;
         } else {
-          this.router.navigateByUrl('/inicio');
+          this.addUser(response.access_token, response.username, response.idrol);
+
+          this.userForm.get('password').setValue('');
+          this.userForm.get('email').setValue('');
+
+          if (response.idrol == 1) {
+            this.router.navigateByUrl('/user-management');
+          } else {
+            this.router.navigateByUrl('/inicio');
+          }
         }
+
       } else {
         this.userForm.get('password').setValue(password);
       }
     },
-    (error) => {
-      this.utilitiesService.errorAlert(
-        error.error.message,'Intente de nuevo'
-      );
-      this.userForm.get('password').setValue(password);
+      (error) => {
+        this.utilitiesService.errorAlert(
+          error.error.message, 'Intente de nuevo'
+        );
+        this.userForm.get('password').setValue(password);
+      });
+  }
+
+  cambiarPassword() {
+    //validar si la nueva contraceña es igual a la confirmacion
+    if (this.form.value.newPassword !== this.form.value.confirmPassword) {
+      this.utilitiesService.infoAlert('Las contraseñas no coinciden');
+      return;
+    }
+
+    let cambiarPassword = {
+      token: this.token,
+      actualPassword: this.utilitiesService.encrytarPassword(this.userForm.value.email),
+      newPassword: this.cambiarPassword = this.utilitiesService.encrytarPassword(this.form.value.newPassword),
+    }
+
+    console.log(cambiarPassword);
+
+    this.loginService.cambiarPassword(cambiarPassword,this.token).subscribe((data: any) => {
+      if (data) {
+        if (data.status === 200) {
+          this.utilitiesService.infoAlert(data.payload);
+          this.cerrarModal();
+          this.router.navigateByUrl('/inicio');
+          this.userForm.reset();
+        } else {
+          this.utilitiesService.errorAlert(data.payload, data.recomendation);
+        }
+      } else {
+        this.utilitiesService.errorAlert('Error en el servidor', 'Intente mas tarde');
+      }
+
     });
+  }
+
+
+  abrirModal() {
+    this.isModalOpen = true;
+    
+  }
+  cerrarModal() {
+    this.isModalOpen = false;
+    this.modal.dismiss();
+  }
+
+
+  ngOnDestroy() {
+    this.valueSuscription.unsubscribe();
   }
 }

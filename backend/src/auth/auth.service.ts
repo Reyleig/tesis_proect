@@ -28,7 +28,7 @@ export class AuthService {
     
     let validate : Usuario = await this.validateUser(user.email,user.password);
     if(!validate) {
-      return undefined;
+      throw new HttpException(`Usuario no autorizado`, HttpStatus.UNAUTHORIZED);
     }
         
     if (validate.estado !== 'A'){

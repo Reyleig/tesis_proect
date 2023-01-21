@@ -89,7 +89,7 @@ export class UsuariosService {
   async findAllCoachs(estado: string) {
     let idRolCoach = 2;
     let resp = await this.usersRepository.find({
-      select: ['name', 'apellido', 'edad', 'fecha_nacimiento', 'celular', 'email', 'idrol'],
+      select: ['id','name', 'apellido', 'edad', 'fecha_nacimiento', 'celular', 'email', 'idrol'],
       where: {
         idrol: idRolCoach,
         estado: estado,
@@ -249,4 +249,19 @@ export class UsuariosService {
     return newUser;
   }
 
+
+  async resetPassword(updatePasswordDto:UpdatePasswordDto) {
+    let usuario: Usuario= await this.findOneById(updatePasswordDto.id);
+
+    if (!usuario) {
+      throw new HttpException('Usuario no existe', HttpStatus.BAD_REQUEST);
+    }
+
+    usuario.password = updatePasswordDto.newPassword;
+
+    await this.usersRepository.update(usuario.id, usuario);
+
+    return await this.utilityService.serviceResponse(HttpStatus.OK, "The password was updated");
+  
+  }
 }
