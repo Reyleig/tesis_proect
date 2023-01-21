@@ -10,6 +10,9 @@ import { SwimmerState } from 'src/app/swimmer/store/swimmer.state';
 import { ResetTimer } from 'src/app/timer/store/timer.actions';
 import { UtilitiesService } from 'src/app/services/general/utilities.service';
 import { CoachService } from 'src/app/services/admin/coach/coach.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { InicioService } from 'src/app/services/inicio/inicio.service';
+import { SwimmerService } from 'src/app/services/swimmer/swimmer.service';
 
 
 @Component({
@@ -22,14 +25,26 @@ export class UserManagementPage implements OnInit {
   @Select(SwimmerState) swimmer$!: Observable<any>;
   @ViewChild(IonModal) modal: IonModal;
 
-  coachs = [];
 
+  coachs = [];
+  coachsInactivos = [];
+  isModalOpen = false;
+  token: string;
+
+  form = this.formBuilder.group({
+    password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
+    newPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
+    confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]]
+  });
   constructor(
     private menu: MenuController,
     private router: Router,
     private store: Store,
     private utilitiesService: UtilitiesService,
-    private coachService: CoachService
+    private coachService: CoachService,
+    private formBuilder: FormBuilder,
+    private inicioService: InicioService,
+    private swimmerService: SwimmerService
 
   ) { }
 
@@ -37,12 +52,33 @@ export class UserManagementPage implements OnInit {
     console.log('ngOnInit');
     
     this.getAllCoaches();
+
+    this.user$.subscribe((data: any) => {
+      if (data.token) {
+        this.token = data.token;
+        return this.token;
+      }
+    }).unsubscribe();
   }
 
   getAllCoaches() {
     this.coachs = [];    
-    this.coachService.getAllCoach().subscribe((data) => {
-      this.coachs = data.payload;      
+    this.coachService.getAllCoach('A').subscribe((data) => {
+      this.coachs = data.payload; 
+      for (let i = 0; i < this.coachs.length; i++) {
+        this.coachs[i].estado = this.coachs[i].estado == 'A' ? true : false;
+      }     
+      
+    },
+    (error) => {
+      this.utilitiesService.errorAlert(error.error.message, 'Intenta mas tarde');
+    }
+    );
+    this.coachService.getAllCoach('I').subscribe((data) => {
+      this.coachsInactivos= data.payload; 
+      for (let i = 0; i < this.coachsInactivos.length; i++) {
+        this.coachsInactivos[i].estado = this.coachsInactivos[i].estado == 'A' ? true : false;
+      }     
       
     },
     (error) => {
@@ -88,6 +124,64 @@ export class UserManagementPage implements OnInit {
         }
       });
   }
+
+  
+  abrirModal() {
+    this.isModalOpen = true;
+    this.modal.present();
+
+  }
+  cerrarModal() {
+    this.isModalOpen = false;
+    this.modal.dismiss();
+  }
+
+  cambiarPassword() {
+    //validar si la nueva contraceña es igual a la confirmacion
+    if (this.form.value.newPassword !== this.form.value.confirmPassword) {
+      this.utilitiesService.infoAlert('Las contraseñas no coinciden');
+      return;
+    }
+
+    let cambiarPassword = {
+      token: this.token,
+      actualPassword: this.utilitiesService.encrytarPassword(this.form.value.password),
+      newPassword: this.cambiarPassword = this.utilitiesService.encrytarPassword(this.form.value.newPassword),
+    }
+
+    console.log(cambiarPassword);
+    
+    this.inicioService.cambiarPassword(cambiarPassword).subscribe((data: any) => {
+      if (data) {
+        if (data.status === 200) {
+          this.utilitiesService.infoAlert(data.payload);
+          this.form.reset();
+          this.cerrarModal();
+        } else {
+          this.utilitiesService.errorAlert(data.payload, data.recomendation);
+        }
+      } else {
+        this.utilitiesService.errorAlert('Error en el servidor', 'Intente mas tarde');
+      }
+
+    });
+  }
+
+  inactivarSwimmer(obj) {
+    console.log(obj);
+
+    this.swimmerService.inactivateSwimmer(this.token, obj.id, obj.estado).subscribe((response) => {
+      console.log(response);
+      if (true) {
+        console.log('entro');
+        // this.swimmers = response;
+        obj.estado = obj.estado == true ? false : true;
+        console.log(obj.estado);
+
+      }
+    });
+  }
+
 
 
 }

@@ -89,7 +89,7 @@ export class UsuariosService {
   async findAllCoachs(estado: string) {
     let idRolCoach = 2;
     let resp = await this.usersRepository.find({
-      select: ['id','name', 'apellido', 'edad', 'fecha_nacimiento', 'celular', 'email', 'idrol'],
+      select: ['id','name', 'apellido', 'edad','estado', 'fecha_nacimiento', 'celular', 'email', 'idrol'],
       where: {
         idrol: idRolCoach,
         estado: estado,
