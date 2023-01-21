@@ -38,18 +38,17 @@ export class UsuariosController {
     return this.usuariosService.updatePassword(updateUserPasswordDto);
   }
 
-  @Post('/updateUserPassword')
-  updateUserPassword(@Body() updatePasswordDto: UpdatePasswordDto) {
-    return this.usuariosService.updateUserPassword(updatePasswordDto);
+  @Post('/resetpassword')
+  async resetPassword(@Body() updatePasswordDto:UpdatePasswordDto)  {
+    let result = await this.usuariosService.resetPassword(updatePasswordDto);
+    return result;
   }
 
   //Swimmers
   @Get('/getswimmers/:token/:estado')
   async findSwimmersByIdTraining(@Param('token') token: string, @Param('estado') estado: string) {
-    let token1 = await this.usuariosService.findSwimmersByIdTraining(token, estado);
-    console.log(token1);
-
-    return token1;
+    let result = await this.usuariosService.findSwimmersByIdTraining(token, estado);
+    return result;
   }
 
   @Post('/createswimmer')
@@ -65,10 +64,6 @@ export class UsuariosController {
 
   @Get('/inactivarSwimmer/:token/:id/:estado')
   inactivateSwimmer(@Param('token') token: string, @Param('id') id: number, @Param('estado') estado: string) {
-    console.log(token);
-    console.log(id);
-    console.log(estado);
-
     return this.usuariosService.inactivateSwimmer(token, id, estado);
   }
 
@@ -85,12 +80,5 @@ export class UsuariosController {
     let result = await this.usuariosService.findAllCoachs(estado);    
     return result;
   }
-
-  @Post('/resetpassword')
-  async resetPassword(@Body() updatePasswordDto:UpdatePasswordDto)  {
-    let result = await this.usuariosService.resetPassword(updatePasswordDto);
-    return result;
-  }
-
 
 }
