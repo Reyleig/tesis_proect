@@ -5,12 +5,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { EntrenadorDeportistaDto } from 'src/usuarios/dto/entrenador-deportista.dto';
-import { UpdatePasswordDto } from 'src/usuarios/dto/update-user-password.dto';
+import { UpdateUserPasswordDto } from 'src/usuarios/dto/update-user-password.dto';
 import { EntrenadorDeportista } from './entities/entrenador_deportista.entity';
 import { EntrenadorDeportistaService } from './entrenadordeportista.service';
 import { UsuarioRolDto } from './dto/usuario-rol.dto';
 import { RolUsuarioService } from './rolusuario.service';
 import { UtilityService } from '../general/utility.service';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class UsuariosService {
@@ -54,7 +55,7 @@ export class UsuariosService {
     return await this.utilityService.serviceResponse(HttpStatus.OK, "The user was created successfully");
   }
 
-  
+
   async update(updateUsuarioDto: UpdateUsuarioDto) {
 
     let user: Usuario = await this.findOneByToken(updateUsuarioDto.tokenCreater);
@@ -75,7 +76,7 @@ export class UsuariosService {
     userUpdated.id_categoria = updateUsuarioDto.id_categoria;
     userUpdated.email = updateUsuarioDto.email;
     userUpdated.estado = updateUsuarioDto.estado;
-    
+
     let result = await this.usersRepository.update(userUpdated.id, userUpdated);
 
     if (result.affected == 0) {
@@ -98,12 +99,9 @@ export class UsuariosService {
     if (resp.length == 0) {
       throw new HttpException("There are not coachs",HttpStatus.BAD_REQUEST);
     }
-    return await this.utilityService.serviceResponse(HttpStatus.OK, resp);
+    return this.utilityService.serviceResponse(HttpStatus.OK, resp);
   }
 
-  findAll(): Promise<Usuario[]> {
-    return this.usersRepository.find();
-  }
 
   async findOne(email: string): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
@@ -207,27 +205,33 @@ export class UsuariosService {
     return null;
   }
 
-  async updatePassword(UpdatePasswordDto: UpdatePasswordDto) {
+  async updatePassword(updateUserPasswordDto: UpdateUserPasswordDto) {
 
-    let user: Usuario = await this.findOneByToken(UpdatePasswordDto.token);
+    let user: Usuario = await this.findOneByToken(updateUserPasswordDto.token);
     if (!user) {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The user don't exist", "Try again with another user");
     }
 
-    if (user.password != UpdatePasswordDto.actualPassword) {
+    if (user.password != updateUserPasswordDto.actualPassword) {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The old password is incorrect", "Try again with the correct password");
     }
 
-    if (user.email == UpdatePasswordDto.actualPassword) {
+    if (user.email == updateUserPasswordDto.actualPassword) {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The old password is not valid", "Try again with the another password");
     }
 
-    user.password = UpdatePasswordDto.newPassword;
+    user.password = updateUserPasswordDto.newPassword;
     let result = await this.usersRepository.update(user.id, user);
     if (result.affected == 0) {
       return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "The password was not updated", "Try again, something went wrong");
     }
     return await this.utilityService.serviceResponse(HttpStatus.OK, "The password was updated");
+  }
+
+
+
+  async updateUserPassword(updatePasswordDto: UpdatePasswordDto) {
+    return null;
   }
 
   async buildUserEntity(createUsuarioDto: CreateUsuarioDto) {

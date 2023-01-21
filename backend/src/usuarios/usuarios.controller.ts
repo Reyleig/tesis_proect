@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, 
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { UpdatePasswordDto } from './dto/update-user-password.dto';
+import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 import { Usuario } from './entities/usuario.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -26,7 +27,7 @@ export class UsuariosController {
     return this.usuariosService.findAll();
   }
 
-  @Get(':id')
+  @Get('/getUsuarioById/:id')
   findOne(@Param('id') id: string) {
     return this.usuariosService.findOne(id);
   }
@@ -38,8 +39,13 @@ export class UsuariosController {
   }
 
   @Post('/updatepassword')
-  updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
-    return this.usuariosService.updatePassword(updatePasswordDto);
+  updatePassword(@Body() updateUserPasswordDto: UpdateUserPasswordDto) {
+    return this.usuariosService.updatePassword(updateUserPasswordDto);
+  }
+
+  @Post('/updateUserPassword')
+  updateUserPassword(@Body() updatePasswordDto: UpdatePasswordDto) {
+    return this.usuariosService.updateUserPassword(updatePasswordDto);
   }
 
   //Swimmers
