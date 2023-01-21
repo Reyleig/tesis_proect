@@ -15,7 +15,6 @@ import { UserState } from './login/store/user.state';
 import { environment } from 'src/environments/environment';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
-import { TrainingPage } from './training/training.page';
 import { SwimmerState } from './swimmer/store/swimmer.state';
 import { TimerState } from './timer/store/timer.state';
 

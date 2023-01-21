@@ -1,0 +1,161 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-item>
+        <ion-avatar slot="start">
+          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+        <ion-label>Menu</ion-label>
+      </ion-item>
+      <ion-buttons (click)="cerrarMenu()" fill="clear" slot="end" style="zoom: 2; margin-right: 10px">
+        <ion-icon name="chevron-back-circle-outline"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-menu-toggle>
+      <ion-list>
+        <ion-item button (click)="goProfile()" detail="true" lines="inset">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          <ion-label>Cuenta</ion-label>
+        </ion-item>
+        <ion-item button (click)="abrirModal()" detail="true" lines="inset">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          <ion-label>Cambiar password</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-menu-toggle>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+
+<ion-header>
+  <div class="toolbar-container" style="height: 56px;">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Home</ion-title>
+      <ion-buttons (click)="logout()" fill="clear" slot="end" class="button-native" style="zoom: 2; margin-right: 10px">
+        <ion-icon name="exit-outline"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </div>
+</ion-header>
+
+
+<ion-content>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let item of swimmers" style="margin-bottom: 10px">
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{item.name}} {{item.apellido}} </mat-panel-title>
+        <mat-panel-description> </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>Edad: {{item.edad}}</p>
+      <p>Mejor Tiempo: {{item.time}} </p>
+      <p>Estilo: {{item.estilo}} </p>
+      <p>Fecha: {{item.fecha_registro}} </p>
+
+
+      <div class="div-inactivar">
+        <ion-label style="flex: 1;">Activo</ion-label>
+        <ion-toggle (click)="inactivarSwimmer(item)" slot="end" [checked]=item.estado></ion-toggle>
+      </div>
+
+
+      <div class="div-button">
+        <ion-button style="flex: 1;" (click)="tomarTiempo(item)">Tomar tiempo</ion-button>
+
+        <ion-button style="flex: 1;" (click)="editarSwimmer(item)">Editar</ion-button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+
+
+
+  <ion-modal>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cerrarModal()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title [innerHTML]="tittleModal" style="font-size: 15px; text-align: center"></ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cambiarPassword()" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <form [formGroup]="form">
+          <ion-item>
+            <ion-label position="floating" for="password">Password anterior
+
+            </ion-label>
+            <ion-input type="password" formControlName="password" class="form-control" id="password" [class.valid]="form.get('password').valid && 
+            (form.get('password').dirty || form.get('password').touched)" [class.invalid]="form.get('password').invalid && 
+            (form.get('password').dirty || form.get('password').touched)"></ion-input>
+          </ion-item>
+          <div *ngIf="form.get('password').invalid && 
+      form.get('password').errors && 
+      (form.get('password').dirty || form.get('password').touched)">
+            <small class="text-danger" *ngIf="form.get('password').hasError('required')">
+              This field is required.
+            </small>
+            <small class="text-danger" *ngIf="form.get('password').hasError('minlength')">
+              The minimum length for this field is {{form.get('password').errors.minlength.requiredLength}}
+              characters.
+            </small>
+            <small class="text-danger" *ngIf="form.get('password').hasError('maxlength')">
+              The maximum length for this field is {{form.get('password').errors.maxlength.requiredLength}}
+              characters.
+            </small>
+          </div>
+          <ion-item>
+            <ion-label position="floating">Password nueva</ion-label>
+            <ion-input type="password" formControlName="newPassword"></ion-input>
+          </ion-item>
+          <div *ngIf="form.get('newPassword').invalid && 
+          form.get('newPassword').errors && 
+          (form.get('newPassword').dirty || form.get('newPassword').touched)">
+                <small class="text-danger" *ngIf="form.get('newPassword').hasError('required')">
+                  This field is required.
+                </small>
+                <small class="text-danger" *ngIf="form.get('newPassword').hasError('minlength')">
+                  The minimum length for this field is {{form.get('newPassword').errors.minlength.requiredLength}}
+                  characters.
+                </small>
+                <small class="text-danger" *ngIf="form.get('newPassword').hasError('maxlength')">
+                  The maximum length for this field is {{form.get('newPassword').errors.maxlength.requiredLength}}
+                  characters.
+                </small>
+              </div>
+          <ion-item>
+            <ion-label position="floating">Confirmar password</ion-label>
+            <ion-input type="password" formControlName="confirmPassword"></ion-input>
+          </ion-item>
+          <div *ngIf="form.get('confirmPassword').invalid && 
+          form.get('confirmPassword').errors && 
+          (form.get('confirmPassword').dirty || form.get('confirmPassword').touched)">
+                <small class="text-danger" *ngIf="form.get('confirmPassword').hasError('required')">
+                  This field is required.
+                </small>
+                <small class="text-danger" *ngIf="form.get('confirmPassword').hasError('minlength')">
+                  The minimum length for this field is {{form.get('confirmPassword').errors.minlength.requiredLength}}
+                  characters.
+                </small>
+                <small class="text-danger" *ngIf="form.get('confirmPassword').hasError('maxlength')">
+                  The maximum length for this field is {{form.get('confirmPassword').errors.maxlength.requiredLength}}
+                  characters.
+                </small>
+              </div>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+</div>

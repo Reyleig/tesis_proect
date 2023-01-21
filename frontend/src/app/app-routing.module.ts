@@ -42,7 +42,13 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'user-management',
+    loadChildren: () => import('./admin/user-management/user-management.module').then( m => m.UserManagementPageModule)
   }
+
+
 ];
 
 @NgModule({

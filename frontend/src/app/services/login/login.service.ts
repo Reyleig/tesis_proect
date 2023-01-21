@@ -19,9 +19,6 @@ export class LoginService {
 
   login(form): Observable<any> {
     return this.http.post<any>(environment.url+'/auth/login', form, this.httpHeader)
-      .pipe(
-        catchError(this.handleError<any>('Add Student'))
-      );
   }
   
   private handleError<T>(operation = 'operation', result?: T) {

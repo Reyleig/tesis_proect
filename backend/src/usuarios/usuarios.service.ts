@@ -85,12 +85,13 @@ export class UsuariosService {
   }
 
 
-  async findAllCoachs() {
+  async findAllCoachs(estado: string) {
     let idRolCoach = 2;
     let resp = await this.usersRepository.find({
       select: ['name', 'apellido', 'edad', 'fecha_nacimiento', 'celular', 'email', 'idrol'],
       where: {
         idrol: idRolCoach,
+        estado: estado,
       },
     });
 
@@ -106,7 +107,7 @@ export class UsuariosService {
 
   async findOne(email: string): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
-      select: ['id', 'name', 'email', 'password', 'idrol', 'token'],
+      select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado'],
       where: {
         email: email,
       },

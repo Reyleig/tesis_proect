@@ -30,6 +30,10 @@ export class AuthService {
     if(!validate) {
       return undefined;
     }
+        
+    if (validate.estado !== 'A'){
+      throw new HttpException(`Usuario Inactivo`, HttpStatus.UNAUTHORIZED);
+    }
 
     if (validate.idrol === 3){
       throw new HttpException(`Usuario no autorizado`, HttpStatus.UNAUTHORIZED);

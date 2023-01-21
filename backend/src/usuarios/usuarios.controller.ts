@@ -79,11 +79,9 @@ export class UsuariosController {
     return result;
   }
 
-  @Get('/a/getcoach')
-  findAllCoach() { 
-    console.log("get all coach");
-    
-    let result = this.usuariosService.findAllCoachs();
+  @Get('/getallcoach/:estado')
+  findAllCoach(@Param('estado') estado: string) {     
+    let result = this.usuariosService.findAllCoachs(estado);
     return result;
   }
 

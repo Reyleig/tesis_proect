@@ -62,7 +62,11 @@ export class LoginPage implements OnInit, OnDestroy {
       this.token$
         .subscribe((data: any) => {
           if (data.token) {
+            if (data.idrol === 1) {
+              this.router.navigateByUrl('/user-management');
+            }else{
             this.router.navigateByUrl('/inicio');
+            }
           }
           this.ishidden = true;
         })
@@ -91,14 +95,20 @@ export class LoginPage implements OnInit, OnDestroy {
         this.addUser(response.access_token, response.username, response.idrol);
         this.userForm.get('password').setValue('');
         this.userForm.get('email').setValue('');
-        this.router.navigateByUrl('/inicio');
+        if (response.idrol == 1) {
+        this.router.navigateByUrl('/user-management');
+        } else {
+          this.router.navigateByUrl('/inicio');
+        }
       } else {
         this.userForm.get('password').setValue(password);
-        this.utilitiesService.errorAlert(
-          'Credenciales invalidas',
-          'Intente de nuevo'
-        );
       }
+    },
+    (error) => {
+      this.utilitiesService.errorAlert(
+        error.error.message,'Intente de nuevo'
+      );
+      this.userForm.get('password').setValue(password);
     });
   }
 }
