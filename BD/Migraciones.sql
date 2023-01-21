@@ -183,6 +183,12 @@ alter table usuarios
     drop column time;
 
 alter table usuarios
+    drop column date;
+
+alter table usuarios
+    add fecha_nacimiento varchar(255) not null;
+
+alter table usuarios
     modify name varchar(255) not null after idrol;
 
 alter table usuarios
@@ -195,25 +201,18 @@ alter table usuarios
     modify password varchar(255) not null after email;
 
 alter table usuarios
-    change date fecha_nacimiento varchar(255) not null;
-
-alter table usuarios
-    modify token varchar(255) not null after fecha_nacimiento;
-
-alter table usuarios
-    modify categoria varchar(255) not null after celular;
+    modify token varchar(255) not null after password;
 
 alter table usuarios
     modify fecha_nacimiento varchar(255) not null after edad;
 
-alter table usuarios
-    change categoria id_categoria int not null;
 
 alter table usuarios
     drop column categoria;
 
 alter table usuarios
-    add id_categoria int not null after celular;
+    add id_categoria int null after celular;
+
 
 create table categorias
 (
