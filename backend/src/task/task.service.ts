@@ -34,11 +34,6 @@ export class TaskService {
     return await this.utilityService.serviceResponse(HttpStatus.OK, "Task was created");
   }
 
-  async findAll() {
-    let result = await this.taskRepository.find();
-    return await this.utilityService.serviceResponse(HttpStatus.OK, result);
-  }
-
   async findById(id: number) {
     let result = await this.taskRepository.find({
       select: ['id', 'id_usuario', 'titulo_tarea', 'descripcion_tarea', 'fecha_registro'],

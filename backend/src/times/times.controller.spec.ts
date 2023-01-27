@@ -118,20 +118,6 @@ describe('TimesService', () => {
     it('should be defined', () => {
         expect(timesService).toBeDefined();
     });
-    
-    // async create(createTimesDeportistaDto: TimeDeportista) {
-
-    //     if (createTimesDeportistaDto.id_deportista) {
-    //       let usuario = await this.usuariosService.findOneById(createTimesDeportistaDto.id_deportista);
-    //       if (usuario) {
-    //         let save = (await this.timeDeportistaRepository.save(createTimesDeportistaDto));
-    //         if (save) {
-    //           return await this.utilityService.serviceResponse(HttpStatus.OK, "Time was created");
-    //         }
-    //       }
-    //     }
-    //     return await this.utilityService.serviceResponse(HttpStatus.BAD_REQUEST, "Error al crear Time", "Comuniquese con el administrador");
-    //   }
 
     it('should create a time', async () => {
         const time:TimeDeportista = {
@@ -149,5 +135,31 @@ describe('TimesService', () => {
         expect(response).toBeDefined();
         expect(response.status).not.toBe(null);
     });
+
+    it('should find times stats', async () => {
+        timeDeportistaRepository.createQueryBuilder = jest.fn().mockReturnValue({
+            select: jest.fn().mockReturnThis(),
+            innerJoin: jest.fn().mockReturnThis(),
+            groupBy: jest.fn().mockReturnThis(),
+            getRawMany: jest.fn().mockResolvedValue(lstDummy),
+        });
+        const response = await timesService.findTimesStats();
+        expect(response).toBeDefined();
+        expect(response.status).not.toBe(null);
+    });
+
+    it('should find times by filters', async () => {
+        timeDeportistaRepository.createQueryBuilder = jest.fn().mockReturnValue({
+            select: jest.fn().mockReturnThis(),
+            where: jest.fn().mockReturnThis(),
+            getRawMany: jest.fn().mockResolvedValue(lstDummy),
+        });
+        const response = await timesService.findTimesByFilters(1,1,new Date());
+        expect(response).toBeDefined();
+        expect(response.status).not.toBe(null);
+    });
+
+
+
 
 });

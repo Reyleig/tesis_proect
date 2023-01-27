@@ -303,21 +303,6 @@ describe('UsuariosService', () => {
         expect(response).not.toBe(null);
     });
 
-
-    // async resetPassword(updatePasswordDto:UpdatePasswordDto) {
-    //     let usuario: Usuario= await this.findOneById(updatePasswordDto.id);
-
-    //     if (!usuario) {
-    //       throw new HttpException('Usuario no existe', HttpStatus.BAD_REQUEST);
-    //     }
-
-    //     usuario.password = updatePasswordDto.newPassword;
-
-    //     await this.usersRepository.update(usuario.id, usuario);
-
-    //     return await this.utilityService.serviceResponse(HttpStatus.OK, "The password was updated");
-
-    //   }
     it ('reset password', async () => {
         let dummyUpdatePassword: UpdatePasswordDto = new UpdatePasswordDto();
         dummyUpdatePassword.id = 1;

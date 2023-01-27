@@ -1,6 +1,8 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
+import { Repository, UpdateResult } from 'typeorm';
 import { UtilityService } from '../general/utility.service';
 import { EntrenadorDeportista } from '../usuarios/entities/entrenador_deportista.entity';
 import { RolUsuario } from '../usuarios/entities/usuario-rol.entity';
@@ -11,6 +13,33 @@ import { UsuariosService } from '../usuarios/usuarios.service';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
+  let dummy = {
+    id: 5,
+    idrol: 1,
+    name: 'esebanquito',
+    apellido: 'lopecito',
+    edad: '25',
+    fecha_nacimiento: '1994-01-01',
+    celular: '3162546932',
+    id_categoria: 1,
+    email: 'a@a.com',
+    password: 'test',
+    token: 'A',
+    estado: 'A',
+}
+
+let dummyUser: Usuario = new Usuario(
+  '1',
+  'eseban',
+  'lopez',
+  '25',
+  '1994-01-01',
+  1,
+  'a@a.com',
+  'tets',
+  'test',
+  'A',
+);
   let service: AuthService;
   const mockUserRepositoryFactory = jest.fn(() => ({
     findOneBy: jest.fn(entity => entity),
@@ -36,6 +65,10 @@ const mockRolUsuarioRepositoryFactory = jest.fn(() => ({
     find: jest.fn(entity => entity).mockResolvedValue({}),
     save: jest.fn(entity => entity).mockResolvedValue({}),
 }));
+let jwtService: JwtService;
+let usuarioRepository: Repository<Usuario>;
+let usuariosService: UsuariosService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -63,9 +96,23 @@ const mockRolUsuarioRepositoryFactory = jest.fn(() => ({
     }).compile();
 
     service = module.get<AuthService>(AuthService);
+    jwtService = module.get<JwtService>(JwtService);
+    usuarioRepository = module.get<Repository<Usuario>>(getRepositoryToken(Usuario));
+    usuariosService = module.get<UsuariosService>(UsuariosService);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('login', () => {
+    service.validateUser = jest.fn().mockResolvedValue(dummyUser);
+    const payload : CreateUsuarioDto = new CreateUsuarioDto();
+    payload.email = 'a@a.com';
+    payload.password = 'test';
+    jwtService.sign = jest.fn().mockReturnValue('A');
+    usuarioRepository.update = jest.fn().mockResolvedValue({UpdateResult});
+    expect(service.login(payload)).not.toBe(null);
+  });
+  
 });

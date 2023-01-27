@@ -12,12 +12,6 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class TaskController {
   constructor(private readonly taskService: TaskService) { }
 
-  @Get()
-  async findAll() {
-    let result = this.taskService.findAll();
-    return result;
-  }
-
   @Get('/:token')
   async findUserTasks(@Param('token') token: string) {
     let result = this.taskService.findByIdUsuario(token);

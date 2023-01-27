@@ -9,14 +9,14 @@ import { JwtStrategy } from './jwt.strategy';
 
 
 @Module({
-  imports: [UsuariosModule, 
-     PassportModule.register({defaultStrategy:'local'}),    
-  JwtModule.register({
-    secret: jwtConstants.secret,
-    signOptions: {  },
-  }),
-],
-  providers: [AuthService, LocalStrategy,JwtStrategy],
+  imports: [UsuariosModule,
+    PassportModule.register({ defaultStrategy: 'local' }),
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: {},
+    }),
+  ],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }
