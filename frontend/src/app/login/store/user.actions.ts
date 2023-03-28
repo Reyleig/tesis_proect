@@ -3,6 +3,11 @@ export class AddUser {
   constructor(
     public token: string,
     public username: string,
+    public apellido: string,
+    public edad:string,
+    public date:string,
+    public celular:string,
+    public email:string,
     public idrol: number
   ) {}
 }

@@ -45,6 +45,11 @@ export class AuthService {
     return {
       access_token: validate.token,
       username:validate.name,
+      apellido: validate.apellido,
+      edad: validate.edad,
+      date: validate.fecha_nacimiento,
+      celular: validate.celular,
+      email: validate.email,
       idrol:validate.idrol
     };
   }

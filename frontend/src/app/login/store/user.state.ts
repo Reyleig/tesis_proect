@@ -10,6 +10,11 @@ const VALUE_TOKEN = new StateToken<UserStateModel>('user');
   defaults: {
     token: '',
     username: '',
+    apellido: '',
+    edad: '',
+    date: '',
+    celular: '',
+    email: '',
     idrol: 0,
   },
 })
@@ -23,6 +28,11 @@ export class UserState {
       ...state,
       token: action.token,
       username: action.username,
+      apellido: action.apellido,
+      edad: action.edad,
+      date: action.date,
+      celular: action.celular,
+      email: action.email,
       idrol: action.idrol,
     });
   }

@@ -11,7 +11,7 @@
 
 <ion-content>
 
-  <form [formGroup]="swimmerForm" (ngSubmit)="login()">
+  <form [formGroup]="swimmerForm" (ngSubmit)="actualizar(s)">
     <ion-item *ngIf="false">
       <ion-label position="stacked">Enter your name*</ion-label>
       <ion-input
@@ -44,14 +44,14 @@
         formControlName="edad"
       ></ion-input>
     </ion-item>
-    <ion-item>
+    <!-- <ion-item>
       <ion-label position="stacked">Day of birth*</ion-label>
       <ion-input
         type="date"
         placeholder="yyyy-mm-dd"
         formControlName="date"
       ></ion-input>
-    </ion-item>
+    </ion-item> -->
     <ion-item>
       <ion-label position="stacked">Enter your celphone*</ion-label>
       <ion-input
@@ -60,7 +60,7 @@
         formControlName="celular"
       ></ion-input>
     </ion-item>
-    <ion-item r>
+    <ion-item >
       <ion-label position="stacked">Enter your email*</ion-label>
       <ion-input
         type="email"
@@ -75,7 +75,7 @@
       expand="block"
       [disabled]="!swimmerForm.valid"
       color="primary"
-    ></ion-button>
+    >Guardar</ion-button>
   </form>
 
 </ion-content>

@@ -109,7 +109,7 @@ export class UsuariosService {
 
   async findOne(email: string): Promise<Usuario | undefined> {
     const resp = await this.usersRepository.find({
-      select: ['id', 'name', 'email', 'password', 'idrol', 'token', 'estado'],
+      select: ['id', 'name', 'apellido','celular','edad','fecha_nacimiento', 'email', 'password', 'idrol', 'token', 'estado'],
       where: {
         email: email,
       },
@@ -131,7 +131,7 @@ export class UsuariosService {
 
   async findCoachByToken(token: string) {
     const resp = await this.usersRepository.find({
-      select: ['name', 'apellido', 'edad', 'fecha_nacimiento', 'celular', 'email', 'idrol'],
+      select: ['id','name', 'apellido', 'edad', 'fecha_nacimiento', 'celular', 'email', 'idrol'],
       where: {
         token: token,
       },
@@ -170,7 +170,7 @@ export class UsuariosService {
   async inactivateSwimmer(idSwimmer: number, estado: string): Promise<any> {
     estado = estado == 'true' ? 'I' : 'A';
     let usuario: Usuario = await this.findOneById(idSwimmer);
-    // usuario.estado = estado;
+    usuario.estado = estado;
     await this.updateUserToken(usuario);
 
     return usuario;

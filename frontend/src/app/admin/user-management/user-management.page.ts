@@ -81,9 +81,6 @@ export class UserManagementPage implements OnInit {
       }     
       
     },
-    (error) => {
-      this.utilitiesService.errorAlert(error.error.message, 'Intenta mas tarde');
-    }
     );
   }
 
@@ -92,13 +89,18 @@ export class UserManagementPage implements OnInit {
       id: data.id,
       newPassword: this.utilitiesService.encrytarPassword(data.email)
     }
-    this.coachService.resetPassword(info).subscribe((data) => {
-      console.log(data);
-    },
-    (error) => {
-      this.utilitiesService.errorAlert(error.error.message, 'Intenta mas tarde');
-    }
-    );
+    this.utilitiesService.infoAlert('Desea reiniciar la contraceña del usuario?').then(data =>{
+      if(data.role == 'confirm'){
+        this.coachService.resetPassword(info).subscribe((info) => {
+          this.utilitiesService.succesAlert(info.payload)
+        },
+        (error) => {
+          this.utilitiesService.errorAlert(error.error.message, 'Intenta mas tarde');
+        }
+        );
+      }
+    })
+
     
   }
 

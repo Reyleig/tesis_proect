@@ -27,6 +27,11 @@ export class LoginPage implements OnInit, OnDestroy {
 
   token!: string;
   username!: string;
+  apellido!: string;
+  edad!:string;
+  date!:string;
+  celular!:string;
+  email!:string;
   idrol!: number;
   form = this.formBuilder.group({
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
@@ -85,10 +90,15 @@ export class LoginPage implements OnInit, OnDestroy {
   addUser(
     token: string | null,
     username: string | null,
+    apellido: string | null,
+    edad: string | null,
+    date: string | null,
+    celular: string | null,
+    email: string | null,
     idrol: number | null
   ): void {
     if (token) {
-      this.store.dispatch(new AddUser(token, username, idrol));
+      this.store.dispatch(new AddUser(token, username,apellido,edad,date,celular,email, idrol));
     }
   }
 
@@ -104,9 +114,14 @@ export class LoginPage implements OnInit, OnDestroy {
           this.token = response.access_token;
           this.username = response.username;
           this.idrol = response.idrol;
+          this.apellido = response.apellido;
+          this.edad = response.edad;
+          this.date = response.date;
+          this.celular = response.celular;
+          this.email = response.email;
           return;
         } else {
-          this.addUser(response.access_token, response.username, response.idrol);
+          this.addUser(response.access_token, response.username, response.apellido,response.edad,response.date,response.celular,response.email, response.idrol);
 
           this.userForm.get('password').setValue('');
           this.userForm.get('email').setValue('');
@@ -148,7 +163,7 @@ export class LoginPage implements OnInit, OnDestroy {
     this.loginService.cambiarPassword(cambiarPassword,this.token).subscribe((data: any) => {
       if (data) {
         if (data.status === 200) {
-          this.addUser(this.token, this.username, this.idrol);
+          this.addUser(this.token, this.username,this.apellido,this.edad,this.date,this.celular,this.email, this.idrol);
 
           this.utilitiesService.infoAlert(data.payload);
           this.cerrarModal();
